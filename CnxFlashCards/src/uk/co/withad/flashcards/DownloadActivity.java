@@ -66,28 +66,24 @@ public class DownloadActivity extends Activity {
 				if(n.getNodeType() == Node.ELEMENT_NODE) {
 					Element element = (Element) n;
 					
+					// Get terms and meanings
 					String term = getValue("term", n);
 					String meaning = getValue("meaning", n);
 					
-					Log.d(TAG, "Term: " + term);
-					Log.d(TAG, "Meaning: " + meaning);
-					
+					// Remove/replace whitespace and quotation marks
 					term = term.replace("\n", "");
 					term = term.replace("\t", "");
-					while (term.contains("  ")) {
-						term = term.replace("  ", " ");
-					}
+					term = term.replaceAll("\\s+", " ");
+					meaning = meaning.replaceAll("^\\s+","");
 					
 					meaning = meaning.replace("\n", "");
 					meaning = meaning.replace("\t", "");
 					meaning = meaning.replaceAll("^\\s+","");
-					while (meaning.contains("  ")) {
-						meaning = meaning.replace("  ", " ");
-					}
+					meaning = meaning.replaceAll("\\s+", " ");
 					meaning = meaning.replace("\"", "");
 					
+					// Show terms and meanings
 					defText.setText(term + ":\n" + meaning);
-					//defText.setText(meaning);
 				}
 			}			
 		}
