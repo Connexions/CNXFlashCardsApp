@@ -11,6 +11,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
@@ -55,26 +58,31 @@ public class DownloadActivity extends Activity {
 			doc.getDocumentElement().normalize();
 			defText.setText(doc.getDocumentElement().getNodeName());
 			
-/*			conn = url.openConnection();
+			NodeList nodes = doc.getElementsByTagName("definition");
 			
-			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-			String str;
-			
-			boolean waitingForTerm = false;
-			
-			while ((str = in.readLine()) != null) {
-				Log.d(TAG, str);
-				if(str.contains("<definition")) {
-					waitingForTerm = true;
+			for (int i = 0; i < nodes.getLength(); i++) {
+				Node n = nodes.item(i);
+				
+				if(n.getNodeType() == Node.ELEMENT_NODE) {
+					Element element = (Element) n;
+					
+					String term = getValue("term", n);
+					String meaning = getValue("meaning", n);
+					
+					Log.d(TAG, "Term: " + term);
+					Log.d(TAG, "Meaning: " + meaning);
 				}
-				if(waitingForTerm && str.contains("<Term"))
-			}*/
-			
+			}			
 		}
 		catch (MalformedURLException mue) {} 
 		catch (IOException ioe) {}
+	}
+
+	private String getValue(String tagname, Node n) {
+		NodeList childnodes = ((Element)n).getElementsByTagName(tagname).item(0).getChildNodes();
+		Node value = (Node) childnodes.item(0);
 		
-		//webview.loadUrl("http://google.co.uk");
+		return value.getNodeValue();
 	}
 	
 }
