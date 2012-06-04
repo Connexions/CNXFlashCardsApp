@@ -71,6 +71,23 @@ public class DownloadActivity extends Activity {
 					
 					Log.d(TAG, "Term: " + term);
 					Log.d(TAG, "Meaning: " + meaning);
+					
+					term = term.replace("\n", "");
+					term = term.replace("\t", "");
+					while (term.contains("  ")) {
+						term = term.replace("  ", " ");
+					}
+					
+					meaning = meaning.replace("\n", "");
+					meaning = meaning.replace("\t", "");
+					meaning = meaning.replaceAll("^\\s+","");
+					while (meaning.contains("  ")) {
+						meaning = meaning.replace("  ", " ");
+					}
+					meaning = meaning.replace("\"", "");
+					
+					defText.setText(term + ":\n" + meaning);
+					//defText.setText(meaning);
 				}
 			}			
 		}
