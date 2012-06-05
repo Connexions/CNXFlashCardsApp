@@ -16,12 +16,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-public class DownloadActivity extends Activity {
+import com.actionbarsherlock.app.SherlockActivity;
+
+public class DownloadActivity extends SherlockActivity {
 	
 	String TAG = "CNXFlashCards";
 	
