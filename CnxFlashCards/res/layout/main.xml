@@ -18,12 +18,16 @@
         android:text="Search"
     />
     
+    <Button
+        android:id="@+id/parseTestButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Parse Test"
+    />
+    
     <WebView
 	    android:id="@+id/resultsView"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	/>
-    
-    
-
 </LinearLayout>

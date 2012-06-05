@@ -18,6 +18,7 @@ import com.actionbarsherlock.view.MenuInflater;
 public class CnxFlashCardsActivity extends SherlockActivity {
 	
 	private Button searchButton;
+	private Button parseTestButton;
 	private WebView resultsView;
 	private EditText searchInput;
 	
@@ -30,16 +31,25 @@ public class CnxFlashCardsActivity extends SherlockActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         
         searchButton = (Button)findViewById(R.id.searchButton);
+        parseTestButton = (Button)findViewById(R.id.parseTestButton);
         resultsView = (WebView)findViewById(R.id.resultsView);
         searchInput = (EditText)findViewById(R.id.searchInput);
         
         searchButton.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				/*resultsView.loadUrl("http://m.cnx.org/content/search?words=" + searchInput.getText().toString());
+				resultsView.loadUrl("http://m.cnx.org/content/search?words=" + searchInput.getText().toString());
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);*/
+				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
+				
+			}
+		});
+        
+        parseTestButton.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
 				startActivity(new Intent(getApplicationContext(), DownloadActivity.class));
+				
 			}
 		});
         
