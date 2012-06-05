@@ -8,7 +8,10 @@
         android:id="@+id/searchInput"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:hint="Search for a module"
     />
     
     <Button
