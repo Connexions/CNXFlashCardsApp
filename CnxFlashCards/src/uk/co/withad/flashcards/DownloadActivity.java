@@ -24,6 +24,13 @@ import android.widget.TextView;
 public class DownloadActivity extends Activity {
 	
 	String TAG = "CNXFlashCards";
+	
+	public enum XMLSource {
+		DOWNLOAD,
+		RESOURCE
+	};
+	
+	private XMLSource xmlsource = XMLSource.RESOURCE;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,10 +41,19 @@ public class DownloadActivity extends Activity {
 		
 		URL url;
 		URLConnection conn;
+		InputStream in = null;
+		
 		try {
-			url = new URL("http://cnx.org/content/m9006/2.22/module_export?format=plain");
-			conn = url.openConnection();
-			InputStream in = conn.getInputStream();
+			if(xmlsource == XMLSource.DOWNLOAD) {
+				Log.d(TAG, "Downloading XML");
+				url = new URL("http://cnx.org/content/m9006/2.22/module_export?format=plain");
+				conn = url.openConnection();
+				in = conn.getInputStream();
+			}
+			else if(xmlsource == XMLSource.RESOURCE){
+				Log.d(TAG, "Loading XML from resource");
+				in = getResources().openRawResource(R.raw.testmodule);
+			}
 			
 			Document doc = null;
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -56,7 +72,6 @@ public class DownloadActivity extends Activity {
 			}
 			
 			doc.getDocumentElement().normalize();
-			defText.setText(doc.getDocumentElement().getNodeName());
 			
 			NodeList nodes = doc.getElementsByTagName("definition");
 			
@@ -83,9 +98,9 @@ public class DownloadActivity extends Activity {
 					meaning = meaning.replace("\"", "");
 					
 					// Show terms and meanings
-					defText.setText(term + ":\n" + meaning);
+					defText.setText(defText.getText() + term + ":\n" + meaning + "\n\n");
 				}
-			}			
+			}
 		}
 		catch (MalformedURLException mue) {} 
 		catch (IOException ioe) {}

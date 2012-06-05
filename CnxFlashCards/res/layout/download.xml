@@ -4,12 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
     
-    <TextView android:id="@+id/parsedXML"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Parsed CNXML will go here hopefully."
-    />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+	    <TextView android:id="@+id/parsedXML"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	    />
+    </ScrollView>
     
-    
-
 </LinearLayout>
