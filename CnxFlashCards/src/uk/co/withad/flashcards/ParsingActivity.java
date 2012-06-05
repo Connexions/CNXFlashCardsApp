@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,6 +17,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -34,6 +37,9 @@ public class ParsingActivity extends SherlockActivity {
 	private XMLSource xmlsource = XMLSource.RESOURCE;
 	
 	private TextView defText;
+	
+	private ArrayList<String> terms;
+	private ArrayList<String> meanings;
 
 	
 	@Override
@@ -43,13 +49,37 @@ public class ParsingActivity extends SherlockActivity {
 		
 		defText = (TextView)findViewById(R.id.parsedXML);
 		
+		terms = new ArrayList<String>();
+		meanings = new ArrayList<String>();
+		
 		NodeList nodes = getDefinitionsFromXML();
 		
 		if(nodes != null) {
+			Log.d(TAG, "About to display defitions.");
 			displayDefinitions(nodes);
+			addDefinitionsToDatabase();
 		}
 	}
 	
+
+	private void addDefinitionsToDatabase() {
+		Log.d(TAG, "Adding definitions to database...");
+		CardDatabaseOpenHelper cards = new CardDatabaseOpenHelper(this);
+		
+		SQLiteDatabase cardsdb = cards.getWritableDatabase();
+		ContentValues values;
+		
+		for (int i = 0; i < terms.size(); i++){
+			values = new ContentValues();
+			Log.d(TAG, "Inserting " + terms.get(i) + ": " + meanings.get(i));
+			values.put("meaning", meanings.get(i));
+			values.put("term", terms.get(i));
+			cardsdb.insertOrThrow("cards", null, values);
+		}
+		
+		cardsdb.close();
+	}
+
 
 	private NodeList getDefinitionsFromXML() {
 		URL url;
@@ -112,7 +142,7 @@ public class ParsingActivity extends SherlockActivity {
 				term = term.replace("\n", "");
 				term = term.replace("\t", "");
 				term = term.replaceAll("\\s+", " ");
-				meaning = meaning.replaceAll("^\\s+","");
+				term = term.replaceAll("^\\s+","");
 				
 				meaning = meaning.replace("\n", "");
 				meaning = meaning.replace("\t", "");
@@ -122,6 +152,10 @@ public class ParsingActivity extends SherlockActivity {
 				
 				// Show terms and meanings
 				defText.setText(defText.getText() + term + ":\n" + meaning + "\n\n");
+				
+				// Add them to the lists
+				terms.add(term);
+				meanings.add(meaning);
 			}
 		}
 	}
