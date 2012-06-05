@@ -15,7 +15,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
-public class CnxFlashCardsActivity extends SherlockActivity {
+public class CNXFlashCardsActivity extends SherlockActivity {
 	
 	private Button searchButton;
 	private Button parseTestButton;
@@ -48,7 +48,7 @@ public class CnxFlashCardsActivity extends SherlockActivity {
         parseTestButton.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(), DownloadActivity.class));
+				startActivity(new Intent(getApplicationContext(), ParsingActivity.class));
 				
 			}
 		});

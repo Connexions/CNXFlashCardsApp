@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
-public class DownloadActivity extends SherlockActivity {
+public class ParsingActivity extends SherlockActivity {
 	
 	String TAG = "CNXFlashCards";
 	
@@ -32,14 +32,26 @@ public class DownloadActivity extends SherlockActivity {
 	};
 	
 	private XMLSource xmlsource = XMLSource.RESOURCE;
+	
+	private TextView defText;
 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.download);
 		
-		TextView defText = (TextView)findViewById(R.id.parsedXML);
+		defText = (TextView)findViewById(R.id.parsedXML);
 		
+		NodeList nodes = getDefinitionsFromXML();
+		
+		if(nodes != null) {
+			displayDefinitions(nodes);
+		}
+	}
+	
+
+	private NodeList getDefinitionsFromXML() {
 		URL url;
 		URLConnection conn;
 		InputStream in = null;
@@ -76,37 +88,45 @@ public class DownloadActivity extends SherlockActivity {
 			
 			NodeList nodes = doc.getElementsByTagName("definition");
 			
-			for (int i = 0; i < nodes.getLength(); i++) {
-				Node n = nodes.item(i);
-				
-				if(n.getNodeType() == Node.ELEMENT_NODE) {
-					Element element = (Element) n;
-					
-					// Get terms and meanings
-					String term = getValue("term", n);
-					String meaning = getValue("meaning", n);
-					
-					// Remove/replace whitespace and quotation marks
-					term = term.replace("\n", "");
-					term = term.replace("\t", "");
-					term = term.replaceAll("\\s+", " ");
-					meaning = meaning.replaceAll("^\\s+","");
-					
-					meaning = meaning.replace("\n", "");
-					meaning = meaning.replace("\t", "");
-					meaning = meaning.replaceAll("^\\s+","");
-					meaning = meaning.replaceAll("\\s+", " ");
-					meaning = meaning.replace("\"", "");
-					
-					// Show terms and meanings
-					defText.setText(defText.getText() + term + ":\n" + meaning + "\n\n");
-				}
-			}
+			return nodes;
 		}
 		catch (MalformedURLException mue) {} 
 		catch (IOException ioe) {}
+		
+		return null;
 	}
-
+	
+	
+	private void displayDefinitions(NodeList nodes) {
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node n = nodes.item(i);
+			
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) n;
+				
+				// Get terms and meanings
+				String term = getValue("term", n);
+				String meaning = getValue("meaning", n);
+				
+				// Remove/replace whitespace and quotation marks
+				term = term.replace("\n", "");
+				term = term.replace("\t", "");
+				term = term.replaceAll("\\s+", " ");
+				meaning = meaning.replaceAll("^\\s+","");
+				
+				meaning = meaning.replace("\n", "");
+				meaning = meaning.replace("\t", "");
+				meaning = meaning.replaceAll("^\\s+","");
+				meaning = meaning.replaceAll("\\s+", " ");
+				meaning = meaning.replace("\"", "");
+				
+				// Show terms and meanings
+				defText.setText(defText.getText() + term + ":\n" + meaning + "\n\n");
+			}
+		}
+	}
+	
+	
 	private String getValue(String tagname, Node n) {
 		NodeList childnodes = ((Element)n).getElementsByTagName(tagname).item(0).getChildNodes();
 		Node value = (Node) childnodes.item(0);
