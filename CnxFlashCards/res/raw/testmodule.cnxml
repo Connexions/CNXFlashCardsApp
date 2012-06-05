@@ -100,123 +100,80 @@
       <example id="definitionexamp">
 		<para id="defpara">
 		  <definition id="tbonedef">
-			<term>T-Bone</term>
+			<term>Definition 1</term>
 			<meaning id="id11879956">
-			  "The T-bone steak is cut between 1 and 3 inches thick
-			  and comes from the center section of the short
-			  loin. This steak is characterized by its T-shape bone,
-			  has a fine-grained shell and a small tenderloin eye,"
-			  <cite><cite-title>http://www.chophousecalgary.com/steak.html</cite-title></cite>.
+			  "This is the first definition."
 			</meaning>
-			<example id="tboneexam">
-			  <figure id="tbonefig">
-			<title>T-Bone Steak</title>
-			<media id="id11879996" alt=""><image src="tbone.jpg" mime-type="image/jpeg"/></media>
-			  </figure>
-			</example>
 		  </definition>
 	
 		  <definition id="tbonedef">
-			<term>T-Bone</term>
+			<term>Definition 2</term>
 			<meaning id="id11879956">
-			  "The T-bone steak is cut between 1 and 3 inches thick
-			  and comes from the center section of the short
-			  loin. This steak is characterized by its T-shape bone,
-			  has a fine-grained shell and a small tenderloin eye,"
-			  <cite><cite-title>http://www.chophousecalgary.com/steak.html</cite-title></cite>.
+			  "This is the second definition."
 			</meaning>
-			<example id="tboneexam">
-			  <figure id="tbonefig">
-			<title>T-Bone Steak</title>
-			<media id="id11879996" alt=""><image src="tbone.jpg" mime-type="image/jpeg"/></media>
-			  </figure>
-			</example>
+		  </definition>
+		  
+		  <definition id="tbonedef">
+			<term>Definition 3</term>
+			<meaning id="id11879956">
+			  "This is the third definition."
+			</meaning>
+		  </definition>
+	
+		  <definition id="tbonedef">
+			<term>Definition 4</term>
+			<meaning id="id11879956">
+			  "This is the fourth definition."
+			</meaning>
+		  </definition>
+		  
+		  <definition id="tbonedef">
+			<term>Definition 5</term>
+			<meaning id="id11879956">
+			  "This is the fifth definition."
+			</meaning>
+		  </definition>
+	
+		  <definition id="tbonedef">
+			<term>Definition 6</term>
+			<meaning id="id11879956">
+			  "This is the sixth definition."
+			</meaning>
+		  </definition>
+		  
+		  <definition id="tbonedef">
+			<term>Definition 7</term>
+			<meaning id="id11879956">
+			  "This is the seventh definition."
+			</meaning>
+		  </definition>
+	
+		  <definition id="tbonedef">
+			<term>Definition 8</term>
+			<meaning id="id11879956">
+			  "This is the eigth definition."
+			</meaning>
+		  </definition>
+		  
+		  <definition id="tbonedef">
+			<term>Definition 9</term>
+			<meaning id="id11879956">
+			  "This is the ninth definition."
+			</meaning>
+		  </definition>
+	
+		  <definition id="tbonedef">
+			<term>Definition 10</term>
+			<meaning id="id11879956">
+			  "This is the tenth definition."
+			</meaning>
 		  </definition>
 		</para>
 	  </example>
     </section>
 
-    <section id="rule">
-      <title>Rule</title>
-      <para id="rule_par1">The <code>rule</code> tag is used to insert a rule, such as a
-	theorem, axiom, or rule of thumb, into a cnxml document.  It
-	has two attributes:
-	<definition id="tbonedef">
-	    <term>T-Bone</term>
-	    <meaning id="id11879956">
-	      "The T-bone steak is cut between 1 and 3 inches thick
-	      and comes from the center section of the short
-	      loin. This steak is characterized by its T-shape bone,
-	      has a fine-grained shell and a small tenderloin eye,"
-	      <cite><cite-title>http://www.chophousecalgary.com/steak.html</cite-title></cite>.
-	    </meaning>
-	  </definition>
-	  
-	  <definition id="tbonedef">
-	    <term>T-Bone</term>
-	    <meaning id="id11879956">
-	      "The T-bone steak is cut between 1 and 3 inches thick
-	      and comes from the center section of the short
-	      loin. This steak is characterized by its T-shape bone,
-	      has a fine-grained shell and a small tenderloin eye,"
-	      <cite><cite-title>http://www.chophousecalgary.com/steak.html</cite-title></cite>.
-	    </meaning>
-	  </definition>
-	  
-	  <definition id="tbonedef">
-	    <term>T-Bone</term>
-	    <meaning id="id11879956">
-	      "The T-bone steak is cut between 1 and 3 inches thick
-	      and comes from the center section of the short
-	      loin. This steak is characterized by its T-shape bone,
-	      has a fine-grained shell and a small tenderloin eye,"
-	      <cite><cite-title>http://www.chophousecalgary.com/steak.html</cite-title></cite>.
-	    </meaning>
-	  </definition>
-	  
-	  <definition id="tbonedef">
-	    <term>T-Bone</term>
-	    <meaning id="id11879956">
-	      "The T-bone steak is cut between 1 and 3 inches thick
-	      and comes from the center section of the short
-	      loin. This steak is characterized by its T-shape bone,
-	      has a fine-grained shell and a small tenderloin eye,"
-	      <cite><cite-title>http://www.chophousecalgary.com/steak.html</cite-title></cite>.
-	    </meaning>
-	  </definition>
-	  
-	  <definition id="tbonedef">
-	    <term>T-Bone</term>
-	    <meaning id="id11879956">
-	      "The T-bone steak is cut between 1 and 3 inches thick
-	      and comes from the center section of the short
-	      loin. This steak is characterized by its T-shape bone,
-	      has a fine-grained shell and a small tenderloin eye,"
-	      <cite><cite-title>http://www.chophousecalgary.com/steak.html</cite-title></cite>.
-	    </meaning>
-	  </definition>
-	
-	<list id="rulelist">
-	  <item><code>id</code> - required, unique ID</item>
-	  <item><code>type</code> - required, specificies the type of
-	  rule (e.g. theorem, axiom, rule of thumb, etc.)
-	  </item>
-	</list>
-	It may also have an optional <link document="m9000" target-id="name" class="cnxn">title</link> and it must have one or more
-	<link target-id="statement" class="cnxn">statement</link> tags and zero or
-	more <link target-id="proof" class="cnxn">proof</link> or <link target-id="example" class="cnxn">example</link> tags.
-      </para>
+    
 
-      <section id="statement">
-	<title>Statement</title>
-	<para id="state_p1">
-	  The <code>statement</code> tag is used inside a
-	  <code>rule</code> tag and defines the statement of
-	  the rule.  It has an optional <code>id</code> attribute,
-	  which, like all IDs, must be unique.  It also has two
-	  children, <link document="m9000" target-id="para" class="cnxn">para</link>
-	  and <link target-id="equation" class="cnxn">equation</link>.
-	</para>
-      </section>
+    
   </content>
 </document>
