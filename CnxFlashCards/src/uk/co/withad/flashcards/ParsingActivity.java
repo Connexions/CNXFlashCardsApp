@@ -18,8 +18,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -40,6 +42,9 @@ public class ParsingActivity extends SherlockActivity {
 	
 	private ArrayList<String> terms;
 	private ArrayList<String> meanings;
+	
+	private SQLiteDatabase cardsdb;
+	private CardDatabaseOpenHelper cards;
 
 	
 	@Override
@@ -54,19 +59,47 @@ public class ParsingActivity extends SherlockActivity {
 		
 		NodeList nodes = getDefinitionsFromXML();
 		
+		cards = new CardDatabaseOpenHelper(this);
+		cardsdb = cards.getWritableDatabase();
+		
 		if(nodes != null) {
-			Log.d(TAG, "About to display defitions.");
 			displayDefinitions(nodes);
 			addDefinitionsToDatabase();
+		}
+		
+		cardsdb.close();
+		cardsdb = cards.getReadableDatabase();
+		
+		cardsdb.execSQL("CREATE TABLE IF NOT EXISTS " + "cards3" + " (" + BaseColumns._ID
+				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + "term" + " STRING, " 
+				+ "meaning" + " TEXT NOT NULL);");
+		
+		ArrayList<String> tableNames = new ArrayList<String>();
+		Cursor cursor = cardsdb.rawQuery("SELECT name " + 
+										 "FROM sqlite_master " +
+										 "WHERE type='table' AND NOT(name = 'android_metadata') AND NOT(name = 'sqlite_sequence') " + 
+										 "ORDER BY name"
+										 , null);
+		
+		cursor.moveToFirst();
+		if(!cursor.isAfterLast()) {
+			do {
+				tableNames.add(cursor.getString(0));
+			} while (cursor.moveToNext());
+		}
+		
+		cursor.close();
+		cardsdb.close();
+		
+		for (String name : tableNames) {
+			defText.setText(name + "\n" + defText.getText());
 		}
 	}
 	
 
 	private void addDefinitionsToDatabase() {
 		Log.d(TAG, "Adding definitions to database...");
-		CardDatabaseOpenHelper cards = new CardDatabaseOpenHelper(this);
 		
-		SQLiteDatabase cardsdb = cards.getWritableDatabase();
 		ContentValues values;
 		
 		for (int i = 0; i < terms.size(); i++){
@@ -76,8 +109,6 @@ public class ParsingActivity extends SherlockActivity {
 			values.put("term", terms.get(i));
 			cardsdb.insertOrThrow("cards", null, values);
 		}
-		
-		cardsdb.close();
 	}
 
 
