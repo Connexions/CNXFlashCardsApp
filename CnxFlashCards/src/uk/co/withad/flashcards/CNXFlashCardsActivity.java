@@ -45,15 +45,16 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 			}
 		});
         
+        
         parseTestButton.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(), ParsingActivity.class));
+				//startActivity(new Intent(getApplicationContext(), ParsingActivity.class));
 				
+				ModuleToDatabaseParser parser = new ModuleToDatabaseParser();
+				parser.parse(getApplicationContext());
 			}
 		});
-        
-        resultsView.loadUrl("http://cnx.org/content/m9006/2.22/module_export?format=plain");
     }
     
     @Override

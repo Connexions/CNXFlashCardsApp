@@ -17,24 +17,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import uk.co.withad.flashcards.ParsingActivity.XMLSource;
+import static uk.co.withad.flashcards.Constants.*;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.util.Log;
 import android.widget.TextView;
 
-import static uk.co.withad.flashcards.Constants.*;
-
-import com.actionbarsherlock.app.SherlockActivity;
-
-public class ParsingActivity extends SherlockActivity {
-	
-	public enum XMLSource {
-		DOWNLOAD,
-		RESOURCE
-	};
+public class ModuleToDatabaseParser {
 	
 	private XMLSource xmlsource = XMLSource.RESOURCE;
 	
@@ -45,21 +38,19 @@ public class ParsingActivity extends SherlockActivity {
 	
 	private SQLiteDatabase cardsdb;
 	private CardDatabaseOpenHelper cards;
-
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.download);
+	private Context context;
+	
+	public void parse(Context context) {
 		
-		defText = (TextView)findViewById(R.id.definitionsText);
+		this.context = context;
 		
 		terms = new ArrayList<String>();
 		meanings = new ArrayList<String>();
 		
 		NodeList nodes = getDefinitionsFromXML();
 		
-		cards = new CardDatabaseOpenHelper(this);
+		cards = new CardDatabaseOpenHelper(context);
 		cardsdb = cards.getWritableDatabase();
 		
 		if(nodes != null) {
@@ -91,20 +82,20 @@ public class ParsingActivity extends SherlockActivity {
 		cursor.close();
 		cardsdb.close();
 		
-		for (String name : tableNames) {
+		/*for (String name : tableNames) {
 			defText.setText(name + "\n" + defText.getText());
-		}
+		}*/
 	}
 	
 
 	private void addDefinitionsToDatabase() {
-		Log.d(TAG, "Adding definitions to database...");
+		Log.d(Constants.TAG, "Adding definitions to database...");
 		
 		ContentValues values;
 		
 		for (int i = 0; i < terms.size(); i++){
 			values = new ContentValues();
-			Log.d(TAG, "Inserting " + terms.get(i) + ": " + meanings.get(i));
+			Log.d(Constants.TAG, "Inserting " + terms.get(i) + ": " + meanings.get(i));
 			values.put("meaning", meanings.get(i));
 			values.put("term", terms.get(i));
 			cardsdb.insertOrThrow("cards", null, values);
@@ -126,7 +117,7 @@ public class ParsingActivity extends SherlockActivity {
 			}
 			else if(xmlsource == XMLSource.RESOURCE){
 				Log.d(TAG, "Loading XML from resource");
-				in = getResources().openRawResource(R.raw.testmodule);
+				in = context.getResources().openRawResource(R.raw.testmodule);
 			}
 			
 			Document doc = null;
@@ -162,9 +153,7 @@ public class ParsingActivity extends SherlockActivity {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);
 			
-			if(n.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) n;
-				
+			if(n.getNodeType() == Node.ELEMENT_NODE) {				
 				// Get terms and meanings
 				String term = getValue("term", n);
 				String meaning = getValue("meaning", n);
@@ -182,7 +171,7 @@ public class ParsingActivity extends SherlockActivity {
 				meaning = meaning.replace("\"", "");
 				
 				// Show terms and meanings
-				defText.setText(defText.getText() + term + ":\n" + meaning + "\n\n");
+				//defText.setText(defText.getText() + term + ":\n" + meaning + "\n\n");
 				
 				// Add them to the lists
 				terms.add(term);
@@ -198,5 +187,4 @@ public class ParsingActivity extends SherlockActivity {
 		
 		return value.getNodeValue();
 	}
-	
 }
