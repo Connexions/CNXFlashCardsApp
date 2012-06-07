@@ -1,36 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/searchInput"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:maxLines="1"
-        android:scrollHorizontally="true"
-        android:hint="Search for a module"
-    />
-    
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Search"
-    />
-    
-    <Button
-        android:id="@+id/parseTestButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Parse Test"
-    />
-    
-    <WebView
-	    android:id="@+id/resultsView"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	/>
+        android:layout_height="fill_parent">
+        <LinearLayout 
+            android:layout_width="fill_parent"
+    		android:layout_height="fill_parent"
+    		android:orientation="vertical">
+    		
+		    <EditText
+		        android:id="@+id/searchInput"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:singleLine="true"
+		        android:maxLines="1"
+		        android:scrollHorizontally="true"
+		        android:hint="Search for a module"
+		        android:enabled="false"
+		    />
+		    
+		    <Button
+		        android:id="@+id/searchButton"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Search"
+		        android:enabled="false"
+		    />
+		    
+		    <Button
+		        android:id="@+id/parseTestButton"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Parse test file"
+		    />
+		    
+		    <Button
+		        android:id="@+id/displayCardsButton"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="Show cards"
+		    />
+		    
+		    <!-- <WebView
+			    android:id="@+id/resultsView"
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			/> -->
+			
+			<TextView
+			    android:id="@+id/parsingResultText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text = "Haven't parsed anything yet."
+			    android:gravity="center"
+			    android:paddingBottom="2dip"/>
+			
+			<View 
+			    android:layout_width="fill_parent"
+			    android:layout_height="2dip"
+			    android:background="#8b8989"
+			    android:paddingTop="8dip"
+			    android:paddingBottom="10dip"/>
+			
+			<LinearLayout 
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:orientation="horizontal"
+			    android:paddingTop="30.0dip">
+			    
+			    <Button 
+			        android:id="@+id/prevCardButton"
+			        android:layout_width="0.0dip"
+			        android:layout_height="wrap_content"
+			        android:text=" &lt; "
+			        android:layout_weight="1.0"/>
+			    
+			    <TextView 
+			        android:id="@+id/termText"
+			        android:layout_width="0.0dip"
+			        android:layout_height="wrap_content"
+			        android:text="Term will go here."
+			        android:gravity="center"
+			        android:layout_weight="3.0"/>
+			    
+			    <Button 
+			        android:id="@+id/nextCardButton"
+			        android:layout_width="0.0dip"
+			        android:layout_height="wrap_content"
+			        android:text=" &gt; "
+			        android:layout_weight="1.0"/>
+			    
+			</LinearLayout>
+			
+			<TextView 
+			    android:id="@+id/meaningText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:text="The meaning will go here."
+			    android:gravity="center_horizontal"
+			    android:paddingTop="15dip"/>
+		</LinearLayout>
+	</ScrollView>"
 </LinearLayout>

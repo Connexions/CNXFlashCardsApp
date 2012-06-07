@@ -19,7 +19,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	
 	private Button searchButton;
 	private Button parseTestButton;
-	private WebView resultsView;
+	//private WebView resultsView;
 	private EditText searchInput;
 	
     /** Called when the activity is first created. */
@@ -32,13 +32,13 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         
         searchButton = (Button)findViewById(R.id.searchButton);
         parseTestButton = (Button)findViewById(R.id.parseTestButton);
-        resultsView = (WebView)findViewById(R.id.resultsView);
+        //resultsView = (WebView)findViewById(R.id.resultsView);
         searchInput = (EditText)findViewById(R.id.searchInput);
         
         searchButton.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				resultsView.loadUrl("http://m.cnx.org/content/search?words=" + searchInput.getText().toString());
+				//resultsView.loadUrl("http://m.cnx.org/content/search?words=" + searchInput.getText().toString());
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
 				
@@ -50,17 +50,16 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 			
 			public void onClick(View v) {
 				//startActivity(new Intent(getApplicationContext(), ParsingActivity.class));
-				
-				ModuleToDatabaseParser parser = new ModuleToDatabaseParser();
-				parser.parse(getApplicationContext());
+				ModuleToDatabaseParser parser = new ModuleToDatabaseParser(getApplicationContext());
+				parser.parse();
 			}
 		});
     }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getSupportMenuInflater();
-    	inflater.inflate(R.menu.mainmenu, menu);
+    	//MenuInflater inflater = getSupportMenuInflater();
+    	//inflater.inflate(R.menu.mainmenu, menu);
 
     	
 		return super.onCreateOptionsMenu(menu);

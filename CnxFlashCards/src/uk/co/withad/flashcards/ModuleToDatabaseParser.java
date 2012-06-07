@@ -41,9 +41,11 @@ public class ModuleToDatabaseParser {
 	
 	private Context context;
 	
-	public void parse(Context context) {
-		
+	public ModuleToDatabaseParser(Context context) {
 		this.context = context;
+	}
+	
+	public void parse() {
 		
 		terms = new ArrayList<String>();
 		meanings = new ArrayList<String>();
