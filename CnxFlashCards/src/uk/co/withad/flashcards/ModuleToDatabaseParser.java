@@ -43,6 +43,8 @@ public class ModuleToDatabaseParser {
 	
 	public ModuleToDatabaseParser(Context context) {
 		this.context = context;
+		
+		cards = new CardDatabaseOpenHelper(context);
 	}
 	
 	public void parse() {
@@ -50,22 +52,14 @@ public class ModuleToDatabaseParser {
 		terms = new ArrayList<String>();
 		meanings = new ArrayList<String>();
 		
-		NodeList nodes = getDefinitionsFromXML();
-		
-		cards = new CardDatabaseOpenHelper(context);
-		cardsdb = cards.getWritableDatabase();
-		
-		if(nodes != null) {
-			displayDefinitions(nodes);
-			addDefinitionsToDatabase();
-		}
+		NodeList nodes = retrieveXML();
+		if(nodes == null) return;
+
+		extractDefinitions(nodes);
+		addDefinitionsToDatabase();
 		
 		cardsdb.close();
 		cardsdb = cards.getReadableDatabase();
-		
-		cardsdb.execSQL("CREATE TABLE IF NOT EXISTS " + "cards3" + " (" + BaseColumns._ID
-				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + "term" + " STRING, " 
-				+ "meaning" + " TEXT NOT NULL);");
 		
 		ArrayList<String> tableNames = new ArrayList<String>();
 		Cursor cursor = cardsdb.rawQuery("SELECT name " + 
@@ -83,15 +77,11 @@ public class ModuleToDatabaseParser {
 		
 		cursor.close();
 		cardsdb.close();
-		
-		/*for (String name : tableNames) {
-			defText.setText(name + "\n" + defText.getText());
-		}*/
 	}
 	
 
 	private void addDefinitionsToDatabase() {
-		Log.d(Constants.TAG, "Adding definitions to database...");
+		cardsdb = cards.getWritableDatabase();
 		
 		ContentValues values;
 		
@@ -102,10 +92,12 @@ public class ModuleToDatabaseParser {
 			values.put("term", terms.get(i));
 			cardsdb.insertOrThrow("cards", null, values);
 		}
+		
+		cardsdb.close();
 	}
 
 
-	private NodeList getDefinitionsFromXML() {
+	private NodeList retrieveXML() {
 		URL url;
 		URLConnection conn;
 		InputStream in = null;
@@ -151,7 +143,7 @@ public class ModuleToDatabaseParser {
 	}
 	
 	
-	private void displayDefinitions(NodeList nodes) {
+	private void extractDefinitions(NodeList nodes) {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);
 			
@@ -173,7 +165,6 @@ public class ModuleToDatabaseParser {
 				meaning = meaning.replace("\"", "");
 				
 				// Show terms and meanings
-				//defText.setText(defText.getText() + term + ":\n" + meaning + "\n\n");
 				
 				// Add them to the lists
 				terms.add(term);
