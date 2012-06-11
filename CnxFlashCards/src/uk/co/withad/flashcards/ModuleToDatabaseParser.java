@@ -31,8 +31,6 @@ public class ModuleToDatabaseParser {
 	
 	private XMLSource xmlsource = XMLSource.RESOURCE;
 	
-	private TextView defText;
-	
 	private ArrayList<String> terms;
 	private ArrayList<String> meanings;
 	
@@ -41,46 +39,39 @@ public class ModuleToDatabaseParser {
 	
 	private Context context;
 	
+	
+	/** Constructor **/
 	public ModuleToDatabaseParser(Context context) {
 		this.context = context;
 		
 		cards = new CardDatabaseOpenHelper(context);
 	}
 	
-	public void parse() {
+	
+	/** Parses definitions from a CNXML file, places into database **/
+	public boolean parse(String id) {
 		
 		terms = new ArrayList<String>();
 		meanings = new ArrayList<String>();
 		
-		NodeList nodes = retrieveXML();
-		if(nodes == null) return;
+		Document doc = retrieveXML(id);
+		NodeList nodes = doc.getElementsByTagName("definition");
+		
+		// Check that there were definitions in the file
+		if(nodes == null) return false;
 
 		extractDefinitions(nodes);
-		addDefinitionsToDatabase();
+		addDefinitionsToDatabase(id);
 		
 		cardsdb.close();
-		cardsdb = cards.getReadableDatabase();
 		
-		ArrayList<String> tableNames = new ArrayList<String>();
-		Cursor cursor = cardsdb.rawQuery("SELECT name " + 
-										 "FROM sqlite_master " +
-										 "WHERE type='table' AND NOT(name = 'android_metadata') AND NOT(name = 'sqlite_sequence') " + 
-										 "ORDER BY name"
-										 , null);
 		
-		cursor.moveToFirst();
-		if(!cursor.isAfterLast()) {
-			do {
-				tableNames.add(cursor.getString(0));
-			} while (cursor.moveToNext());
-		}
-		
-		cursor.close();
-		cardsdb.close();
+		return true;
 	}
 	
 
-	private void addDefinitionsToDatabase() {
+	/** Add the parsed definitions to the database. **/
+	private void addDefinitionsToDatabase(String id) {
 		cardsdb = cards.getWritableDatabase();
 		
 		ContentValues values;
@@ -88,16 +79,24 @@ public class ModuleToDatabaseParser {
 		for (int i = 0; i < terms.size(); i++){
 			values = new ContentValues();
 			Log.d(Constants.TAG, "Inserting " + terms.get(i) + ": " + meanings.get(i));
-			values.put("meaning", meanings.get(i));
-			values.put("term", terms.get(i));
-			cardsdb.insertOrThrow("cards", null, values);
+			values.put(DECK_ID, id);
+			values.put(MEANING, meanings.get(i));
+			values.put(TERM, terms.get(i));
+			cardsdb.insertOrThrow(CARDS_TABLE, null, values);
 		}
+		
+		values = new ContentValues();
+		values.put(TITLE, "Test Title");
+		values.put(DECK_ID, id);
+		cardsdb.insertOrThrow(DECKS_TABLE, null, values);
 		
 		cardsdb.close();
 	}
 
 
-	private NodeList retrieveXML() {
+	/** Retrieve the CNXML file as a list of nodes 
+	 * @param id **/
+	private Document retrieveXML(String id) {
 		URL url;
 		URLConnection conn;
 		InputStream in = null;
@@ -105,7 +104,7 @@ public class ModuleToDatabaseParser {
 		try {
 			if(xmlsource == XMLSource.DOWNLOAD) {
 				Log.d(TAG, "Downloading XML");
-				url = new URL("http://cnx.org/content/m9006/2.22/module_export?format=plain");
+				url = new URL("http://cnx.org/content/" + id + "/module_export?format=plain"); //m9006/2.22
 				conn = url.openConnection();
 				in = conn.getInputStream();
 			}
@@ -116,11 +115,11 @@ public class ModuleToDatabaseParser {
 			
 			Document doc = null;
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db;
+			DocumentBuilder docBuilder;
 			
 			try {
-				db = dbf.newDocumentBuilder();
-				doc = db.parse(in);
+				docBuilder = dbf.newDocumentBuilder();
+				doc = docBuilder.parse(in);
 				Log.d(TAG, "Succesful parse.");
 			}
 			catch (ParserConfigurationException pce) {
@@ -132,9 +131,7 @@ public class ModuleToDatabaseParser {
 			
 			doc.getDocumentElement().normalize();
 			
-			NodeList nodes = doc.getElementsByTagName("definition");
-			
-			return nodes;
+			return doc;
 		}
 		catch (MalformedURLException mue) {} 
 		catch (IOException ioe) {}
@@ -143,6 +140,7 @@ public class ModuleToDatabaseParser {
 	}
 	
 	
+	/** Extract definitions from the list of nodes **/
 	private void extractDefinitions(NodeList nodes) {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);
@@ -164,8 +162,6 @@ public class ModuleToDatabaseParser {
 				meaning = meaning.replaceAll("\\s+", " ");
 				meaning = meaning.replace("\"", "");
 				
-				// Show terms and meanings
-				
 				// Add them to the lists
 				terms.add(term);
 				meanings.add(meaning);
@@ -174,6 +170,7 @@ public class ModuleToDatabaseParser {
 	}
 	
 	
+	/** Get a value with a given tag from a node **/
 	private String getValue(String tagname, Node n) {
 		NodeList childnodes = ((Element)n).getElementsByTagName(tagname).item(0).getChildNodes();
 		Node value = (Node) childnodes.item(0);

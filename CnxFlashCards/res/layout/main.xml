@@ -40,7 +40,7 @@
 		    />
 		    
 		    <Button
-		        android:id="@+id/displayCardsButton"
+		        android:id="@+id/showCardsButton"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:text="Show cards"
@@ -67,11 +67,19 @@
 			    android:paddingTop="8dip"
 			    android:paddingBottom="10dip"/>
 			
+			<TextView 
+			    android:id="@+id/deckPositionText"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="center"
+			    android:paddingTop="30.0dip"
+			    />
+			
 			<LinearLayout 
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
 			    android:orientation="horizontal"
-			    android:paddingTop="30.0dip">
+			    >
 			    
 			    <Button 
 			        android:id="@+id/prevCardButton"
