@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 public class ModuleToDatabaseParser {
 	
-	private XMLSource xmlsource = XMLSource.RESOURCE;
+	private XMLSource xmlsource = XMLSource.DOWNLOAD;
 	
 	private ArrayList<String> terms;
 	private ArrayList<String> meanings;

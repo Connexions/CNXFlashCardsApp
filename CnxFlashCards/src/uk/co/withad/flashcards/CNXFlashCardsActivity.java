@@ -97,7 +97,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         parseTestButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				ModuleToDatabaseParser parser = new ModuleToDatabaseParser(getApplicationContext());
-				boolean success = parser.parse("testfile");
+				boolean success = parser.parse("m9006/2.22");
 				if(success)
 					parseResultsText.setText("Parsing succeeded, terms in database");
 				else
@@ -109,7 +109,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				definitions = loadCards("testfile");
+				definitions = loadCards("m9006/2.22");
 				currentCard = 0;
 				termText.setText(definitions.get(currentCard)[0]);
 				meaningText.setText(definitions.get(currentCard)[1]);
