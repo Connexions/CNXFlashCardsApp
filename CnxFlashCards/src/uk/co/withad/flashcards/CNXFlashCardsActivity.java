@@ -78,6 +78,21 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 		});
         
         
+        prevCardButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(definitions != null && definitions.size() != 0) {
+					currentCard--;
+					if(currentCard < 0) currentCard = definitions.size()-1;
+					termText.setText(definitions.get(currentCard)[0]);
+					meaningText.setText(definitions.get(currentCard)[1]);
+					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+				}
+			}
+		});
+        
+        
         // Parses the target CNXML file (currently just the offline test file)
         parseTestButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -92,7 +107,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         
         
         showCardsButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				definitions = loadCards("testfile");
@@ -101,8 +115,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				meaningText.setText(definitions.get(currentCard)[1]);
 				deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 			}
-
-			
 		});
         
         
