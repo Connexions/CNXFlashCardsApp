@@ -40,8 +40,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	
 	
 	
-	
-	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,8 +140,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 		
 		
 		ArrayList<String[]> definitions = new ArrayList<String[]>();
-		/*definitions.add(new String[]{"test1", "test2"});
-		termText.setText(definitions.get(0)[0]);*/
 		
 		if(!cardsCursor.isAfterLast()) {
 			do {

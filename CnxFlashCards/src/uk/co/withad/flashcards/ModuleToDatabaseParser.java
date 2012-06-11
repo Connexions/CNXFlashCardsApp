@@ -17,7 +17,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import uk.co.withad.flashcards.ParsingActivity.XMLSource;
 import static uk.co.withad.flashcards.Constants.*;
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,8 +27,6 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class ModuleToDatabaseParser {
-	
-	private XMLSource xmlsource = XMLSource.DOWNLOAD;
 	
 	private ArrayList<String> terms;
 	private ArrayList<String> meanings;
@@ -55,10 +52,12 @@ public class ModuleToDatabaseParser {
 		meanings = new ArrayList<String>();
 		
 		Document doc = retrieveXML(id);
+		if(doc == null) return false;
+		
 		NodeList nodes = doc.getElementsByTagName("definition");
 		
 		// Check that there were definitions in the file
-		if(nodes == null) return false;
+		
 
 		extractDefinitions(nodes);
 		addDefinitionsToDatabase(id);
@@ -101,16 +100,20 @@ public class ModuleToDatabaseParser {
 		URLConnection conn;
 		InputStream in = null;
 		
+		String teststring = (String) id.subSequence(0, 4);
+		Log.d(TAG, teststring);
+		
 		try {
-			if(xmlsource == XMLSource.DOWNLOAD) {
+			if(teststring.equals("test")) {
+				Log.d(TAG, "Loading XML from resource");
+				in = context.getResources().openRawResource(R.raw.testmodule);
+			}
+			else {
+				
 				Log.d(TAG, "Downloading XML");
 				url = new URL("http://cnx.org/content/" + id + "/module_export?format=plain"); //m9006/2.22
 				conn = url.openConnection();
 				in = conn.getInputStream();
-			}
-			else if(xmlsource == XMLSource.RESOURCE){
-				Log.d(TAG, "Loading XML from resource");
-				in = context.getResources().openRawResource(R.raw.testmodule);
 			}
 			
 			Document doc = null;
