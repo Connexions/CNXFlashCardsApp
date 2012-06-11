@@ -1,9 +1,6 @@
 package uk.co.withad.flashcards;
 
-import static uk.co.withad.flashcards.Constants.CARDS_TABLE;
-import static uk.co.withad.flashcards.Constants.DECK_ID;
-import static uk.co.withad.flashcards.Constants.MEANING;
-import static uk.co.withad.flashcards.Constants.TERM;
+import static uk.co.withad.flashcards.Constants.*;
 
 import java.util.ArrayList;
 
@@ -40,6 +37,9 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	
 	private ArrayList<String[]> definitions;
 	private int currentCard = 0;
+	
+	
+	
 	
 	
     /** Called when the activity is first created. */
@@ -97,7 +97,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         parseTestButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				ModuleToDatabaseParser parser = new ModuleToDatabaseParser(getApplicationContext());
-				boolean success = parser.parse("m9006/2.22");
+				boolean success = parser.parse(TEST_ID);
 				if(success)
 					parseResultsText.setText("Parsing succeeded, terms in database");
 				else
@@ -109,7 +109,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				definitions = loadCards("m9006/2.22");
+				definitions = loadCards(TEST_ID);
 				currentCard = 0;
 				termText.setText(definitions.get(currentCard)[0]);
 				meaningText.setText(definitions.get(currentCard)[1]);
