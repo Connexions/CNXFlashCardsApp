@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uk.co.withad.flashcards"
+    package="org.cnx.flashcards"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -24,7 +24,7 @@
         </activity>
         
         <activity
-            android:name=".ParsingActivity"
+            android:name="org.cnx.flashcards.ParsingActivity"
             android:label="ParsingActivity" >
             
             

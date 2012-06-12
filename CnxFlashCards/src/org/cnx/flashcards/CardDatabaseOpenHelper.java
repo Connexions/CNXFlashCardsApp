@@ -1,4 +1,11 @@
-package uk.co.withad.flashcards;
+/**
+ * Copyright (c) 2012 Rice University
+ *
+ * This software is subject to the provisions of the GNU Lesser General
+ * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
+ */
+
+package org.cnx.flashcards;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import static uk.co.withad.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.*;
 
 
 public class CardDatabaseOpenHelper extends SQLiteOpenHelper {

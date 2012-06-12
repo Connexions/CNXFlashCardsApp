@@ -1,12 +1,20 @@
-package uk.co.withad.flashcards;
+/**
+ * Copyright (c) 2012 Rice University
+ *
+ * This software is subject to the provisions of the GNU Lesser General
+ * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
+ */
 
-import static uk.co.withad.flashcards.Constants.*;
+package org.cnx.flashcards;
+
+import static org.cnx.flashcards.Constants.*;
 
 import java.util.ArrayList;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -108,6 +116,12 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 			@Override
 			public void onClick(View v) {
 				definitions = loadCards(TEST_ID);
+				
+				if(definitions.size() == 0) {
+					parseResultsText.setTextColor(Color.RED);
+					parseResultsText.setText("No cards found.");
+				}
+				
 				currentCard = 0;
 				termText.setText(definitions.get(currentCard)[0]);
 				meaningText.setText(definitions.get(currentCard)[1]);
@@ -122,7 +136,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				//resultsView.loadUrl("http://m.cnx.org/content/search?words=" + searchInput.getText().toString());
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
-				
 			}
 		});
     }

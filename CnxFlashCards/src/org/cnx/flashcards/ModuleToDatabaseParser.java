@@ -1,4 +1,11 @@
-package uk.co.withad.flashcards;
+/**
+ * Copyright (c) 2012 Rice University
+ *
+ * This software is subject to the provisions of the GNU Lesser General
+ * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
+ */
+
+package org.cnx.flashcards;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import static uk.co.withad.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.*;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -52,18 +59,16 @@ public class ModuleToDatabaseParser {
 		meanings = new ArrayList<String>();
 		
 		Document doc = retrieveXML(id);
+		
+		// Check that a valid document was returned (TODO: Better error handling here)
 		if(doc == null) return false;
 		
 		NodeList nodes = doc.getElementsByTagName("definition");
 		
-		// Check that there were definitions in the file
-		
-
 		extractDefinitions(nodes);
 		addDefinitionsToDatabase(id);
 		
 		cardsdb.close();
-		
 		
 		return true;
 	}
