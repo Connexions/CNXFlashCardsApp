@@ -7,6 +7,14 @@
 
 package org.cnx.flashcards;
 
+import static org.cnx.flashcards.Constants.CARDS_TABLE;
+import static org.cnx.flashcards.Constants.DECKS_TABLE;
+import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.MEANING;
+import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.flashcards.Constants.TERM;
+import static org.cnx.flashcards.Constants.TITLE;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -24,22 +32,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import static org.cnx.flashcards.Constants.*;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.BaseColumns;
 import android.util.Log;
-import android.widget.TextView;
 
 public class ModuleToDatabaseParser {
 	
 	private ArrayList<String> terms;
 	private ArrayList<String> meanings;
-	
-	private SQLiteDatabase cardsdb;
-	private CardDatabaseOpenHelper cards;
 	
 	private Context context;
 	
@@ -47,8 +48,6 @@ public class ModuleToDatabaseParser {
 	/** Constructor **/
 	public ModuleToDatabaseParser(Context context) {
 		this.context = context;
-		
-		cards = new CardDatabaseOpenHelper(context);
 	}
 	
 	
@@ -68,16 +67,12 @@ public class ModuleToDatabaseParser {
 		extractDefinitions(nodes);
 		addDefinitionsToDatabase(id);
 		
-		cardsdb.close();
-		
 		return true;
 	}
 	
 
 	/** Add the parsed definitions to the database. **/
-	private void addDefinitionsToDatabase(String id) {
-		cardsdb = cards.getWritableDatabase();
-		
+	private void addDefinitionsToDatabase(String id) {		
 		ContentValues values;
 		
 		for (int i = 0; i < terms.size(); i++){
@@ -86,15 +81,13 @@ public class ModuleToDatabaseParser {
 			values.put(DECK_ID, id);
 			values.put(MEANING, meanings.get(i));
 			values.put(TERM, terms.get(i));
-			cardsdb.insertOrThrow(CARDS_TABLE, null, values);
+			context.getContentResolver().insert(CardProvider.CONTENT_URI, values);
 		}
 		
 		values = new ContentValues();
 		values.put(TITLE, "Test Title");
 		values.put(DECK_ID, id);
-		cardsdb.insertOrThrow(DECKS_TABLE, null, values);
-		
-		cardsdb.close();
+		context.getContentResolver().insert(DeckProvider.CONTENT_URI, values);
 	}
 
 
@@ -148,7 +141,8 @@ public class ModuleToDatabaseParser {
 	}
 	
 	
-	/** Extract definitions from the list of nodes **/
+	/** Extract definitions from the list of nodes, puts them in ArrayLists
+	 * Might make this go straight from xml to database, depends on final structure.**/
 	private void extractDefinitions(NodeList nodes) {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Node n = nodes.item(i);

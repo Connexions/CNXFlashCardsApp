@@ -12,6 +12,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock">
+        
+        <provider android:name=".CardProvider" android:authorities="org.cnx.flashcards.CardProvider" />
+        <provider android:name=".DeckProvider" android:authorities="org.cnx.flashcards.DeckProvider" />
+        
         <activity
             android:name=".CNXFlashCardsActivity"
             android:label="@string/app_name" >

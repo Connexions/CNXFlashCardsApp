@@ -7,7 +7,11 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.MEANING;
+import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.flashcards.Constants.TERM;
+import static org.cnx.flashcards.Constants.TEST_ID;
 
 import java.util.ArrayList;
 
@@ -16,6 +20,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -121,11 +126,12 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 					parseResultsText.setTextColor(Color.RED);
 					parseResultsText.setText("No cards found.");
 				}
-				
-				currentCard = 0;
-				termText.setText(definitions.get(currentCard)[0]);
-				meaningText.setText(definitions.get(currentCard)[1]);
-				deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+				else {
+					currentCard = 0;
+					termText.setText(definitions.get(currentCard)[0]);
+					meaningText.setText(definitions.get(currentCard)[1]);
+					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+				}
 			}
 		});
         
@@ -141,16 +147,12 @@ public class CNXFlashCardsActivity extends SherlockActivity {
     }
     
     
-    private ArrayList<String[]> loadCards(String id) {		
-		CardDatabaseOpenHelper cards = new CardDatabaseOpenHelper(getApplicationContext());
-		SQLiteDatabase cardsdb = cards.getReadableDatabase();
-		
+    private ArrayList<String[]> loadCards(String id) {				
 		String[] columns = {TERM, MEANING};
 		String selection = DECK_ID + " = '" + id + "'";
 		
-		Cursor cardsCursor = cardsdb.query(CARDS_TABLE, columns, selection, null, null, null, null);
+		Cursor cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, columns, selection, null, null);
 		cardsCursor.moveToFirst();
-		
 		
 		ArrayList<String[]> definitions = new ArrayList<String[]>();
 		
@@ -161,8 +163,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 		}
 		
 		cardsCursor.close();
-		cardsdb.close();
-		cards.close();
 		
 		return definitions;
 	}
