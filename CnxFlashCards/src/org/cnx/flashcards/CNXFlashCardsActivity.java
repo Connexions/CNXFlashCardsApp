@@ -9,18 +9,17 @@ package org.cnx.flashcards;
 
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
 import static org.cnx.flashcards.Constants.TEST_ID;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -28,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -120,17 +120,42 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				definitions = loadCards(TEST_ID);
+				loadCards(TEST_ID);
 				
 				if(definitions.size() == 0) {
 					parseResultsText.setTextColor(Color.RED);
 					parseResultsText.setText("No cards found.");
 				}
 				else {
-					currentCard = 0;
-					termText.setText(definitions.get(currentCard)[0]);
-					meaningText.setText(definitions.get(currentCard)[1]);
-					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+					
+					String[] projection = {DECK_ID}; 
+					Cursor titlesCursor = getContentResolver().query(DeckProvider.CONTENT_URI, projection, null, null, null);
+					titlesCursor.moveToFirst();
+					
+					ArrayList<String> titlesList = new ArrayList<String>();
+					
+					if(!titlesCursor.isAfterLast()) {
+						do {
+							titlesList.add(new String(titlesCursor.getString(0)));
+						} while (titlesCursor.moveToNext());
+					}
+					
+					final String[] titles = titlesList.toArray(new String[titlesList.size()]);
+
+					AlertDialog.Builder builder = new AlertDialog.Builder(CNXFlashCardsActivity.this);
+					builder.setTitle("Pick a deck");
+					builder.setItems(titles, new DialogInterface.OnClickListener() {
+					    public void onClick(DialogInterface dialog, int item) {
+					    	loadCards(titles[item]);
+					    	currentCard = 0;
+							termText.setText(definitions.get(currentCard)[0]);
+							meaningText.setText(definitions.get(currentCard)[1]);
+							deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+					    }
+					});
+					
+					AlertDialog alert = builder.create();
+					alert.show();
 				}
 			}
 		});
@@ -147,14 +172,14 @@ public class CNXFlashCardsActivity extends SherlockActivity {
     }
     
     
-    private ArrayList<String[]> loadCards(String id) {				
+    private void loadCards(String id) {				
 		String[] columns = {TERM, MEANING};
 		String selection = DECK_ID + " = '" + id + "'";
 		
 		Cursor cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, columns, selection, null, null);
 		cardsCursor.moveToFirst();
 		
-		ArrayList<String[]> definitions = new ArrayList<String[]>();
+		definitions = new ArrayList<String[]>();
 		
 		if(!cardsCursor.isAfterLast()) {
 			do {
@@ -163,8 +188,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 		}
 		
 		cardsCursor.close();
-		
-		return definitions;
 	}
     
     
