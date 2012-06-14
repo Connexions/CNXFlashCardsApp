@@ -8,20 +8,14 @@
 package org.cnx.flashcards;
 
 import static org.cnx.flashcards.Constants.DECK_ID;
-import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.TERM;
-import static org.cnx.flashcards.Constants.*;
-
-import java.util.ArrayList;
+import static org.cnx.flashcards.Constants.TAG;
 
 import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -29,7 +23,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -40,18 +33,10 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	private Button searchButton;
 	private Button parseTestButton;
 	private Button showCardsButton;
-	private Button nextCardButton;
-	private Button prevCardButton;
-	
 	private TextView parseResultsText;
-	private TextView termText;
-	private TextView meaningText;
-	private TextView deckPositionText;
 	
 	private EditText searchInput;
 	
-	private ArrayList<String[]> definitions;
-	private int currentCard = 0;
 	
 	private String id = null;
 	
@@ -72,13 +57,13 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton = (Button)findViewById(R.id.showCardsButton);        
         searchInput = (EditText)findViewById(R.id.searchInput);
         parseResultsText = (TextView)findViewById(R.id.parsingResultText);
-        meaningText = (TextView)findViewById(R.id.meaningText);
+        /*meaningText = (TextView)findViewById(R.id.meaningText);
         termText = (TextView)findViewById(R.id.termText);
         nextCardButton = (Button)findViewById(R.id.nextCardButton);
         prevCardButton = (Button)findViewById(R.id.prevCardButton);
-        deckPositionText = (TextView)findViewById(R.id.deckPositionText);
+        deckPositionText = (TextView)findViewById(R.id.deckPositionText);*/
         
-        nextCardButton.setOnClickListener(new OnClickListener() {
+        /*nextCardButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(definitions != null && definitions.size() != 0) {
@@ -103,7 +88,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 				}
 			}
-		});
+		});*/
         
         
         // Parses the target CNXML file (currently just the offline test file)
@@ -135,7 +120,12 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadCards(id);
+				Intent cardIntent = new Intent(getApplicationContext(), CardActivity.class);
+				Log.d(TAG, id);
+				cardIntent.putExtra(DECK_ID, id);
+				startActivity(cardIntent);
+				
+				/*loadCards(id);
 				
 				if(definitions.size() == 0) {
 					parseResultsText.setTextColor(Color.RED);
@@ -173,7 +163,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 					
 					AlertDialog alert = builder.create();
 					alert.show();
-				}
+				}*/
 			}
 		});
         
@@ -188,25 +178,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 			}
 		});
     }
-    
-    
-    private void loadCards(String id) {
-		String[] columns = {TERM, MEANING};
-		String selection = DECK_ID + " = '" + id + "'";
-		
-		Cursor cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, columns, selection, null, null);
-		cardsCursor.moveToFirst();
-		
-		definitions = new ArrayList<String[]>();
-		
-		if(!cardsCursor.isAfterLast()) {
-			do {
-				definitions.add(new String[]{cardsCursor.getString(0), cardsCursor.getString(1)});
-			} while (cardsCursor.moveToNext());
-		}
-		
-		cardsCursor.close();
-	}
     
     
     /** Called when Activity created, loads the ActionBar **/
