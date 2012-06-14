@@ -14,6 +14,8 @@ import static org.cnx.flashcards.Constants.*;
 
 import java.util.ArrayList;
 
+import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -113,11 +115,19 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				}
 				
 				ModuleToDatabaseParser parser = new ModuleToDatabaseParser(getApplicationContext());
-				boolean success = parser.parse(id);
-				if(success)
+				ParseResult result = parser.parse(id);
+				switch (result) {
+				case SUCCESS:
 					parseResultsText.setText("Parsing succeeded, terms in database");
-				else
-					parseResultsText.setText("Parsing failed. No nodes or duplicate deck.");
+					break;
+					
+				case DUPLICATE:
+					parseResultsText.setText("Parsing failed. Duplicate.");
+					break;
+					
+				case NO_NODES:
+					parseResultsText.setText("Parsing failed. No definitions in module.");
+				}
 			}
 		});
         

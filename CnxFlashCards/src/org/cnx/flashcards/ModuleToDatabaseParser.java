@@ -46,6 +46,12 @@ public class ModuleToDatabaseParser {
 	
 	private Context context;
 	
+	public static enum ParseResult {
+		SUCCESS,
+		NO_NODES,
+		DUPLICATE
+	}
+	
 	
 	/** Constructor **/
 	public ModuleToDatabaseParser(Context context) {
@@ -60,7 +66,7 @@ public class ModuleToDatabaseParser {
 	
 	
 	/** Parses definitions from a CNXML file, places into database **/
-	public boolean parse(String id) {
+	public ParseResult parse(String id) {
 		
 		terms = new ArrayList<String>();
 		meanings = new ArrayList<String>();
@@ -68,7 +74,7 @@ public class ModuleToDatabaseParser {
 		Document doc = retrieveXML(id);
 		
 		// Check that a valid document was returned (TODO: Better error handling here)
-		if(doc == null) return false;
+		if(doc == null) return ParseResult.NO_NODES;
 		
 		Element root = doc.getDocumentElement();
 		title = getValue("title", root);
@@ -78,15 +84,24 @@ public class ModuleToDatabaseParser {
 		extractDefinitions(nodes);
 		Uri deckUri = addDefinitionsToDatabase(id);
 		
-		if(deckUri == null) return false;
+		if(deckUri == null) return ParseResult.DUPLICATE;
 		
-		return true;
+		return ParseResult.SUCCESS;
 	}
 	
 
 	/** Add the parsed definitions to the database. **/
 	private Uri addDefinitionsToDatabase(String id) {		
 		ContentValues values;
+		
+		// Insert deck first to check for duplicates
+		values = new ContentValues();
+		values.put(TITLE, "Test Title");
+		values.put(DECK_ID, id);
+		values.put(TITLE, title);
+		Uri deckUri = context.getContentResolver().insert(DeckProvider.CONTENT_URI, values);
+		
+		if(deckUri == null) return null;
 		
 		for (int i = 0; i < terms.size(); i++){
 			values = new ContentValues();
@@ -96,12 +111,6 @@ public class ModuleToDatabaseParser {
 			values.put(TERM, terms.get(i));
 			context.getContentResolver().insert(CardProvider.CONTENT_URI, values);
 		}
-		
-		values = new ContentValues();
-		values.put(TITLE, "Test Title");
-		values.put(DECK_ID, id);
-		values.put(TITLE, title);
-		Uri deckUri = context.getContentResolver().insert(DeckProvider.CONTENT_URI, values);
 		
 		return deckUri;
 	}
