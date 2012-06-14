@@ -117,7 +117,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				if(success)
 					parseResultsText.setText("Parsing succeeded, terms in database");
 				else
-					parseResultsText.setText("Parsing failed. No nodes.");
+					parseResultsText.setText("Parsing failed. No nodes or duplicate deck.");
 			}
 		});
         

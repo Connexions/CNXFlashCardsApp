@@ -7,8 +7,6 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.CARDS_TABLE;
-import static org.cnx.flashcards.Constants.DECKS_TABLE;
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
 import static org.cnx.flashcards.Constants.TAG;
@@ -18,6 +16,7 @@ import static org.cnx.flashcards.Constants.TITLE;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ import org.xml.sax.SAXException;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -77,14 +76,16 @@ public class ModuleToDatabaseParser {
 		NodeList nodes = doc.getElementsByTagName("definition");
 		
 		extractDefinitions(nodes);
-		addDefinitionsToDatabase(id);
+		Uri deckUri = addDefinitionsToDatabase(id);
+		
+		if(deckUri == null) return false;
 		
 		return true;
 	}
 	
 
 	/** Add the parsed definitions to the database. **/
-	private void addDefinitionsToDatabase(String id) {		
+	private Uri addDefinitionsToDatabase(String id) {		
 		ContentValues values;
 		
 		for (int i = 0; i < terms.size(); i++){
@@ -100,7 +101,9 @@ public class ModuleToDatabaseParser {
 		values.put(TITLE, "Test Title");
 		values.put(DECK_ID, id);
 		values.put(TITLE, title);
-		context.getContentResolver().insert(DeckProvider.CONTENT_URI, values);
+		Uri deckUri = context.getContentResolver().insert(DeckProvider.CONTENT_URI, values);
+		
+		return deckUri;
 	}
 
 

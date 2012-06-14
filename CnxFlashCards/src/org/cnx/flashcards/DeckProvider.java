@@ -1,9 +1,12 @@
 package org.cnx.flashcards;
 
 import static org.cnx.flashcards.Constants.CARDS_TABLE;
+
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
@@ -35,19 +38,36 @@ public class DeckProvider extends ContentProvider {
 		return null;
 	}
 
+	
+	/** Inserts values into the cards table.
+	 * TODO: Modify to return the right URI, handle duplicates.
+	 */
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		
-		db.insertOrThrow(DECKS_TABLE, null, values);
-		return null;
+		// Check to see if this module is already a deck
+		String newID = values.getAsString(DECK_ID);
+		Cursor c = db.query(DECKS_TABLE, new String[]{DECK_ID}, DECK_ID + "='" + newID + "'", null, null, null, null);
+		if (c.getCount() > 0) return null;
+		
+		// If not, insert it in.
+		long rowNum = db.insertOrThrow(DECKS_TABLE, null, values);
+        
+        if (rowNum > 0) {
+            Uri favUri = ContentUris.withAppendedId(CONTENT_URI, rowNum);
+            getContext().getContentResolver().notifyChange(favUri, null);
+            return favUri;
+        }
+            
+        throw new SQLException("Failed to insert row into " + uri);
 	}
 
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 					String[] selectionArgs, String sortOrder) {
-			
+		
 		SQLiteDatabase cardsdb = helper.getReadableDatabase();
 		
 		Cursor c = cardsdb.query(DECKS_TABLE, projection, selection, selectionArgs, null, null, sortOrder);
