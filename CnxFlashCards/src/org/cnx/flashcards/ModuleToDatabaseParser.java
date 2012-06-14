@@ -35,6 +35,7 @@ import org.xml.sax.SAXException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.StrictMode;
 import android.util.Log;
 
 public class ModuleToDatabaseParser {
@@ -48,6 +49,12 @@ public class ModuleToDatabaseParser {
 	/** Constructor **/
 	public ModuleToDatabaseParser(Context context) {
 		this.context = context;
+		
+		/* Quick hack to allow network IO on the UI thread, will be removed when the download stuff
+		 * is moved to an AsyncTask. Oddly, only needed on one of the three devices I'm testing with.
+		 */
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy); 
 	}
 	
 	
@@ -107,7 +114,6 @@ public class ModuleToDatabaseParser {
 				in = context.getResources().openRawResource(R.raw.testmodule);
 			}
 			else {
-				
 				Log.d(TAG, "Downloading XML");
 				url = new URL("http://cnx.org/content/" + id + "/module_export?format=plain"); //m9006/2.22
 				conn = url.openConnection();

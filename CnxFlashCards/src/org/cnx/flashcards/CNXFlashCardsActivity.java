@@ -75,7 +75,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         deckPositionText = (TextView)findViewById(R.id.deckPositionText);
         
         nextCardButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				if(definitions != null && definitions.size() != 0) {
@@ -90,7 +89,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         
         
         prevCardButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				if(definitions != null && definitions.size() != 0) {
@@ -172,7 +170,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
     }
     
     
-    private void loadCards(String id) {				
+    private void loadCards(String id) {
 		String[] columns = {TERM, MEANING};
 		String selection = DECK_ID + " = '" + id + "'";
 		
