@@ -51,6 +51,8 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	private ArrayList<String[]> definitions;
 	private int currentCard = 0;
 	
+	private String id = null;
+	
 	
 	
     /** Called when the activity is first created. */
@@ -105,8 +107,13 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         // Parses the target CNXML file (currently just the offline test file)
         parseTestButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				if(id == null) {
+					parseResultsText.setText("Haven't set an id.");
+					return;
+				}
+				
 				ModuleToDatabaseParser parser = new ModuleToDatabaseParser(getApplicationContext());
-				boolean success = parser.parse(TEST_ID);
+				boolean success = parser.parse(id);
 				if(success)
 					parseResultsText.setText("Parsing succeeded, terms in database");
 				else
@@ -118,7 +125,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				loadCards(TEST_ID);
+				loadCards(id);
 				
 				if(definitions.size() == 0) {
 					parseResultsText.setTextColor(Color.RED);
@@ -165,6 +172,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         searchButton.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
 				//resultsView.loadUrl("http://m.cnx.org/content/search?words=" + searchInput.getText().toString());
+				id = searchInput.getText().toString();
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
 			}

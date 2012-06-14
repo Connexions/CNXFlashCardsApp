@@ -21,7 +21,8 @@
 		        android:maxLines="1"
 		        android:scrollHorizontally="true"
 		        android:hint="Search for a module"
-		        android:enabled="false"
+		        android:text="testfile"
+		        android:enabled="true"
 		    />
 		    
 		    <Button
@@ -29,7 +30,7 @@
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:text="Search"
-		        android:enabled="false"
+		        android:enabled="true"
 		    />
 		    
 		    <Button
