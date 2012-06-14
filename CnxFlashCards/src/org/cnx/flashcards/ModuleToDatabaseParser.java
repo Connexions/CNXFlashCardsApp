@@ -42,6 +42,8 @@ public class ModuleToDatabaseParser {
 	
 	private ArrayList<String> terms;
 	private ArrayList<String> meanings;
+	private String title;
+	private String authors;
 	
 	private Context context;
 	
@@ -69,6 +71,9 @@ public class ModuleToDatabaseParser {
 		// Check that a valid document was returned (TODO: Better error handling here)
 		if(doc == null) return false;
 		
+		Element root = doc.getDocumentElement();
+		title = getValue("title", root);
+		
 		NodeList nodes = doc.getElementsByTagName("definition");
 		
 		extractDefinitions(nodes);
@@ -84,7 +89,7 @@ public class ModuleToDatabaseParser {
 		
 		for (int i = 0; i < terms.size(); i++){
 			values = new ContentValues();
-			Log.d(Constants.TAG, "Inserting " + terms.get(i) + ": " + meanings.get(i));
+			//Log.d(Constants.TAG, "Inserting " + terms.get(i) + ": " + meanings.get(i));
 			values.put(DECK_ID, id);
 			values.put(MEANING, meanings.get(i));
 			values.put(TERM, terms.get(i));
@@ -94,6 +99,7 @@ public class ModuleToDatabaseParser {
 		values = new ContentValues();
 		values.put(TITLE, "Test Title");
 		values.put(DECK_ID, id);
+		values.put(TITLE, title);
 		context.getContentResolver().insert(DeckProvider.CONTENT_URI, values);
 	}
 
@@ -106,7 +112,6 @@ public class ModuleToDatabaseParser {
 		InputStream in = null;
 		
 		String teststring = (String) id.subSequence(0, 4);
-		Log.d(TAG, teststring);
 		
 		try {
 			if(teststring.equals("test")) {
@@ -136,7 +141,7 @@ public class ModuleToDatabaseParser {
 				Log.d(TAG, "Caught SAX exception.");
 			}
 			
-			doc.getDocumentElement().normalize();
+			//doc.getDocumentElement().normalize();
 			
 			return doc;
 		}

@@ -10,7 +10,7 @@ package org.cnx.flashcards;
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
 import static org.cnx.flashcards.Constants.TERM;
-import static org.cnx.flashcards.Constants.TEST_ID;
+import static org.cnx.flashcards.Constants.*;
 
 import java.util.ArrayList;
 
@@ -126,15 +126,17 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				}
 				else {
 					
-					String[] projection = {DECK_ID}; 
+					String[] projection = {DECK_ID, TITLE}; 
 					Cursor titlesCursor = getContentResolver().query(DeckProvider.CONTENT_URI, projection, null, null, null);
 					titlesCursor.moveToFirst();
 					
+					final ArrayList<String> idList = new ArrayList<String>();
 					ArrayList<String> titlesList = new ArrayList<String>();
 					
 					if(!titlesCursor.isAfterLast()) {
 						do {
-							titlesList.add(new String(titlesCursor.getString(0)));
+							idList.add(new String(titlesCursor.getString(0)));
+							titlesList.add(new String(titlesCursor.getString(1)));
 						} while (titlesCursor.moveToNext());
 					}
 					
@@ -144,7 +146,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 					builder.setTitle("Pick a deck");
 					builder.setItems(titles, new DialogInterface.OnClickListener() {
 					    public void onClick(DialogInterface dialog, int item) {
-					    	loadCards(titles[item]);
+					    	loadCards(idList.get(item));
 					    	currentCard = 0;
 							termText.setText(definitions.get(currentCard)[0]);
 							meaningText.setText(definitions.get(currentCard)[1]);
