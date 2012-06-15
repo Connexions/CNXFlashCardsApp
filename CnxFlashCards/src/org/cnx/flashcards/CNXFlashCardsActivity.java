@@ -70,10 +70,10 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         // Parses the target CNXML file (currently just the offline test file)
         parseTestButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if(id == null) {
-					parseResultsText.setText("Haven't set an id.");
-					return;
-				}
+				id = searchInput.getText().toString();
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
+
 				
 				ModuleToDatabaseParser parser = new ModuleToDatabaseParser(getApplicationContext());
 				ParseResult result = parser.parse(id);
