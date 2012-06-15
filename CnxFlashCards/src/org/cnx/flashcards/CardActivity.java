@@ -75,43 +75,9 @@ public class CardActivity extends SherlockActivity {
 		});
         
 		loadCards(id);
-		
-		if(definitions.size() == 0) {
-			Log.d(TAG, "No definitions found for id " + id);
-		}
-		else {
-			
-			String[] projection = {DECK_ID, TITLE}; 
-			Cursor titlesCursor = getContentResolver().query(DeckProvider.CONTENT_URI, projection, null, null, null);
-			titlesCursor.moveToFirst();
-			
-			final ArrayList<String> idList = new ArrayList<String>();
-			ArrayList<String> titlesList = new ArrayList<String>();
-			
-			if(!titlesCursor.isAfterLast()) {
-				do {
-					idList.add(new String(titlesCursor.getString(0)));
-					titlesList.add(new String(titlesCursor.getString(1)));
-				} while (titlesCursor.moveToNext());
-			}
-			
-			final String[] titles = titlesList.toArray(new String[titlesList.size()]);
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(CardActivity.this);
-			builder.setTitle("Pick a deck");
-			builder.setItems(titles, new DialogInterface.OnClickListener() {
-			    public void onClick(DialogInterface dialog, int item) {
-			    	loadCards(idList.get(item));
-			    	currentCard = 0;
-					termText.setText(definitions.get(currentCard)[0]);
-					meaningText.setText(definitions.get(currentCard)[1]);
-					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
-			    }
-			});
-			
-			AlertDialog alert = builder.create();
-			alert.show();
-		}
+		termText.setText(definitions.get(currentCard)[0]);
+		meaningText.setText(definitions.get(currentCard)[1]);
+		deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 	}
 	
 	

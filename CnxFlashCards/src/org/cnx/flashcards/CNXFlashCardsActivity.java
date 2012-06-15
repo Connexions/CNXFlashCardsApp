@@ -7,13 +7,21 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.flashcards.Constants.TEST_ID;
+import static org.cnx.flashcards.Constants.TITLE;
+
+import java.util.ArrayList;
 
 import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -91,50 +99,36 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent cardIntent = new Intent(getApplicationContext(), CardActivity.class);
-				Log.d(TAG, id);
-				cardIntent.putExtra(DECK_ID, id);
-				startActivity(cardIntent);
+				String[] projection = {DECK_ID, TITLE}; 
+				Cursor titlesCursor = getContentResolver().query(DeckProvider.CONTENT_URI, projection, null, null, null);
+				titlesCursor.moveToFirst();
 				
-				/*loadCards(id);
+				final ArrayList<String> idList = new ArrayList<String>();
+				ArrayList<String> titlesList = new ArrayList<String>();
 				
-				if(definitions.size() == 0) {
-					parseResultsText.setTextColor(Color.RED);
-					parseResultsText.setText("No cards found.");
+				if(!titlesCursor.isAfterLast()) {
+					do {
+						idList.add(new String(titlesCursor.getString(0)));
+						titlesList.add(new String(titlesCursor.getString(1)));
+					} while (titlesCursor.moveToNext());
 				}
-				else {
-					
-					String[] projection = {DECK_ID, TITLE}; 
-					Cursor titlesCursor = getContentResolver().query(DeckProvider.CONTENT_URI, projection, null, null, null);
-					titlesCursor.moveToFirst();
-					
-					final ArrayList<String> idList = new ArrayList<String>();
-					ArrayList<String> titlesList = new ArrayList<String>();
-					
-					if(!titlesCursor.isAfterLast()) {
-						do {
-							idList.add(new String(titlesCursor.getString(0)));
-							titlesList.add(new String(titlesCursor.getString(1)));
-						} while (titlesCursor.moveToNext());
-					}
-					
-					final String[] titles = titlesList.toArray(new String[titlesList.size()]);
+				
+				final String[] titles = titlesList.toArray(new String[titlesList.size()]);
 
-					AlertDialog.Builder builder = new AlertDialog.Builder(CNXFlashCardsActivity.this);
-					builder.setTitle("Pick a deck");
-					builder.setItems(titles, new DialogInterface.OnClickListener() {
-					    public void onClick(DialogInterface dialog, int item) {
-					    	loadCards(idList.get(item));
-					    	currentCard = 0;
-							termText.setText(definitions.get(currentCard)[0]);
-							meaningText.setText(definitions.get(currentCard)[1]);
-							deckPositionText.setText(currentCard+1 + "/" + definitions.size());
-					    }
-					});
-					
-					AlertDialog alert = builder.create();
-					alert.show();
-				}*/
+				AlertDialog.Builder builder = new AlertDialog.Builder(CNXFlashCardsActivity.this);
+				builder.setTitle("Pick a deck");
+				builder.setItems(titles, new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog, int item) {
+				    	id = idList.get(item);
+				    	Intent cardIntent = new Intent(getApplicationContext(), CardActivity.class);
+						Log.d(TAG, id);
+						cardIntent.putExtra(DECK_ID, id);
+						startActivity(cardIntent);
+				    }
+				});
+				
+				AlertDialog alert = builder.create();
+				alert.show();
 			}
 		});
         
