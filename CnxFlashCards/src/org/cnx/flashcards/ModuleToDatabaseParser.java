@@ -132,7 +132,7 @@ public class ModuleToDatabaseParser {
 			}
 			else {
 				Log.d(TAG, "Downloading XML");
-				url = new URL("http://cnx.org/content/" + id + "/module_export?format=plain"); //m9006/2.22
+				url = new URL("http://cnx.org/content/" + id + "/latest/module_export?format=plain"); //m9006/2.22
 				conn = url.openConnection();
 				in = conn.getInputStream();
 			}
