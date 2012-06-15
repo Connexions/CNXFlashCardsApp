@@ -67,9 +67,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         parseResultsText = (TextView)findViewById(R.id.parsingResultText);
         
         
-        /**/
-        
-        
         // Parses the target CNXML file (currently just the offline test file)
         parseTestButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -133,13 +130,13 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 		});
         
         
-        // Launch search (currently disabled)
+        // Launch search
         searchButton.setOnClickListener(new OnClickListener() {			
 			public void onClick(View v) {
-				//resultsView.loadUrl("http://m.cnx.org/content/search?words=" + searchInput.getText().toString());
 				id = searchInput.getText().toString();
-				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
+				Intent searchIntent = new Intent(CNXFlashCardsActivity.this, SearchActivity.class);
+				searchIntent.putExtra("SEARCH_TERM", id);
+				startActivity(searchIntent);
 			}
 		});
     }

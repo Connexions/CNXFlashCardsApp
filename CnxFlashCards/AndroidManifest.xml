@@ -30,8 +30,11 @@
         <activity
             android:name="org.cnx.flashcards.CardActivity"
             android:label="CardActivity" >
-            
-            
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.SearchActivity">
+            android:label="SearchActivity"
         </activity>
     </application>
 
