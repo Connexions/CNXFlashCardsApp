@@ -50,6 +50,7 @@ public class DeckProvider extends ContentProvider {
 		String newID = values.getAsString(DECK_ID);
 		Cursor c = db.query(DECKS_TABLE, new String[]{DECK_ID}, DECK_ID + "='" + newID + "'", null, null, null, null);
 		if (c.getCount() > 0) return null;
+		c.close();
 		
 		// If not, insert it in.
 		long rowNum = db.insertOrThrow(DECKS_TABLE, null, values);

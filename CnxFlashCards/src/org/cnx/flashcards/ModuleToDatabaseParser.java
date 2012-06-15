@@ -60,8 +60,8 @@ public class ModuleToDatabaseParser {
 		/* Quick hack to allow network IO on the UI thread, will be removed when the download stuff
 		 * is moved to an AsyncTask. Oddly, only needed on one of the three devices I'm testing with.
 		 */
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy); 
+		/*StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy); */
 	}
 	
 	

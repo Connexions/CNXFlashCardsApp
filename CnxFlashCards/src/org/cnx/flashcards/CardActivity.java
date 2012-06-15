@@ -2,14 +2,18 @@ package org.cnx.flashcards;
 
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.flashcards.Constants.TERM;
+import static org.cnx.flashcards.Constants.TITLE;
 
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -37,11 +41,43 @@ public class CardActivity extends SherlockActivity {
 		
 		id = getIntent().getStringExtra(DECK_ID);
 		
+		meaningText = (TextView)findViewById(R.id.meaningText);
+        termText = (TextView)findViewById(R.id.termText);
+        nextCardButton = (Button)findViewById(R.id.nextCardButton);
+        prevCardButton = (Button)findViewById(R.id.prevCardButton);
+        deckPositionText = (TextView)findViewById(R.id.deckPositionText);
+		
+        nextCardButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(definitions != null && definitions.size() != 0) {
+					currentCard++;
+					if(currentCard >= definitions.size()) currentCard = 0;
+					termText.setText(definitions.get(currentCard)[0]);
+					meaningText.setText(definitions.get(currentCard)[1]);
+					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+				}
+			}
+		});
+        
+        
+        prevCardButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(definitions != null && definitions.size() != 0) {
+					currentCard--;
+					if(currentCard < 0) currentCard = definitions.size()-1;
+					termText.setText(definitions.get(currentCard)[0]);
+					meaningText.setText(definitions.get(currentCard)[1]);
+					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+				}
+			}
+		});
+        
 		loadCards(id);
 		
 		if(definitions.size() == 0) {
-			/*parseResultsText.setTextColor(Color.RED);
-			parseResultsText.setText("No cards found.");*/
+			Log.d(TAG, "No definitions found for id " + id);
 		}
 		else {
 			

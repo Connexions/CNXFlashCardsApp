@@ -7,7 +7,7 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.TAG;
 
 import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
@@ -38,7 +38,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	private EditText searchInput;
 	
 	
-	private String id = null;
+	private String id = TEST_ID;
 	
 	
 	
@@ -57,38 +57,9 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton = (Button)findViewById(R.id.showCardsButton);        
         searchInput = (EditText)findViewById(R.id.searchInput);
         parseResultsText = (TextView)findViewById(R.id.parsingResultText);
-        /*meaningText = (TextView)findViewById(R.id.meaningText);
-        termText = (TextView)findViewById(R.id.termText);
-        nextCardButton = (Button)findViewById(R.id.nextCardButton);
-        prevCardButton = (Button)findViewById(R.id.prevCardButton);
-        deckPositionText = (TextView)findViewById(R.id.deckPositionText);*/
-        
-        /*nextCardButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(definitions != null && definitions.size() != 0) {
-					currentCard++;
-					if(currentCard >= definitions.size()) currentCard = 0;
-					termText.setText(definitions.get(currentCard)[0]);
-					meaningText.setText(definitions.get(currentCard)[1]);
-					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
-				}
-			}
-		});
         
         
-        prevCardButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(definitions != null && definitions.size() != 0) {
-					currentCard--;
-					if(currentCard < 0) currentCard = definitions.size()-1;
-					termText.setText(definitions.get(currentCard)[0]);
-					meaningText.setText(definitions.get(currentCard)[1]);
-					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
-				}
-			}
-		});*/
+        /**/
         
         
         // Parses the target CNXML file (currently just the offline test file)
