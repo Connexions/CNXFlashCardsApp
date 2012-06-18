@@ -21,19 +21,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 
 
 public class CNXFlashCardsActivity extends SherlockActivity {
@@ -41,7 +44,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	private Button searchButton;
 	private Button parseTestButton;
 	private Button showCardsButton;
-	private TextView parseResultsText;
+	//private TextView parseResultsText;
 	
 	private EditText searchInput;
 	
@@ -54,7 +57,15 @@ public class CNXFlashCardsActivity extends SherlockActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        
         setContentView(R.layout.main);
+        
+        
+        //setProgressBarIndeterminate(false);
+        
+        setProgressBarIndeterminateVisibility(false);
+        
         
         // Hide the keyboard at launch (as EditText will be focused automatically)
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -64,7 +75,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         parseTestButton = (Button)findViewById(R.id.parseTestButton);
         showCardsButton = (Button)findViewById(R.id.showCardsButton);        
         searchInput = (EditText)findViewById(R.id.searchInput);
-        parseResultsText = (TextView)findViewById(R.id.parsingResultText);
+        //parseResultsText = (TextView)findViewById(R.id.parsingResultText);
         
         
         // Parses the target CNXML file (currently just the offline test file)
@@ -74,21 +85,10 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
 
-				
-				ModuleToDatabaseParser parser = new ModuleToDatabaseParser(getApplicationContext());
-				ParseResult result = parser.parse(id);
-				switch (result) {
-				case SUCCESS:
-					parseResultsText.setText("Parsing succeeded, terms in database");
-					break;
-					
-				case DUPLICATE:
-					parseResultsText.setText("Parsing failed. Duplicate.");
-					break;
-					
-				case NO_NODES:
-					parseResultsText.setText("Parsing failed. No definitions in module.");
-				}
+				new DownloadDeckTask().execute(id);
+				Toast downloadToast = Toast.makeText(CNXFlashCardsActivity.this, "Downloading module " + id, Toast.LENGTH_SHORT);
+				downloadToast.show();	
+				setProgressBarIndeterminateVisibility(true);			
 			}
 		});
         
@@ -145,8 +145,47 @@ public class CNXFlashCardsActivity extends SherlockActivity {
     /** Called when Activity created, loads the ActionBar **/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	//MenuInflater inflater = getSupportMenuInflater();
-    	//inflater.inflate(R.menu.mainmenu, menu);
+    	MenuInflater inflater = getSupportMenuInflater();
+    	inflater.inflate(R.menu.mainmenu, menu);
 		return super.onCreateOptionsMenu(menu);
+    }
+    
+    
+    private class DownloadDeckTask extends AsyncTask<String, Void, ParseResult> {
+    	
+    	String id = "Module";
+
+    	@Override
+    	protected ParseResult doInBackground(String... idParam) {
+    		this.id = idParam[0];
+    		ParseResult result = new ModuleToDatabaseParser(CNXFlashCardsActivity.this).parse(id);
+    		return result;
+    	}
+    	
+    	
+    	@Override
+    	protected void onPostExecute(ParseResult result) {    		
+    		super.onPostExecute(result);
+    		
+    		setProgressBarIndeterminateVisibility(false);
+    		
+    		String resultText = "";
+    		
+    		switch (result) {
+			case SUCCESS:
+				resultText = "Parsing succeeded, terms in database";
+				break;
+				
+			case DUPLICATE:
+				resultText = "Parsing failed. Duplicate.";
+				break;
+				
+			case NO_NODES:
+				resultText = "Parsing failed. No definitions in module.";
+			}
+    		
+    		Toast resultsToast = Toast.makeText(CNXFlashCardsActivity.this, resultText, Toast.LENGTH_LONG);
+    		resultsToast.show();
+    	}
     }
 }
