@@ -44,7 +44,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 	private Button searchButton;
 	private Button parseTestButton;
 	private Button showCardsButton;
-	//private TextView parseResultsText;
 	
 	private EditText searchInput;
 	
@@ -61,9 +60,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         
         setContentView(R.layout.main);
         
-        
-        //setProgressBarIndeterminate(false);
-        
         setProgressBarIndeterminateVisibility(false);
         
         
@@ -75,7 +71,6 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         parseTestButton = (Button)findViewById(R.id.parseTestButton);
         showCardsButton = (Button)findViewById(R.id.showCardsButton);        
         searchInput = (EditText)findViewById(R.id.searchInput);
-        //parseResultsText = (TextView)findViewById(R.id.parsingResultText);
         
         
         // Parses the target CNXML file (currently just the offline test file)

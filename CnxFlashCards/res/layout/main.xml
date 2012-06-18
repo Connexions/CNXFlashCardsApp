@@ -46,27 +46,6 @@
 		        android:layout_height="wrap_content"
 		        android:text="Show cards"
 		    />
-		    
-		    <!-- <WebView
-			    android:id="@+id/resultsView"
-			    android:layout_width="fill_parent"
-			    android:layout_height="fill_parent"
-			/> -->
-			
-			<!-- <TextView
-			    android:id="@+id/parsingResultText"
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:text = "Haven't parsed anything yet."
-			    android:gravity="center"
-			    android:paddingBottom="2dip"/>
-			
-			<View 
-			    android:layout_width="fill_parent"
-			    android:layout_height="2dip"
-			    android:background="#8b8989"
-			    android:paddingTop="8dip"
-			    android:paddingBottom="10dip"/> -->
 			
 			
 		</LinearLayout>
