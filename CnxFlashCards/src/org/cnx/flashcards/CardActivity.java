@@ -44,6 +44,25 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			showDefinition();
 			return true;
 		};
+		
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+			Log.d(TAG, "Fling.");
+			float firstX = e1.getX();
+			float secondX = e2.getX();
+			
+			
+			if(firstX > secondX) {
+				// Swipe to the left
+				nextCard();
+			}
+			else {
+				// Swipe to the left
+				prevCard();
+			}
+				
+				
+			return true;
+		};
 	};
 	
 	GestureDetector gestureDetector;
@@ -73,13 +92,7 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
         prevCardButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(definitions != null && definitions.size() != 0) {
-					currentCard--;
-					if(currentCard < 0) currentCard = definitions.size()-1;
-					termText.setText(definitions.get(currentCard)[0]);
-					meaningText.setText("Tap to see definition...");//(definitions.get(currentCard)[1]);
-					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
-				}
+				prevCard();
 			}
 		});
         
@@ -89,7 +102,7 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 		deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		
 		gestureDetector = new GestureDetector(this, simpleGestureListener);
-		//meaningText.setOnTouchListener(this);
+		meaningText.setOnTouchListener(this);
 		meaningText.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -133,6 +146,17 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			if(currentCard >= definitions.size()) currentCard = 0;
 			termText.setText(definitions.get(currentCard)[0]);
 			meaningText.setText("Tap to see definition...");
+			deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+		}
+	}
+	
+	
+	private void prevCard() {
+		if(definitions != null && definitions.size() != 0) {
+			currentCard--;
+			if(currentCard < 0) currentCard = definitions.size()-1;
+			termText.setText(definitions.get(currentCard)[0]);
+			meaningText.setText("Tap to see definition...");//(definitions.get(currentCard)[1]);
 			deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		}
 	}
