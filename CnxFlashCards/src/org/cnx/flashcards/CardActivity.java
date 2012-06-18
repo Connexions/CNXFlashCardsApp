@@ -11,16 +11,21 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
 
-public class CardActivity extends SherlockActivity {
+public class CardActivity extends SherlockActivity implements OnTouchListener {
 	
 	private ArrayList<String[]> definitions;
 	private int currentCard = 0;
@@ -32,6 +37,16 @@ public class CardActivity extends SherlockActivity {
 	private TextView termText;
 	private TextView meaningText;
 	private TextView deckPositionText;
+	
+	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
+		public boolean onSingleTapConfirmed(android.view.MotionEvent e) {
+			//nextCard();
+			showDefinition();
+			return true;
+		};
+	};
+	
+	GestureDetector gestureDetector;
 	
 	
 	@Override
@@ -50,13 +65,7 @@ public class CardActivity extends SherlockActivity {
         nextCardButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(definitions != null && definitions.size() != 0) {
-					currentCard++;
-					if(currentCard >= definitions.size()) currentCard = 0;
-					termText.setText(definitions.get(currentCard)[0]);
-					meaningText.setText(definitions.get(currentCard)[1]);
-					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
-				}
+				nextCard();
 			}
 		});
         
@@ -68,7 +77,7 @@ public class CardActivity extends SherlockActivity {
 					currentCard--;
 					if(currentCard < 0) currentCard = definitions.size()-1;
 					termText.setText(definitions.get(currentCard)[0]);
-					meaningText.setText(definitions.get(currentCard)[1]);
+					meaningText.setText("Tap to see definition...");//(definitions.get(currentCard)[1]);
 					deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 				}
 			}
@@ -76,8 +85,19 @@ public class CardActivity extends SherlockActivity {
         
 		loadCards(id);
 		termText.setText(definitions.get(currentCard)[0]);
-		meaningText.setText(definitions.get(currentCard)[1]);
+		meaningText.setText("Tap to see definition...");
 		deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+		
+		gestureDetector = new GestureDetector(this, simpleGestureListener);
+		//meaningText.setOnTouchListener(this);
+		meaningText.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showDefinition();
+				
+			}
+		});
 	}
 	
 	
@@ -97,5 +117,28 @@ public class CardActivity extends SherlockActivity {
 		}
 		
 		cardsCursor.close();
+	}
+
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		gestureDetector.onTouchEvent(event);
+		return true;
+	}
+	
+	
+	private void nextCard() {
+		if(definitions != null && definitions.size() != 0) {
+			currentCard++;
+			if(currentCard >= definitions.size()) currentCard = 0;
+			termText.setText(definitions.get(currentCard)[0]);
+			meaningText.setText("Tap to see definition...");
+			deckPositionText.setText(currentCard+1 + "/" + definitions.size());
+		}
+	}
+	
+	
+	private void showDefinition() {
+		meaningText.setText(definitions.get(currentCard)[1]);
 	}
 }
