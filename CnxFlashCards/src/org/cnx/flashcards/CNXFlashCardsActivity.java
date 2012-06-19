@@ -100,8 +100,8 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				
 				if(!titlesCursor.isAfterLast()) {
 					do {
-						idList.add(new String(titlesCursor.getString(0)));
-						titlesList.add(new String(titlesCursor.getString(1)));
+						idList.add(new String(titlesCursor.getString(titlesCursor.getColumnIndex(DECK_ID))));
+						titlesList.add(new String(titlesCursor.getString(titlesCursor.getColumnIndex(TITLE))));
 					} while (titlesCursor.moveToNext());
 				}
 				

@@ -39,29 +39,15 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 	private TextView deckPositionText;
 	
 	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
-		public boolean onSingleTapConfirmed(android.view.MotionEvent e) {
-			//nextCard();
-			showDefinition();
-			return true;
-		};
 		
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			Log.d(TAG, "Fling.");
-			float firstX = e1.getX();
-			float secondX = e2.getX();
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {	
 			
-			
-			if(firstX > secondX) {
-				// Swipe to the left
+			if(e1.getX() > e2.getX())
 				nextCard();
-			}
-			else {
-				// Swipe to the left
+			else
 				prevCard();
-			}
 				
-				
-			return true;
+			return false;
 		};
 	};
 	
@@ -73,28 +59,15 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cards);
 		
+		// Unique id of this deck of cards
 		id = getIntent().getStringExtra(DECK_ID);
 		
+		// Get UI elements
 		meaningText = (TextView)findViewById(R.id.meaningText);
         termText = (TextView)findViewById(R.id.termText);
         nextCardButton = (Button)findViewById(R.id.nextCardButton);
         prevCardButton = (Button)findViewById(R.id.prevCardButton);
         deckPositionText = (TextView)findViewById(R.id.deckPositionText);
-		
-        nextCardButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				nextCard();
-			}
-		});
-        
-        
-        prevCardButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				prevCard();
-			}
-		});
         
 		loadCards(id);
 		termText.setText(definitions.get(currentCard)[0]);
@@ -108,7 +81,20 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			@Override
 			public void onClick(View v) {
 				showDefinition();
-				
+			}
+		});
+		
+		nextCardButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				nextCard();
+			}
+		});
+        
+        prevCardButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				prevCard();
 			}
 		});
 	}
@@ -125,7 +111,7 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 		
 		if(!cardsCursor.isAfterLast()) {
 			do {
-				definitions.add(new String[]{cardsCursor.getString(0), cardsCursor.getString(1)});
+				definitions.add(new String[]{cardsCursor.getString(cardsCursor.getColumnIndex(TERM)), cardsCursor.getString(cardsCursor.getColumnIndex(MEANING))});
 			} while (cardsCursor.moveToNext());
 		}
 		
@@ -156,7 +142,7 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			currentCard--;
 			if(currentCard < 0) currentCard = definitions.size()-1;
 			termText.setText(definitions.get(currentCard)[0]);
-			meaningText.setText("Tap to see definition...");//(definitions.get(currentCard)[1]);
+			meaningText.setText("Tap to see definition...");
 			deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		}
 	}
