@@ -32,6 +32,11 @@
             android:label="CardActivity" >
         </activity>
         
+        <activity
+            android:name="org.cnx.flashcards.StudyCardActivity"
+            android:label="StudyCardActivity" >
+        </activity>
+        
         <activity 
             android:name="org.cnx.flashcards.SearchActivity">
             android:label="SearchActivity"

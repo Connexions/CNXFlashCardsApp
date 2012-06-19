@@ -77,6 +77,9 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 		deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		
 		gestureDetector = new GestureDetector(this, simpleGestureListener);
+		
+		// Need to set the text colour or else it changes on swiping on phone used for testing
+		meaningText.setTextColor(Color.WHITE); 
 		meaningText.setOnTouchListener(this);
 		meaningText.setOnClickListener(new OnClickListener() {
 			

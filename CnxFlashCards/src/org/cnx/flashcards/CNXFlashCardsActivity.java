@@ -31,7 +31,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -105,6 +104,8 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 					} while (titlesCursor.moveToNext());
 				}
 				
+				titlesCursor.close();
+				
 				final String[] titles = titlesList.toArray(new String[titlesList.size()]);
 
 				AlertDialog.Builder builder = new AlertDialog.Builder(CNXFlashCardsActivity.this);
@@ -112,7 +113,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				builder.setItems(titles, new DialogInterface.OnClickListener() {
 				    public void onClick(DialogInterface dialog, int item) {
 				    	id = idList.get(item);
-				    	Intent cardIntent = new Intent(getApplicationContext(), CardActivity.class);
+				    	Intent cardIntent = new Intent(getApplicationContext(), StudyCardActivity.class);
 						Log.d(TAG, id);
 						cardIntent.putExtra(DECK_ID, id);
 						startActivity(cardIntent);
