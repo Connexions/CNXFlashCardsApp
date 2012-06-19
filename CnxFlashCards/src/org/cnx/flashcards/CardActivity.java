@@ -47,8 +47,10 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			else
 				prevCard();
 				
-			return false;
+			return true;
 		};
+		
+		
 	};
 	
 	GestureDetector gestureDetector;
@@ -121,8 +123,8 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		gestureDetector.onTouchEvent(event);
-		return true;
+		boolean consumed = gestureDetector.onTouchEvent(event);
+		return consumed;
 	}
 	
 	
