@@ -39,12 +39,20 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	
 	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
 		
+		// Must just return true for the others to work.
+		public boolean onDown(MotionEvent e) {
+			return true;
+		};
+		
 		public boolean onSingleTapUp(MotionEvent e) {
+			Log.d(TAG, "Up");
 			setMeaningText();
 			return true;
 		};
 		
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {	
+			Log.d(TAG, "onFling");
+			
 			if(e1.getX() > e2.getX())
 				nextCard();
 			else
@@ -65,7 +73,6 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 		id = getIntent().getStringExtra(DECK_ID);
 		
 		// Get UI elements
-		
         termText = (TextView)findViewById(R.id.termText);
         nextCardButton = (Button)findViewById(R.id.nextCardButton);
         prevCardButton = (Button)findViewById(R.id.prevCardButton);

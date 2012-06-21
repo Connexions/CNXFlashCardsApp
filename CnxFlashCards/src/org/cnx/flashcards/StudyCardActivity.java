@@ -20,12 +20,14 @@ public class StudyCardActivity extends CardActivity {
 		meaningText = (TextView)findViewById(R.id.meaningText);
 		meaningText.setTextColor(Color.WHITE); 
 		meaningText.setOnTouchListener(this);
+		
 		super.onCreate(savedInstanceState);
 	}
 
 	
 	@Override
 	void setMeaningText() {
+		Log.d(TAG, "Setting meaning text.");
 		meaningText.setText(definitions.get(currentCard)[1]);
 	}
 	

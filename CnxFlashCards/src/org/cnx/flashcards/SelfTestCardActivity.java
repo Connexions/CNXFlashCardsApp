@@ -21,12 +21,12 @@ public class SelfTestCardActivity extends CardActivity {
 		
 		super.onCreate(savedInstanceState);
 		
-		meaningText.setOnClickListener(new OnClickListener() {
+		/*meaningText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				meaningText.setText(definitions.get(currentCard)[1]);
 			}
-		});
+		});*/
 	}
 
 	@Override
