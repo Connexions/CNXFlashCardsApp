@@ -18,15 +18,9 @@ public class SelfTestCardActivity extends CardActivity {
 		meaningText = (TextView)findViewById(R.id.meaningText);
 		meaningText.setTextColor(Color.WHITE); 
 		meaningText.setOnTouchListener(this);
+		meaningText.setClickable(true);
 		
 		super.onCreate(savedInstanceState);
-		
-		/*meaningText.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				meaningText.setText(definitions.get(currentCard)[1]);
-			}
-		});*/
 	}
 
 	@Override

@@ -6,7 +6,7 @@ public class QuizCardActivity extends CardActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.cards);
+		setContentView(R.layout.quizmode);
 		super.onCreate(savedInstanceState);
 	}
 

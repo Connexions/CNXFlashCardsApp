@@ -20,6 +20,7 @@ public class StudyCardActivity extends CardActivity {
 		meaningText = (TextView)findViewById(R.id.meaningText);
 		meaningText.setTextColor(Color.WHITE); 
 		meaningText.setOnTouchListener(this);
+		meaningText.setClickable(true);
 		
 		super.onCreate(savedInstanceState);
 	}

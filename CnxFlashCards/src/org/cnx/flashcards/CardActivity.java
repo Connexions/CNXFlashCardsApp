@@ -40,9 +40,9 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
 		
 		// Must just return true for the others to work.
-		public boolean onDown(MotionEvent e) {
+		/*public boolean onDown(MotionEvent e) {
 			return true;
-		};
+		};*/
 		
 		public boolean onSingleTapUp(MotionEvent e) {
 			Log.d(TAG, "Up");
