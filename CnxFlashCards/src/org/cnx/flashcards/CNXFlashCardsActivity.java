@@ -113,8 +113,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 				builder.setItems(titles, new DialogInterface.OnClickListener() {
 				    public void onClick(DialogInterface dialog, int item) {
 				    	id = idList.get(item);
-				    	Intent cardIntent = new Intent(getApplicationContext(), StudyCardActivity.class);
-						Log.d(TAG, id);
+				    	Intent cardIntent = new Intent(getApplicationContext(), ModeSelectActivity.class);
 						cardIntent.putExtra(DECK_ID, id);
 						startActivity(cardIntent);
 				    }

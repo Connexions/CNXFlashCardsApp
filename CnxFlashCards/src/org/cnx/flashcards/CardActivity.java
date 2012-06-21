@@ -35,13 +35,16 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	private Button prevCardButton;
 	
 	private TextView termText;
-	protected TextView meaningText;
 	protected TextView deckPositionText;
 	
 	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
 		
+		public boolean onSingleTapUp(MotionEvent e) {
+			setMeaningText();
+			return true;
+		};
+		
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {	
-			
 			if(e1.getX() > e2.getX())
 				nextCard();
 			else
@@ -62,7 +65,7 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 		id = getIntent().getStringExtra(DECK_ID);
 		
 		// Get UI elements
-		meaningText = (TextView)findViewById(R.id.meaningText);
+		
         termText = (TextView)findViewById(R.id.termText);
         nextCardButton = (Button)findViewById(R.id.nextCardButton);
         prevCardButton = (Button)findViewById(R.id.prevCardButton);
@@ -74,11 +77,7 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 		
 		gestureDetector = new GestureDetector(this, simpleGestureListener);
 		
-		// Need to set the text colour or else it changes on swiping on phone used for testing
-		meaningText.setTextColor(Color.WHITE); 
-		meaningText.setOnTouchListener(this);
-		setMeaningText();
-		
+		setMeaningText();		
 		
 		nextCardButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -119,11 +118,12 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		boolean consumed = gestureDetector.onTouchEvent(event);
+		Log.d(TAG, "onTouch triggered. Consumed = " + consumed);
 		return consumed;
 	}
 	
 	
-	private void nextCard() {
+	protected void nextCard() {
 		if(definitions != null && definitions.size() != 0) {
 			currentCard++;
 			if(currentCard >= definitions.size()) currentCard = 0;
@@ -134,7 +134,7 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	}
 	
 	
-	private void prevCard() {
+	protected void prevCard() {
 		if(definitions != null && definitions.size() != 0) {
 			currentCard--;
 			if(currentCard < 0) currentCard = definitions.size()-1;
@@ -142,11 +142,6 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 			setMeaningText();
 			deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		}
-	}
-
-
-	protected void showCurrentDefinition() {
-		meaningText.setText(definitions.get(currentCard)[1]);
 	}
 	
 	

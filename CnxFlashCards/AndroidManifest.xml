@@ -47,6 +47,11 @@
             android:label="QuizCardActivity" >
         </activity>
         
+        <activity
+            android:name="org.cnx.flashcards.ModeSelectActivity"
+            android:label="ModeSelectActivity" >
+        </activity>
+        
         <activity 
             android:name="org.cnx.flashcards.SearchActivity">
             android:label="SearchActivity"

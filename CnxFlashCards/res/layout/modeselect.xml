@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <Button 
+        android:id="@+id/studyModeButton"
+        android:text="Study"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <Button 
+        android:id="@+id/selfTestModeButton"
+        android:text="Self Test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <Button 
+        android:id="@+id/quizModeButton"
+        android:text="Quiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
