@@ -37,6 +37,16 @@
             android:label="StudyCardActivity" >
         </activity>
         
+        <activity
+            android:name="org.cnx.flashcards.SelfTestCardActivity"
+            android:label="SelfTestCardActivity" >
+        </activity>
+        
+        <activity
+            android:name="org.cnx.flashcards.QuizCardActivity"
+            android:label="QuizCardActivity" >
+        </activity>
+        
         <activity 
             android:name="org.cnx.flashcards.SearchActivity">
             android:label="SearchActivity"

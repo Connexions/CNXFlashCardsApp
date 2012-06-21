@@ -25,18 +25,18 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 
 
-public class CardActivity extends SherlockActivity implements OnTouchListener {
+public abstract class CardActivity extends SherlockActivity implements OnTouchListener {
 	
-	private ArrayList<String[]> definitions;
-	private int currentCard = 0;
+	protected ArrayList<String[]> definitions;
+	protected int currentCard = 0;
 	private String id;
 	
 	private Button nextCardButton;
 	private Button prevCardButton;
 	
 	private TextView termText;
-	private TextView meaningText;
-	private TextView deckPositionText;
+	protected TextView meaningText;
+	protected TextView deckPositionText;
 	
 	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
 		
@@ -49,8 +49,6 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 				
 			return true;
 		};
-		
-		
 	};
 	
 	GestureDetector gestureDetector;
@@ -59,7 +57,6 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.cards);
 		
 		// Unique id of this deck of cards
 		id = getIntent().getStringExtra(DECK_ID);
@@ -73,7 +70,6 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
         
 		loadCards(id);
 		termText.setText(definitions.get(currentCard)[0]);
-		meaningText.setText("Tap to see definition...");
 		deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		
 		gestureDetector = new GestureDetector(this, simpleGestureListener);
@@ -81,13 +77,8 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 		// Need to set the text colour or else it changes on swiping on phone used for testing
 		meaningText.setTextColor(Color.WHITE); 
 		meaningText.setOnTouchListener(this);
-		meaningText.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				showDefinition();
-			}
-		});
+		setMeaningText();
+		
 		
 		nextCardButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -96,6 +87,7 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			}
 		});
         
+		
         prevCardButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -136,7 +128,7 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			currentCard++;
 			if(currentCard >= definitions.size()) currentCard = 0;
 			termText.setText(definitions.get(currentCard)[0]);
-			meaningText.setText("Tap to see definition...");
+			setMeaningText();
 			deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		}
 	}
@@ -147,13 +139,16 @@ public class CardActivity extends SherlockActivity implements OnTouchListener {
 			currentCard--;
 			if(currentCard < 0) currentCard = definitions.size()-1;
 			termText.setText(definitions.get(currentCard)[0]);
-			meaningText.setText("Tap to see definition...");
+			setMeaningText();
 			deckPositionText.setText(currentCard+1 + "/" + definitions.size());
 		}
 	}
-	
-	
-	private void showDefinition() {
+
+
+	protected void showCurrentDefinition() {
 		meaningText.setText(definitions.get(currentCard)[1]);
 	}
+	
+	
+	abstract void setMeaningText();
 }
