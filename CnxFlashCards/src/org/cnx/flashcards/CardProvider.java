@@ -11,58 +11,57 @@ import android.util.Log;
 
 public class CardProvider extends ContentProvider {
 
-	private CardDatabaseOpenHelper helper;
-	public static final Uri CONTENT_URI = Uri.parse("content://org.cnx.flashcards.CardProvider");
-	
-	
-	@Override
-	public boolean onCreate() {
-		helper = new CardDatabaseOpenHelper(getContext());
-		return true;
-	}
-	
-	
-	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    private CardDatabaseOpenHelper helper;
+    public static final Uri CONTENT_URI = Uri
+            .parse("content://org.cnx.flashcards.CardProvider");
 
-	@Override
-	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean onCreate() {
+        helper = new CardDatabaseOpenHelper(getContext());
+        return true;
+    }
 
-	
-	/** Inserts values into the cards table.
-	 * TODO: Modify to return the right URI, handle duplicates.
-	 */
-	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		SQLiteDatabase cardsdb = helper.getWritableDatabase();
-		
-		cardsdb.insertOrThrow(CARDS_TABLE, null, values);
-		return null;
-	}
+    @Override
+    public int delete(Uri arg0, String arg1, String[] arg2) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
+    @Override
+    public String getType(Uri uri) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Cursor query(Uri uri, String[] projection, String selection,
-						String[] selectionArgs, String sortOrder) {
-		
-		SQLiteDatabase db = helper.getReadableDatabase();
-		
-		Cursor c = db.query(CARDS_TABLE, projection, selection, selectionArgs, null, null, sortOrder);
-		
-		return c;
-	}
+    /**
+     * Inserts values into the cards table. TODO: Modify to return the right
+     * URI, handle duplicates.
+     */
+    @Override
+    public Uri insert(Uri uri, ContentValues values) {
+        SQLiteDatabase cardsdb = helper.getWritableDatabase();
 
-	@Override
-	public int update(Uri uri, ContentValues values, String selection,
-			String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+        cardsdb.insertOrThrow(CARDS_TABLE, null, values);
+        return null;
+    }
+
+    @Override
+    public Cursor query(Uri uri, String[] projection, String selection,
+            String[] selectionArgs, String sortOrder) {
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor c = db.query(CARDS_TABLE, projection, selection, selectionArgs,
+                null, null, sortOrder);
+
+        return c;
+    }
+
+    @Override
+    public int update(Uri uri, ContentValues values, String selection,
+            String[] selectionArgs) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
 }
