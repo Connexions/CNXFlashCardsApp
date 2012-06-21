@@ -37,13 +37,7 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	private TextView termText;
 	protected TextView deckPositionText;
 	
-	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
-		
-		// Must just return true for the others to work.
-		/*public boolean onDown(MotionEvent e) {
-			return true;
-		};*/
-		
+	SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {		
 		public boolean onSingleTapUp(MotionEvent e) {
 			Log.d(TAG, "Up");
 			setMeaningText();
@@ -93,13 +87,15 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 			}
 		});
         
-		
-        prevCardButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				prevCard();
-			}
-		});
+		// Previous button is null in quiz mode (TODO: Make this a bit more elegant)
+		if(prevCardButton != null) {
+	        prevCardButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					prevCard();
+				}
+			});
+		}
 	}
 	
 	
