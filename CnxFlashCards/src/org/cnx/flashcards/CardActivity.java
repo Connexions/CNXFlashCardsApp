@@ -126,6 +126,7 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	}
 	
 	
+	// Move to the next card
 	protected void nextCard() {
 		if(definitions != null && definitions.size() != 0) {
 			currentCard++;
@@ -137,6 +138,7 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	}
 	
 	
+	// Move to the previous card
 	protected void prevCard() {
 		if(definitions != null && definitions.size() != 0) {
 			currentCard--;
@@ -148,5 +150,6 @@ public abstract class CardActivity extends SherlockActivity implements OnTouchLi
 	}
 	
 	
+	// Each of the modes has its own unique way of displaying the meanings
 	abstract void setMeaningText();
 }
