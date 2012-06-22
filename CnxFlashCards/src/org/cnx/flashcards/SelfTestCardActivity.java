@@ -46,4 +46,11 @@ public class SelfTestCardActivity extends CardActivity {
         super.prevCard();
 
     }
+
+    @Override
+    boolean checkIfValidDeck() {
+        return true;
+        // TODO Auto-generated method stub
+        
+    }
 }

@@ -19,8 +19,8 @@ public class QuizCardActivity extends CardActivity {
         setContentView(R.layout.quizmode);
         rand = new Random();
 
+        // Get UI elements
         answersGroup = (RadioGroup) findViewById(R.id.answersRadioGroup);
-
         answerButtons = new ArrayList<RadioButton>();
         answerButtons.add((RadioButton) findViewById(R.id.answer1));
         answerButtons.add((RadioButton) findViewById(R.id.answer2));
@@ -57,17 +57,26 @@ public class QuizCardActivity extends CardActivity {
         answerButtons.get((rightButton + 2) % 3).setText(
                 definitions.get(wrongAnswer2)[1]);
     }
+    
 
     @Override
     protected void nextCard() {
         answersGroup.clearCheck();
         super.nextCard();
     }
+    
 
     @Override
     protected void prevCard() {
         answersGroup.clearCheck();
         super.prevCard();
+    }
+
+    @Override
+    boolean checkIfValidDeck() {
+        boolean valid = definitions.size() >= 3;
+     
+        return valid;
     }
 
 }

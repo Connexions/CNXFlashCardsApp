@@ -73,6 +73,17 @@ public abstract class CardActivity extends SherlockActivity implements
         deckPositionText = (TextView) findViewById(R.id.deckPositionText);
 
         loadCards(id);
+        boolean valid = checkIfValidDeck();
+        
+        if(!valid) {
+            setResult(RESULT_CANCELED);
+            finish();
+            return;
+        }
+        else {
+            setResult(RESULT_OK);
+        }
+        
         termText.setText(definitions.get(currentCard)[0]);
         deckPositionText.setText(currentCard + 1 + "/" + definitions.size());
 
@@ -158,4 +169,5 @@ public abstract class CardActivity extends SherlockActivity implements
 
     // Each of the modes has its own unique way of displaying the meanings
     abstract void setMeaningText();
+    abstract boolean checkIfValidDeck();
 }

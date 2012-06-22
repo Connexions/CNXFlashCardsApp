@@ -1,6 +1,9 @@
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +17,7 @@ public class ModeSelectActivity extends SherlockActivity {
     Button quizModeButton;
     Button studyModeButton;
     Button selfTestModeButton;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +56,33 @@ public class ModeSelectActivity extends SherlockActivity {
                 Intent cardIntent = new Intent(getApplicationContext(),
                         QuizCardActivity.class);
                 cardIntent.putExtra(DECK_ID, id);
-                startActivity(cardIntent);
+                startActivityForResult(cardIntent, QUIZ_LAUNCH);
             }
         });
     }
 
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        
+        switch(requestCode) {
+        case QUIZ_LAUNCH:
+            if (resultCode == RESULT_CANCELED) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("This deck has too few cards. You need at least 3 for a quiz.");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                
+                AlertDialog quizAlert = builder.create();
+                quizAlert.show();
+            }
+        }
+        
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

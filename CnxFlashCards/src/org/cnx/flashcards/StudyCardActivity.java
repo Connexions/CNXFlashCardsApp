@@ -31,4 +31,10 @@ public class StudyCardActivity extends CardActivity {
         meaningText.setText(definitions.get(currentCard)[1]);
     }
 
+    @Override
+    boolean checkIfValidDeck() {
+        return true;
+        
+    }
+
 }
