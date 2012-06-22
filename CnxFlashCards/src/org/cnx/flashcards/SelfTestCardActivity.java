@@ -49,8 +49,6 @@ public class SelfTestCardActivity extends CardActivity {
 
     @Override
     boolean checkIfValidDeck() {
-        return true;
-        // TODO Auto-generated method stub
-        
+        return definitions.size() > 0;
     }
 }

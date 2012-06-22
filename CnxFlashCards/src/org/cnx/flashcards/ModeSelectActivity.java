@@ -64,24 +64,34 @@ public class ModeSelectActivity extends SherlockActivity {
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Only dealing with invalid decks right now
+        if (resultCode != RESULT_INVALID_DECK)
+            return;
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         
         switch(requestCode) {
         case QUIZ_LAUNCH:
-            if (resultCode == RESULT_CANCELED) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("This deck has too few cards. You need at least 3 for a quiz.");
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                
-                AlertDialog quizAlert = builder.create();
-                quizAlert.show();
-            }
+            builder.setMessage("This deck has too few cards. You need at least 3 for a quiz.");
+            break;
+            
+        case SELF_TEST_LAUNCH:
+            builder.setMessage("This deck doesn't have any cards!");
+            break;
+            
+        case STUDY_LAUNCH:
+            builder.setMessage("This deck doesn't have any cards!");
+            break;
         }
+        
+        AlertDialog quizAlert = builder.create();
+        quizAlert.show();
         
         super.onActivityResult(requestCode, resultCode, data);
     }

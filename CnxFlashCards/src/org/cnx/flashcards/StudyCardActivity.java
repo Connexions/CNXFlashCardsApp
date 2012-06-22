@@ -33,8 +33,7 @@ public class StudyCardActivity extends CardActivity {
 
     @Override
     boolean checkIfValidDeck() {
-        return true;
-        
+        return definitions.size() > 0;
     }
 
 }

@@ -1,6 +1,6 @@
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.MEANING;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
@@ -76,12 +76,9 @@ public abstract class CardActivity extends SherlockActivity implements
         boolean valid = checkIfValidDeck();
         
         if(!valid) {
-            setResult(RESULT_CANCELED);
+            setResult(RESULT_INVALID_DECK);
             finish();
             return;
-        }
-        else {
-            setResult(RESULT_OK);
         }
         
         termText.setText(definitions.get(currentCard)[0]);

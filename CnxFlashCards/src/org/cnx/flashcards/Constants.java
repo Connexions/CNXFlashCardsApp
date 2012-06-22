@@ -28,4 +28,9 @@ public interface Constants {
     public static final String TEST_ID = "testfile";
     
     public static int QUIZ_LAUNCH = 0;
+    public static int STUDY_LAUNCH = 1;
+    public static int SELF_TEST_LAUNCH = 2;
+    
+    // RESULT_FIRST_USER = 1, so need to start custom results above that
+    public static int RESULT_INVALID_DECK = 2;
 }
