@@ -1,14 +1,20 @@
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.QUIZ_LAUNCH;
+import static org.cnx.flashcards.Constants.RESULT_INVALID_DECK;
+import static org.cnx.flashcards.Constants.SELF_TEST_LAUNCH;
+import static org.cnx.flashcards.Constants.STUDY_LAUNCH;
+import static org.cnx.flashcards.Constants.TITLE;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
@@ -18,17 +24,25 @@ public class ModeSelectActivity extends SherlockActivity {
     Button studyModeButton;
     Button selfTestModeButton;
     
+    TextView titleText;
+    
+    String id;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modeselect);
 
-        final String id = getIntent().getStringExtra(DECK_ID);
+        id = getIntent().getStringExtra(DECK_ID);
 
         quizModeButton = (Button) findViewById(R.id.quizModeButton);
         studyModeButton = (Button) findViewById(R.id.studyModeButton);
         selfTestModeButton = (Button) findViewById(R.id.selfTestModeButton);
+        
+        titleText = (TextView)findViewById(R.id.deckNameText);
+        
+        setDetails();
 
         studyModeButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -62,6 +76,18 @@ public class ModeSelectActivity extends SherlockActivity {
     }
 
     
+    private void setDetails() {
+        String[] projection = { TITLE };
+        String selection = DECK_ID + " = '" + id + "'";
+        Cursor titlesCursor = getContentResolver().query(
+                DeckProvider.CONTENT_URI, projection, selection, null, null);
+        titlesCursor.moveToFirst();
+        
+        String title = titlesCursor.getString(titlesCursor.getColumnIndex(TITLE));
+        titleText.setText("Title: " + title);
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Only dealing with invalid decks right now
