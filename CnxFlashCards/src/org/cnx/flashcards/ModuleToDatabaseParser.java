@@ -43,6 +43,7 @@ public class ModuleToDatabaseParser {
     private ArrayList<String> meanings;
     private String title;
     private String authors;
+    private String summary;
 
     private Context context;
 
@@ -53,17 +54,6 @@ public class ModuleToDatabaseParser {
     /** Constructor **/
     public ModuleToDatabaseParser(Context context) {
         this.context = context;
-
-        /*
-         * Quick hack to allow network IO on the UI thread, will be removed when
-         * the download stuff is moved to an AsyncTask. Oddly, only needed on
-         * one of the three devices I'm testing with.
-         */
-        /*
-         * StrictMode.ThreadPolicy policy = new
-         * StrictMode.ThreadPolicy.Builder().permitAll().build();
-         * StrictMode.setThreadPolicy(policy);
-         */
     }
 
     /** Parses definitions from a CNXML file, places into database **/
@@ -74,13 +64,15 @@ public class ModuleToDatabaseParser {
 
         Document doc = retrieveXML(id);
 
-        // Check that a valid document was returned (TODO: Better error handling
-        // here)
+        /* Check that a valid document was returned
+         * TODO: Better error handling here.
+         */
         if (doc == null)
             return ParseResult.NO_NODES;
 
         Element root = doc.getDocumentElement();
         title = getValue("title", root);
+        //summary = getValue("md:abstract", root);
 
         NodeList nodes = doc.getElementsByTagName("definition");
 
@@ -99,7 +91,6 @@ public class ModuleToDatabaseParser {
 
         // Insert deck first to check for duplicates
         values = new ContentValues();
-        values.put(TITLE, "Test Title");
         values.put(DECK_ID, id);
         values.put(TITLE, title);
         Uri deckUri = context.getContentResolver().insert(
@@ -110,8 +101,6 @@ public class ModuleToDatabaseParser {
 
         for (int i = 0; i < terms.size(); i++) {
             values = new ContentValues();
-            // Log.d(Constants.TAG, "Inserting " + terms.get(i) + ": " +
-            // meanings.get(i));
             values.put(DECK_ID, id);
             values.put(MEANING, meanings.get(i));
             values.put(TERM, terms.get(i));
@@ -160,8 +149,6 @@ public class ModuleToDatabaseParser {
                 Log.d(TAG, "Caught SAX exception.");
             }
 
-            // doc.getDocumentElement().normalize();
-
             return doc;
         } catch (MalformedURLException mue) {
         } catch (IOException ioe) {
@@ -204,6 +191,7 @@ public class ModuleToDatabaseParser {
 
     /** Get a value with a given tag from a node **/
     private String getValue(String tagname, Node n) {
+        // TODO: This needs better error handling around all of it.
         NodeList childnodes = ((Element) n).getElementsByTagName(tagname)
                 .item(0).getChildNodes();
         Node value = (Node) childnodes.item(0);

@@ -21,6 +21,7 @@ public interface Constants {
     public static final String TITLE = "title";
     public static final String AUTHOR = "author";
     public static final String DATE = "date";
+    public static final String ABSTRACT = "abstract";
     public static final String MODIFIED = "modified";
     public static final String NOTES = "notes";
 

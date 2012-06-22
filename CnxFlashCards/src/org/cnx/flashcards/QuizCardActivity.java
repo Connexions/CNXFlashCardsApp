@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import static org.cnx.flashcards.Constants.*;
 
 public class QuizCardActivity extends CardActivity {
 
@@ -13,6 +16,7 @@ public class QuizCardActivity extends CardActivity {
     ArrayList<RadioButton> answerButtons;
     int rightButton = -1;
     Random rand;
+    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,8 @@ public class QuizCardActivity extends CardActivity {
     }
 
     /*
-     * Display the right answer and two wrong ones TODO: Generalise for more
-     * wrong answers
+     * Display the right answer and two wrong ones 
+     * TODO: Generalise for more wrong answers
      */
     @Override
     void setMeaningText() {
@@ -40,12 +44,8 @@ public class QuizCardActivity extends CardActivity {
 
         int wrongAnswer1 = -1;
         int wrongAnswer2 = -1;
-
-        /*
-         * THIS WILL HANG IF THERE AREN'T AT LEAST 3 ANSWERS! TODO: Make it so
-         * this won't hang (probably just disallow quiz mode on decks with too
-         * few cards)
-         */
+        
+        // Valid check should prevent this from hanging.
         while ((wrongAnswer1 = rand.nextInt(definitions.size())) == currentCard
                 || (wrongAnswer2 = rand.nextInt(definitions.size())) == currentCard
                 || wrongAnswer1 == wrongAnswer2) {
@@ -61,16 +61,18 @@ public class QuizCardActivity extends CardActivity {
 
     @Override
     protected void nextCard() {
+        if(answerButtons.get(rightButton).getId() == answersGroup.getCheckedRadioButtonId()) {
+            score++;
+            Log.d(TAG, "Right answer! Score is now " + score);
+        }
+        else {
+            Log.d(TAG, "Wrong answer!");
+        }
+        
         answersGroup.clearCheck();
         super.nextCard();
     }
     
-
-    @Override
-    protected void prevCard() {
-        answersGroup.clearCheck();
-        super.prevCard();
-    }
 
     @Override
     boolean checkIfValidDeck() {
