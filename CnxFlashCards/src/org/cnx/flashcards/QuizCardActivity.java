@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import static org.cnx.flashcards.Constants.*;
 
@@ -14,6 +15,8 @@ public class QuizCardActivity extends CardActivity {
 
     RadioGroup answersGroup;
     ArrayList<RadioButton> answerButtons;
+    TextView scoreText;
+    
     int rightButton = -1;
     Random rand;
     int score = 0;
@@ -29,6 +32,8 @@ public class QuizCardActivity extends CardActivity {
         answerButtons.add((RadioButton) findViewById(R.id.answer1));
         answerButtons.add((RadioButton) findViewById(R.id.answer2));
         answerButtons.add((RadioButton) findViewById(R.id.answer3));
+        
+        scoreText = (TextView)findViewById(R.id.scoreText);
 
         super.onCreate(savedInstanceState);
     }
@@ -70,6 +75,9 @@ public class QuizCardActivity extends CardActivity {
         }
         
         answersGroup.clearCheck();
+        
+        scoreText.setText("Score: " + score);
+        
         super.nextCard();
     }
     
