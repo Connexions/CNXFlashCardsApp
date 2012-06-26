@@ -32,6 +32,8 @@ public interface Constants {
     public static int STUDY_LAUNCH = 1;
     public static int SELF_TEST_LAUNCH = 2;
     
+    public static final String SCORE = "score";
+    
     // RESULT_FIRST_USER = 1, so need to start custom results above that
     public static int RESULT_INVALID_DECK = 2;
 }

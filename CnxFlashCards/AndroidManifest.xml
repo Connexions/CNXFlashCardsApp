@@ -53,8 +53,13 @@
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.SearchActivity">
-            android:label="SearchActivity"
+            android:name="org.cnx.flashcards.SearchActivity"
+            android:label="SearchActivity" >
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.QuizEndActivity"
+            android:label="QuizEndActivity" >
         </activity>
     </application>
 

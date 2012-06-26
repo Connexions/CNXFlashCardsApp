@@ -3,6 +3,8 @@ package org.cnx.flashcards;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.app.LauncherActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioButton;
@@ -66,19 +68,20 @@ public class QuizCardActivity extends CardActivity {
 
     @Override
     protected void nextCard() {
-        if(answerButtons.get(rightButton).getId() == answersGroup.getCheckedRadioButtonId()) {
+        if(answerButtons.get(rightButton).getId() == answersGroup.getCheckedRadioButtonId())
             score++;
-            Log.d(TAG, "Right answer! Score is now " + score);
+        
+        if(currentCard == definitions.size()-1) {
+            Intent endIntent = new Intent(this, QuizEndActivity.class);
+            endIntent.putExtra(SCORE, score);
+            startActivity(endIntent);
+            finish();
         }
         else {
-            Log.d(TAG, "Wrong answer!");
+            answersGroup.clearCheck();
+            scoreText.setText("Score: " + score);
+            super.nextCard();
         }
-        
-        answersGroup.clearCheck();
-        
-        scoreText.setText("Score: " + score);
-        
-        super.nextCard();
     }
     
 
