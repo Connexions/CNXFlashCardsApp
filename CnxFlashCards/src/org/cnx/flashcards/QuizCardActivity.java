@@ -74,6 +74,7 @@ public class QuizCardActivity extends CardActivity {
         if(currentCard == definitions.size()-1) {
             Intent endIntent = new Intent(this, QuizEndActivity.class);
             endIntent.putExtra(SCORE, score);
+            endIntent.putExtra(DECK_ID, id);
             startActivity(endIntent);
             finish();
         }

@@ -56,9 +56,9 @@ public class DeckProvider extends ContentProvider {
         long rowNum = db.insertOrThrow(DECKS_TABLE, null, values);
 
         if (rowNum > 0) {
-            Uri favUri = ContentUris.withAppendedId(CONTENT_URI, rowNum);
-            getContext().getContentResolver().notifyChange(favUri, null);
-            return favUri;
+            Uri deckUri = ContentUris.withAppendedId(CONTENT_URI, rowNum);
+            getContext().getContentResolver().notifyChange(deckUri, null);
+            return deckUri;
         }
 
         throw new SQLException("Failed to insert row into " + uri);
@@ -79,8 +79,11 @@ public class DeckProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
             String[] selectionArgs) {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        SQLiteDatabase cardsdb = helper.getWritableDatabase();
+        int rowsUpdated = cardsdb.update(DECKS_TABLE, values, selection, selectionArgs);
+        
+        return rowsUpdated;
     }
 
 }

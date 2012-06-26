@@ -29,7 +29,7 @@ public abstract class CardActivity extends SherlockActivity implements
 
     protected ArrayList<String[]> definitions;
     protected int currentCard = 0;
-    private String id;
+    protected String id;
 
     private Button nextCardButton;
     private Button prevCardButton;

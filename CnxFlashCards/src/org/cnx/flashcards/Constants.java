@@ -24,6 +24,8 @@ public interface Constants {
     public static final String ABSTRACT = "abstract";
     public static final String MODIFIED = "modified";
     public static final String NOTES = "notes";
+    public static final String HIGH_SCORE = "high_score";
+    public static final String NO_OF_CARDS = "no_of_cards";
 
     // public static final String TEST_ID = "m9006/2.22";
     public static final String TEST_ID = "testfile";

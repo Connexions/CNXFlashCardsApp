@@ -17,7 +17,7 @@ import static org.cnx.flashcards.Constants.*;
 
 public class CardDatabaseOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
     public CardDatabaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +36,9 @@ public class CardDatabaseOpenHelper extends SQLiteOpenHelper {
                 TITLE + " STRING, " + 
                 AUTHOR + " STRING, " + 
                 MODIFIED + " BOOLEAN, " + 
-                ABSTRACT + " TEXT" +
+                ABSTRACT + " TEXT, " +
+                HIGH_SCORE + " INT, " +
+                NO_OF_CARDS + " INT, " +
                 NOTES + " TEXT);");
     }
 
