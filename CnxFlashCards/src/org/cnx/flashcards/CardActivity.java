@@ -33,7 +33,7 @@ public abstract class CardActivity extends SherlockActivity implements
     protected int currentCard = 0;
     protected String id;
 
-    private Button nextCardButton;
+    protected Button nextCardButton;
     private Button prevCardButton;
 
     private TextView termText;
@@ -44,15 +44,12 @@ public abstract class CardActivity extends SherlockActivity implements
 
     SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
         public boolean onSingleTapUp(MotionEvent e) {
-            Log.d(TAG, "Up");
             setMeaningText();
             return true;
         };
 
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                 float velocityY) {
-            Log.d(TAG, "onFling");
-
             if (e1.getX() > e2.getX())
                 nextCard();
             else
@@ -118,22 +115,26 @@ public abstract class CardActivity extends SherlockActivity implements
         
         positionBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             
+            boolean tracking = false;
+            
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
+                tracking = true;
                 
             }
             
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
+                tracking = false;
                 
             }
             
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                currentCard = progress;
-                displayCard(currentCard);
+                if(tracking) {
+                    currentCard = progress;
+                    displayCard(currentCard);
+                }
             }
         });
     }

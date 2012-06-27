@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import static org.cnx.flashcards.Constants.*;
@@ -35,13 +36,24 @@ public class QuizCardActivity extends CardActivity {
         answerButtons.add((RadioButton) findViewById(R.id.answer2));
         answerButtons.add((RadioButton) findViewById(R.id.answer3));
         
+        answersGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                nextCardButton.setEnabled(true);
+                
+            }
+        });
+        
         scoreText = (TextView)findViewById(R.id.scoreText);
 
         super.onCreate(savedInstanceState);
         
         positionBar.setEnabled(false);
+        nextCardButton.setEnabled(false);
     }
 
+    
     /*
      * Display the right answer and two wrong ones 
      * TODO: Generalise for more wrong answers
@@ -85,6 +97,8 @@ public class QuizCardActivity extends CardActivity {
             scoreText.setText("Score: " + score);
             super.nextCard();
         }
+        
+        nextCardButton.setEnabled(false);
     }
     
 
