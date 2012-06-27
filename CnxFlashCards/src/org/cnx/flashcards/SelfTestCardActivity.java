@@ -35,14 +35,12 @@ public class SelfTestCardActivity extends CardActivity {
 
     @Override
     protected void nextCard() {
-        revealed = false;
         super.nextCard();
 
     }
 
     @Override
     protected void prevCard() {
-        revealed = false;
         super.prevCard();
 
     }
@@ -50,5 +48,11 @@ public class SelfTestCardActivity extends CardActivity {
     @Override
     boolean checkIfValidDeck() {
         return definitions.size() > 0;
+    }
+    
+    @Override
+    protected void displayCard(int card) {
+        revealed = false;
+        super.displayCard(card);
     }
 }

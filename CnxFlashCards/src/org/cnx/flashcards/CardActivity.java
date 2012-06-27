@@ -115,18 +115,17 @@ public abstract class CardActivity extends SherlockActivity implements
         
         positionBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             
-            boolean tracking = false;
+            boolean tracking = true;
             
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                tracking = true;
+                tracking = false;
                 
             }
             
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                tracking = false;
-                
+                tracking = true;
             }
             
             @Override
@@ -191,7 +190,7 @@ public abstract class CardActivity extends SherlockActivity implements
     }
     
     
-    private void displayCard(int card) {
+    protected void displayCard(int card) {
         termText.setText(definitions.get(currentCard)[0]);
         setMeaningText();
         deckPositionText.setText(currentCard + 1 + "/" + definitions.size());
