@@ -19,6 +19,8 @@ public class QuizEndActivity extends SherlockActivity {
     
     TextView scoreTextView;
     Button finishButton;
+    TextView previousHighScoreText;
+    TextView highScoreText;
     
     int score = 0;
     String id;
@@ -32,9 +34,10 @@ public class QuizEndActivity extends SherlockActivity {
         
         scoreTextView = (TextView)findViewById(R.id.finalScoreText);
         finishButton = (Button)findViewById(R.id.exitButton);
+        previousHighScoreText = (TextView)findViewById(R.id.previousHighScoreText);
+        highScoreText = (TextView)findViewById(R.id.highScoreText);
         
         id = getIntent().getStringExtra(DECK_ID);
-        Log.d(TAG, "id is " +id);
         
         score = getIntent().getIntExtra(SCORE, 0);
         scoreTextView.setText("Score: " + score);
@@ -61,17 +64,22 @@ public class QuizEndActivity extends SherlockActivity {
         highScoreCursor.moveToFirst();
         
         if(highScoreCursor.getCount() != 0) {
-            Log.d(TAG, "Something on the cursor.");
             highScore = highScoreCursor.getInt(highScoreCursor.getColumnIndex(HIGH_SCORE));
         }
         
         highScoreCursor.close();
-        Log.d(TAG, "Score: " + score + " High score: " + highScore);
+        
+        previousHighScoreText.setText("High score: " + highScore);
         
         if(score > highScore) {
+            highScoreText.setText("You got a new high score!");
+            
             ContentValues values = new ContentValues();
             values.put(HIGH_SCORE, score);
             getContentResolver().update(DeckProvider.CONTENT_URI, values, selection, null);
+        }
+        else {
+            highScoreText.setText("You didn't get a new high score.");
         }
         
         
