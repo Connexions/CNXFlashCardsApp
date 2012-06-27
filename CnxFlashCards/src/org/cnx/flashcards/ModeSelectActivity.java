@@ -27,6 +27,7 @@ public class ModeSelectActivity extends SherlockActivity {
     TextView titleText;
     TextView summaryText;
     TextView authorsText;
+    TextView noOfCardsText;
     
     String id;
     
@@ -44,6 +45,7 @@ public class ModeSelectActivity extends SherlockActivity {
         
         titleText = (TextView)findViewById(R.id.deckNameText);
         summaryText = (TextView)findViewById(R.id.deckSummaryText);
+        noOfCardsText = (TextView)findViewById(R.id.numberOfCardsText);
         
         setDetails();
 
@@ -80,7 +82,7 @@ public class ModeSelectActivity extends SherlockActivity {
 
     
     private void setDetails() {
-        String[] projection = { TITLE, ABSTRACT };
+        String[] projection = { TITLE, ABSTRACT, NO_OF_CARDS };
         String selection = DECK_ID + " = '" + id + "'";
         Cursor deckInfoCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
@@ -91,6 +93,9 @@ public class ModeSelectActivity extends SherlockActivity {
         
         String summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
         summaryText.setText("Abstract: " + summary);
+        
+        String noOfCards = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(NO_OF_CARDS));
+        noOfCardsText.setText("No. of cards: " + noOfCards);
     }
 
 

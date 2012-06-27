@@ -16,13 +16,18 @@
         android:id="@+id/deckAuthorsText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Author name here"/>
+        android:text="Author(s): This doesn't work yet."/>
     
     <TextView 
         android:id="@+id/deckSummaryText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Deck summary here"/>
+    
+    <TextView 
+        android:id="@+id/numberOfCardsText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
     
     <Button 
         android:id="@+id/studyModeButton"

@@ -80,7 +80,7 @@ public class ModuleToDatabaseParser {
 
         NodeList definitionNodes = doc.getElementsByTagName("definition");
         extractDefinitions(definitionNodes);
-        Uri deckUri = addDefinitionsToDatabase(id);
+        Uri deckUri = addValuesToDatabase(id);
 
         if (deckUri == null)
             return ParseResult.DUPLICATE;
@@ -90,7 +90,7 @@ public class ModuleToDatabaseParser {
 
     
     /** Add the parsed definitions to the database. **/
-    private Uri addDefinitionsToDatabase(String id) {
+    private Uri addValuesToDatabase(String id) {
         ContentValues values;
 
         // Insert deck first to check for duplicates
@@ -98,6 +98,7 @@ public class ModuleToDatabaseParser {
         values.put(DECK_ID, id);
         values.put(TITLE, title);
         values.put(ABSTRACT, summary);
+        values.put(NO_OF_CARDS, terms.size());
         Uri deckUri = context.getContentResolver().insert(
                 DeckProvider.CONTENT_URI, values);
 
