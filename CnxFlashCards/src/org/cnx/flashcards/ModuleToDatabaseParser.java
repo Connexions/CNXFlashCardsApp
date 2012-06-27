@@ -7,7 +7,7 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.MEANING;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
@@ -56,6 +56,7 @@ public class ModuleToDatabaseParser {
         this.context = context;
     }
 
+    
     /** Parses definitions from a CNXML file, places into database **/
     public ParseResult parse(String id) {
 
@@ -72,11 +73,13 @@ public class ModuleToDatabaseParser {
 
         Element root = doc.getDocumentElement();
         title = getValue("title", root);
-        //summary = getValue("md:abstract", root);
+        
+        NodeList metadataNodes = doc.getElementsByTagName("metadata");
+        summary = getValue("md:abstract", metadataNodes.item(0));
+        if(summary == null) summary = "This module doesn't have an abstract.";
 
-        NodeList nodes = doc.getElementsByTagName("definition");
-
-        extractDefinitions(nodes);
+        NodeList definitionNodes = doc.getElementsByTagName("definition");
+        extractDefinitions(definitionNodes);
         Uri deckUri = addDefinitionsToDatabase(id);
 
         if (deckUri == null)
@@ -85,6 +88,7 @@ public class ModuleToDatabaseParser {
         return ParseResult.SUCCESS;
     }
 
+    
     /** Add the parsed definitions to the database. **/
     private Uri addDefinitionsToDatabase(String id) {
         ContentValues values;
@@ -93,6 +97,7 @@ public class ModuleToDatabaseParser {
         values = new ContentValues();
         values.put(DECK_ID, id);
         values.put(TITLE, title);
+        values.put(ABSTRACT, summary);
         Uri deckUri = context.getContentResolver().insert(
                 DeckProvider.CONTENT_URI, values);
 
@@ -111,6 +116,7 @@ public class ModuleToDatabaseParser {
         return deckUri;
     }
 
+    
     /**
      * Retrieve the CNXML file as a list of nodes
      * 
@@ -157,6 +163,7 @@ public class ModuleToDatabaseParser {
         return null;
     }
 
+    
     /**
      * Extract definitions from the list of nodes, puts them in ArrayLists Might
      * make this go straight from xml to database, depends on final structure.
@@ -189,13 +196,15 @@ public class ModuleToDatabaseParser {
         }
     }
 
+    
     /** Get a value with a given tag from a node **/
     private String getValue(String tagname, Node n) {
         // TODO: This needs better error handling around all of it.
         NodeList childnodes = ((Element) n).getElementsByTagName(tagname)
                 .item(0).getChildNodes();
         Node value = (Node) childnodes.item(0);
-
-        return value.getNodeValue();
+        
+        if(value == null) return null;
+        else return value.getNodeValue();
     }
 }

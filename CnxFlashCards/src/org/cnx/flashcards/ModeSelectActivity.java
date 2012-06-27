@@ -1,6 +1,6 @@
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.QUIZ_LAUNCH;
 import static org.cnx.flashcards.Constants.RESULT_INVALID_DECK;
 import static org.cnx.flashcards.Constants.SELF_TEST_LAUNCH;
@@ -25,6 +25,8 @@ public class ModeSelectActivity extends SherlockActivity {
     Button selfTestModeButton;
     
     TextView titleText;
+    TextView summaryText;
+    TextView authorsText;
     
     String id;
     
@@ -41,6 +43,7 @@ public class ModeSelectActivity extends SherlockActivity {
         selfTestModeButton = (Button) findViewById(R.id.selfTestModeButton);
         
         titleText = (TextView)findViewById(R.id.deckNameText);
+        summaryText = (TextView)findViewById(R.id.deckSummaryText);
         
         setDetails();
 
@@ -77,14 +80,17 @@ public class ModeSelectActivity extends SherlockActivity {
 
     
     private void setDetails() {
-        String[] projection = { TITLE };
+        String[] projection = { TITLE, ABSTRACT };
         String selection = DECK_ID + " = '" + id + "'";
-        Cursor titlesCursor = getContentResolver().query(
+        Cursor deckInfoCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
-        titlesCursor.moveToFirst();
+        deckInfoCursor.moveToFirst();
         
-        String title = titlesCursor.getString(titlesCursor.getColumnIndex(TITLE));
+        String title = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(TITLE));
         titleText.setText("Title: " + title);
+        
+        String summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
+        summaryText.setText("Abstract: " + summary);
     }
 
 
