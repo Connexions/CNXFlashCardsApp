@@ -20,6 +20,8 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -36,6 +38,9 @@ public abstract class CardActivity extends SherlockActivity implements
 
     private TextView termText;
     protected TextView deckPositionText;
+    
+    protected SeekBar positionBar;
+    
 
     SimpleOnGestureListener simpleGestureListener = new SimpleOnGestureListener() {
         public boolean onSingleTapUp(MotionEvent e) {
@@ -59,6 +64,7 @@ public abstract class CardActivity extends SherlockActivity implements
 
     GestureDetector gestureDetector;
 
+    
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,7 @@ public abstract class CardActivity extends SherlockActivity implements
         nextCardButton = (Button) findViewById(R.id.nextCardButton);
         prevCardButton = (Button) findViewById(R.id.prevCardButton);
         deckPositionText = (TextView) findViewById(R.id.deckPositionText);
+        positionBar = (SeekBar)findViewById(R.id.deckPositionBar);
 
         loadCards(id);
         boolean valid = checkIfValidDeck();
@@ -80,6 +87,9 @@ public abstract class CardActivity extends SherlockActivity implements
             finish();
             return;
         }
+        
+        positionBar.setMax(definitions.size()-1);
+        positionBar.setProgress(currentCard);
         
         termText.setText(definitions.get(currentCard)[0]);
         deckPositionText.setText(currentCard + 1 + "/" + definitions.size());
@@ -105,6 +115,27 @@ public abstract class CardActivity extends SherlockActivity implements
                 }
             });
         }
+        
+        positionBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                currentCard = progress;
+                displayCard(currentCard);
+            }
+        });
     }
 
     private void loadCards(String id) {
@@ -144,10 +175,7 @@ public abstract class CardActivity extends SherlockActivity implements
             currentCard++;
             if (currentCard >= definitions.size())
                 currentCard = 0;
-            termText.setText(definitions.get(currentCard)[0]);
-            setMeaningText();
-            deckPositionText
-                    .setText(currentCard + 1 + "/" + definitions.size());
+            displayCard(currentCard);
         }
     }
 
@@ -157,12 +185,18 @@ public abstract class CardActivity extends SherlockActivity implements
             currentCard--;
             if (currentCard < 0)
                 currentCard = definitions.size() - 1;
-            termText.setText(definitions.get(currentCard)[0]);
-            setMeaningText();
-            deckPositionText
-                    .setText(currentCard + 1 + "/" + definitions.size());
+            displayCard(currentCard);
         }
     }
+    
+    
+    private void displayCard(int card) {
+        termText.setText(definitions.get(currentCard)[0]);
+        setMeaningText();
+        deckPositionText.setText(currentCard + 1 + "/" + definitions.size());
+        positionBar.setProgress(currentCard);
+    }
+    
 
     // Each of the modes has its own unique way of displaying the meanings
     abstract void setMeaningText();

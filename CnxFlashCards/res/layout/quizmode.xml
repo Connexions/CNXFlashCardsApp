@@ -6,6 +6,11 @@
     android:paddingLeft="15dip"
     android:paddingRight="15dip">
     
+    <SeekBar
+        android:id="@+id/deckPositionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
     <TextView 
 	    android:id="@+id/deckPositionText"
 	    android:layout_width="fill_parent"

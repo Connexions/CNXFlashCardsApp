@@ -38,6 +38,8 @@ public class QuizCardActivity extends CardActivity {
         scoreText = (TextView)findViewById(R.id.scoreText);
 
         super.onCreate(savedInstanceState);
+        
+        positionBar.setEnabled(false);
     }
 
     /*
