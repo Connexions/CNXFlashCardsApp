@@ -34,7 +34,7 @@ public class SearchResultsParser {
     }
     
 
-    public ParseResult parse(String searchTerm) {
+    public ArrayList<String> parse(String searchTerm) {
 
         Document doc = retrieveXML(searchTerm);
 
@@ -42,20 +42,22 @@ public class SearchResultsParser {
          * TODO: Better error handling here.
          */
         if (doc == null)
-            return ParseResult.NO_NODES;
+            return null;
 
         Element root = doc.getDocumentElement();
 
         NodeList metadataNodes = doc.getElementsByTagName("oai_dc:dc");
         
+        ArrayList<String> results = new ArrayList<String>();
+        
         for (int i=0; i < metadataNodes.getLength(); i++) {
             String title = getValue("dc:title", metadataNodes.item(i));
             String creator = getValue("dc:creator", metadataNodes.item(i));            
             String identifier = getValue("dc:identifier", metadataNodes.item(i));
-            Log.d(TAG, title + " by " + creator + ": " + identifier);
+            results.add(title);
         }
 
-        return ParseResult.SUCCESS;
+        return results;
     }
     
     
@@ -69,7 +71,7 @@ public class SearchResultsParser {
             
             url = new URL("http://cnx.org/content/OAI?verb=SearchRecords&metadataPrefix=oai_dc&query:list=" + 
                             searchTerm + 
-                            "&b_start:int=0&b_size=10");
+                            "&b_start:int=0&b_size=20");
             conn = url.openConnection();
             in = conn.getInputStream();
 
