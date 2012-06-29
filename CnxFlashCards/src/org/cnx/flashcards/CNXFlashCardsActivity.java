@@ -148,7 +148,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
     }
 
     
-    private class DownloadDeckTask extends AsyncTask<String, Void, ParseResult> {
+    public class DownloadDeckTask extends AsyncTask<String, Void, ParseResult> {
 
         String id = "Module";
 

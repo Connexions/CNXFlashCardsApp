@@ -1,15 +1,21 @@
 package org.cnx.flashcards;
 
+import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.SEARCH_TERM;
 import static org.cnx.flashcards.Constants.TAG;
 
-import java.util.ArrayList;
-
+import org.cnx.flashcards.CNXFlashCardsActivity.DownloadDeckTask;
 import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
 
+import java.util.ArrayList;
+
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -41,10 +47,21 @@ public class SearchActivity extends SherlockActivity {
         setProgressBarIndeterminateVisibility(true);
         
         new SearchResultsTask().execute(searchTerm);
+        
+        
+        resultsList.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "Clicked " + resultsList.getItemAtPosition(position));
+                //downloadCards((String)resultsList.getItemAtPosition(position));
+                new DownloadDeckTask().execute((String)resultsList.getItemAtPosition(position));
+            }
+        });
     }
 
     
-private class SearchResultsTask extends AsyncTask<String, Void, ArrayList<String>> {
+    private class SearchResultsTask extends AsyncTask<String, Void, ArrayList<String>> {
         
         String searchTerm;
 
@@ -74,6 +91,52 @@ private class SearchResultsTask extends AsyncTask<String, Void, ArrayList<String
             Toast resultsToast = Toast.makeText(SearchActivity.this,
                     resultText, Toast.LENGTH_LONG);
             resultsToast.show();
+        }
+    }
+
+
+    public class DownloadDeckTask extends AsyncTask<String, Void, ParseResult> {
+
+        String id = "Module";
+
+        @Override
+        protected ParseResult doInBackground(String... idParam) {
+            this.id = idParam[0];
+            ParseResult result = new ModuleToDatabaseParser(
+                    SearchActivity.this).parse(id);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(ParseResult result) {
+            super.onPostExecute(result);
+
+            setProgressBarIndeterminateVisibility(false);
+
+            String resultText = "";
+
+            switch (result) {
+            case SUCCESS:
+                resultText = "Parsing succeeded, terms in database";
+                break;
+
+            case DUPLICATE:
+                resultText = "Parsing failed. Duplicate.";
+                break;
+
+            case NO_NODES:
+                resultText = "Parsing failed. No definitions in module.";
+            }
+
+            Toast resultsToast = Toast.makeText(SearchActivity.this,
+                    resultText, Toast.LENGTH_LONG);
+            resultsToast.show();
+            
+            
+            Intent cardIntent = new Intent(getApplicationContext(),
+                    ModeSelectActivity.class);
+            cardIntent.putExtra(DECK_ID, id);
+            startActivity(cardIntent);
         }
     }
 }

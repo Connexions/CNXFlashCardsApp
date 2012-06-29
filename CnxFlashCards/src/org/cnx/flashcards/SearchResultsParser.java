@@ -47,14 +47,17 @@ public class SearchResultsParser {
         Element root = doc.getDocumentElement();
 
         NodeList metadataNodes = doc.getElementsByTagName("oai_dc:dc");
+        NodeList headerNodes = doc.getElementsByTagName("header");
         
         ArrayList<String> results = new ArrayList<String>();
         
         for (int i=0; i < metadataNodes.getLength(); i++) {
             String title = getValue("dc:title", metadataNodes.item(i));
             String creator = getValue("dc:creator", metadataNodes.item(i));            
-            String identifier = getValue("dc:identifier", metadataNodes.item(i));
-            results.add(title);
+            String url = getValue("dc:identifier", metadataNodes.item(i));
+            String id = getValue("identifier", headerNodes.item(i));
+            id = id.replace("oai:cnx.org:", "");
+            results.add(id);
         }
 
         return results;
