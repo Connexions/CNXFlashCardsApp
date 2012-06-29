@@ -34,7 +34,7 @@ public class SearchResultsParser {
     }
     
 
-    public ArrayList<String> parse(String searchTerm) {
+    public ArrayList<SearchResult> parse(String searchTerm) {
 
         Document doc = retrieveXML(searchTerm);
 
@@ -50,17 +50,23 @@ public class SearchResultsParser {
         NodeList headerNodes = doc.getElementsByTagName("header");
         
         ArrayList<String> results = new ArrayList<String>();
+        ArrayList<SearchResult> searchResults = new ArrayList<SearchResult>();
+        SearchResult result;
         
         for (int i=0; i < metadataNodes.getLength(); i++) {
+            
             String title = getValue("dc:title", metadataNodes.item(i));
-            String creator = getValue("dc:creator", metadataNodes.item(i));            
+            String authors = getValue("dc:creator", metadataNodes.item(i));            
             String url = getValue("dc:identifier", metadataNodes.item(i));
             String id = getValue("identifier", headerNodes.item(i));
             id = id.replace("oai:cnx.org:", "");
+            
+            searchResults.add(new SearchResult(title, authors, url, id));
+            
             results.add(id);
         }
 
-        return results;
+        return searchResults;
     }
     
     

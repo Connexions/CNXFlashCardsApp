@@ -25,18 +25,21 @@ import com.actionbarsherlock.app.SherlockActivity;
 public class SearchActivity extends SherlockActivity {
     
     String searchTerm;
-    ListView resultsList;
-    ArrayAdapter<String> results;
+    ListView resultsListView;
+    SearchResultsAdapter resultsAdapter;
+    ArrayList<SearchResult> results; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
         
-        resultsList = (ListView)findViewById(R.id.resultsList);
-        results = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        resultsListView = (ListView)findViewById(R.id.resultsList);
+        //results = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        results = new ArrayList<SearchResult>();
+        resultsAdapter = new SearchResultsAdapter(this, results);
         
-        resultsList.setAdapter(results);
+        resultsListView.setAdapter(resultsAdapter);
 
         searchTerm = getIntent().getStringExtra(SEARCH_TERM);
         
@@ -49,37 +52,38 @@ public class SearchActivity extends SherlockActivity {
         new SearchResultsTask().execute(searchTerm);
         
         
-        resultsList.setOnItemClickListener(new OnItemClickListener() {
+        resultsListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "Clicked " + resultsList.getItemAtPosition(position));
+                Log.d(TAG, "Clicked " + resultsListView.getItemAtPosition(position));
                 //downloadCards((String)resultsList.getItemAtPosition(position));
-                new DownloadDeckTask().execute((String)resultsList.getItemAtPosition(position));
+                new DownloadDeckTask().execute((String)resultsListView.getItemAtPosition(position));
             }
         });
     }
 
     
-    private class SearchResultsTask extends AsyncTask<String, Void, ArrayList<String>> {
+    private class SearchResultsTask extends AsyncTask<String, Void, ArrayList<SearchResult>> {
         
         String searchTerm;
 
         @Override
-        protected ArrayList<String> doInBackground(String... params) {
+        protected ArrayList<SearchResult> doInBackground(String... params) {
             this.searchTerm = params[0];
             Log.d(TAG, "Searching for '" + searchTerm + "'...");
-            ArrayList<String> resultList = new SearchResultsParser(SearchActivity.this).parse(searchTerm);
+            ArrayList<SearchResult> resultList = new SearchResultsParser(SearchActivity.this).parse(searchTerm);
             return resultList;
         }
         
         @Override
-        protected void onPostExecute(ArrayList<String> result) {
+        protected void onPostExecute(ArrayList<SearchResult> result) {
             super.onPostExecute(result);
 
             setProgressBarIndeterminateVisibility(false);
             
             results.addAll(result);
+            resultsAdapter.notifyDataSetChanged();
 
             String resultText = "";
             

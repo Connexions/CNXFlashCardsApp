@@ -1,33 +1,68 @@
 package org.cnx.flashcards;
 
+import java.util.ArrayList;
+
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 public class SearchResultsAdapter extends BaseAdapter {
+    
+    private static ArrayList<SearchResult> searchResults;
+    
+    private LayoutInflater inflater;
+    
+    
+    public SearchResultsAdapter(Context context, ArrayList<SearchResult> searchResults) {
+        this.searchResults = searchResults;
+        inflater = LayoutInflater.from(context);
+    }
+    
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return searchResults.size();
     }
 
     @Override
-    public Object getItem(int arg0) {
-        // TODO Auto-generated method stub
-        return null;
+    public Object getItem(int position) {
+        return searchResults.get(position);
     }
 
     @Override
-    public long getItemId(int arg0) {
-        // TODO Auto-generated method stub
-        return 0;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public View getView(int arg0, View arg1, ViewGroup arg2) {
-        // TODO Auto-generated method stub
-        return null;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.search_row, null);
+            holder = new ViewHolder();
+            holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
+            holder.txtAuthors = (TextView) convertView.findViewById(R.id.authors);
+            holder.txtUrl = (TextView) convertView.findViewById(R.id.url);
+ 
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+ 
+        holder.txtTitle.setText(searchResults.get(position).getTitle());
+        holder.txtAuthors.setText(searchResults.get(position).getAuthors());
+        holder.txtUrl.setText(searchResults.get(position).getUrl());
+ 
+        return convertView;
+    }
+ 
+    static class ViewHolder {
+        TextView txtTitle;
+        TextView txtAuthors;
+        TextView txtUrl;
     }
 
 }
