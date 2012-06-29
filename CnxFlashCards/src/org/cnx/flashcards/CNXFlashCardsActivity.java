@@ -131,11 +131,14 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         // Launch search
         searchButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                id = searchInput.getText().toString();
-                Intent searchIntent = new Intent(CNXFlashCardsActivity.this,
-                        SearchActivity.class);
-                searchIntent.putExtra("SEARCH_TERM", id);
-                startActivity(searchIntent);
+                String searchTerm = searchInput.getText().toString();                
+                Toast searchingToast = Toast.makeText(
+                        CNXFlashCardsActivity.this, "Searching for '" + searchTerm + "'...",
+                        Toast.LENGTH_SHORT);
+                searchingToast.show();
+                setProgressBarIndeterminateVisibility(true);
+                
+                new SearchResultsTask().execute(searchTerm);
             }
         });
     }
@@ -148,6 +151,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    
     private class DownloadDeckTask extends AsyncTask<String, Void, ParseResult> {
 
         String id = "Module";
@@ -179,6 +183,42 @@ public class CNXFlashCardsActivity extends SherlockActivity {
 
             case NO_NODES:
                 resultText = "Parsing failed. No definitions in module.";
+            }
+
+            Toast resultsToast = Toast.makeText(CNXFlashCardsActivity.this,
+                    resultText, Toast.LENGTH_LONG);
+            resultsToast.show();
+        }
+    }
+    
+    
+    private class SearchResultsTask extends AsyncTask<String, Void, ParseResult> {
+        
+        String searchTerm;
+
+        @Override
+        protected ParseResult doInBackground(String... params) {
+            this.searchTerm = params[0];
+            Log.d(TAG, "Searching for '" + searchTerm + "'.");
+            ParseResult result = new SearchResultsParser(CNXFlashCardsActivity.this).parse(searchTerm);
+            return result;
+        }
+        
+        @Override
+        protected void onPostExecute(ParseResult result) {
+            super.onPostExecute(result);
+
+            setProgressBarIndeterminateVisibility(false);
+
+            String resultText = "";
+
+            switch (result) {
+            case SUCCESS:
+                resultText = "Successfully downloaded search results.";
+                break;
+
+            case NO_NODES:
+                resultText = "Couldn't download.";
             }
 
             Toast resultsToast = Toast.makeText(CNXFlashCardsActivity.this,
