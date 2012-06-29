@@ -55,10 +55,9 @@ public class SearchActivity extends SherlockActivity {
         resultsListView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "Clicked " + resultsListView.getItemAtPosition(position));
-                //downloadCards((String)resultsList.getItemAtPosition(position));
-                new DownloadDeckTask().execute((String)resultsListView.getItemAtPosition(position));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
+                String id = ((SearchResult)resultsListView.getItemAtPosition(position)).getId();
+                new DownloadDeckTask().execute(id);
             }
         });
     }
