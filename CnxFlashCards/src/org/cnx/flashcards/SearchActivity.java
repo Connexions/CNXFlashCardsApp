@@ -83,19 +83,19 @@ public class SearchActivity extends SherlockActivity {
 
             setProgressBarIndeterminateVisibility(false);
             
-            results.addAll(result);
-            resultsAdapter.notifyDataSetChanged();
-
-            String resultText = "";
-            
-            if(result == null)
-                resultText = "Couldn't download.";
-            else
+            //TODO: Handle a null result better (repeat search?)
+            if(result != null) {
+                results.addAll(result);
+                resultsAdapter.notifyDataSetChanged();
+    
+                String resultText = "";
+                
                 resultText = "Successfully downloaded search results.";
-
-            Toast resultsToast = Toast.makeText(SearchActivity.this,
-                    resultText, Toast.LENGTH_LONG);
-            resultsToast.show();
+    
+                Toast resultsToast = Toast.makeText(SearchActivity.this,
+                        resultText, Toast.LENGTH_LONG);
+                resultsToast.show();
+            }
         }
     }
 
