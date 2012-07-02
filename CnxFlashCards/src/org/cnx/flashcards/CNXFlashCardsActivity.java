@@ -26,11 +26,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -67,6 +70,17 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         parseTestButton = (Button) findViewById(R.id.parseTestButton);
         showCardsButton = (Button) findViewById(R.id.showCardsButton);
         searchInput = (EditText) findViewById(R.id.searchInput);
+        
+        
+        searchInput.setOnEditorActionListener(new OnEditorActionListener() {
+            
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                search();
+                return true;
+            }
+        });
+        
 
         // Parses the target CNXML file (currently just the offline test file)
         parseTestButton.setOnClickListener(new OnClickListener() {
@@ -131,13 +145,19 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         // Launch search
         searchButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                String searchTerm = searchInput.getText().toString();                
-                Intent searchIntent = new Intent(CNXFlashCardsActivity.this, SearchActivity.class);
-                searchIntent.putExtra(SEARCH_TERM, searchTerm);
-                startActivity(searchIntent);
+                search();
             }
         });
     }
+    
+    
+    public void search() {
+        String searchTerm = searchInput.getText().toString();                
+        Intent searchIntent = new Intent(CNXFlashCardsActivity.this, SearchActivity.class);
+        searchIntent.putExtra(SEARCH_TERM, searchTerm);
+        startActivity(searchIntent);
+    }
+    
 
     /** Called when Activity created, loads the ActionBar **/
     @Override
