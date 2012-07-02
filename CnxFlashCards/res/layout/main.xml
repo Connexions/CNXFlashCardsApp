@@ -21,7 +21,6 @@
 		        android:maxLines="1"
 		        android:scrollHorizontally="true"
 		        android:hint="Search for a module"
-		        android:text="introduction to sociology"
 		        android:enabled="true"
 		    />
 		    
