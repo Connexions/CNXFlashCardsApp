@@ -48,7 +48,7 @@ public class ModuleToDatabaseParser {
     private Context context;
 
     public static enum ParseResult {
-        SUCCESS, NO_NODES, DUPLICATE
+        SUCCESS, NO_NODES, DUPLICATE, NO_XML
     }
 
     /** Constructor **/
@@ -69,7 +69,7 @@ public class ModuleToDatabaseParser {
          * TODO: Better error handling here.
          */
         if (doc == null)
-            return ParseResult.NO_NODES;
+            return ParseResult.NO_XML;
 
         Element root = doc.getDocumentElement();
         title = getValue("title", root);
@@ -79,8 +79,14 @@ public class ModuleToDatabaseParser {
         if(summary == null) summary = "This module doesn't have an abstract.";
 
         NodeList definitionNodes = doc.getElementsByTagName("definition");
+        
+        if(definitionNodes.getLength() == 0)
+            return ParseResult.NO_NODES;
+        
         extractDefinitions(definitionNodes);
         Uri deckUri = addValuesToDatabase(id);
+        
+        
 
         if (deckUri == null)
             return ParseResult.DUPLICATE;

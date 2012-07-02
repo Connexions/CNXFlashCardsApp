@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -32,10 +33,11 @@ public class SearchActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.search);
         
+        
         resultsListView = (ListView)findViewById(R.id.resultsList);
-        //results = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         results = new ArrayList<SearchResult>();
         resultsAdapter = new SearchResultsAdapter(this, results);
         
@@ -117,29 +119,34 @@ public class SearchActivity extends SherlockActivity {
             setProgressBarIndeterminateVisibility(false);
 
             String resultText = "";
+            boolean launch = false;
 
             switch (result) {
             case SUCCESS:
                 resultText = "Parsing succeeded, terms in database";
+                launch = true;
                 break;
 
             case DUPLICATE:
                 resultText = "Parsing failed. Duplicate.";
+                launch = true;
                 break;
 
             case NO_NODES:
                 resultText = "Parsing failed. No definitions in module.";
+                break;
             }
 
             Toast resultsToast = Toast.makeText(SearchActivity.this,
                     resultText, Toast.LENGTH_LONG);
             resultsToast.show();
             
-            
-            Intent cardIntent = new Intent(getApplicationContext(),
-                    ModeSelectActivity.class);
-            cardIntent.putExtra(DECK_ID, id);
-            startActivity(cardIntent);
+            if(launch) {
+                Intent cardIntent = new Intent(getApplicationContext(),
+                        ModeSelectActivity.class);
+                cardIntent.putExtra(DECK_ID, id);
+                startActivity(cardIntent);
+            }
         }
     }
 }
