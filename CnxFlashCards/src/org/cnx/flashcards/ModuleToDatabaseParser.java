@@ -7,8 +7,10 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.ABSTRACT;
+import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
+import static org.cnx.flashcards.Constants.NO_OF_CARDS;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
 import static org.cnx.flashcards.Constants.TITLE;
@@ -16,7 +18,6 @@ import static org.cnx.flashcards.Constants.TITLE;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -33,8 +34,8 @@ import org.xml.sax.SAXException;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
-import android.os.StrictMode;
 import android.util.Log;
 
 public class ModuleToDatabaseParser {
@@ -62,6 +63,9 @@ public class ModuleToDatabaseParser {
 
         terms = new ArrayList<String>();
         meanings = new ArrayList<String>();
+        
+        if(isDuplicate(id))
+            return ParseResult.DUPLICATE;
 
         Document doc = retrieveXML(id);
 
@@ -85,16 +89,23 @@ public class ModuleToDatabaseParser {
         
         extractDefinitions(definitionNodes);
         Uri deckUri = addValuesToDatabase(id);
-        
-        
-
-        if (deckUri == null)
-            return ParseResult.DUPLICATE;
 
         return ParseResult.SUCCESS;
     }
 
     
+    private boolean isDuplicate(String id) {
+        String[] projection = {DECK_ID};
+        String selection = DECK_ID + " = '" + id + "'";
+        Cursor idCursor = context.getContentResolver().query(DeckProvider.CONTENT_URI, projection, selection, null, null);
+        
+        if(idCursor.getCount() == 0)
+            return false;
+        else 
+            return true;
+    }
+
+
     /** Add the parsed definitions to the database. **/
     private Uri addValuesToDatabase(String id) {
         ContentValues values;

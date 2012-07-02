@@ -59,6 +59,7 @@ public class SearchActivity extends SherlockActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
                 String id = ((SearchResult)resultsListView.getItemAtPosition(position)).getId();
+                setProgressBarIndeterminate(true);
                 new DownloadDeckTask().execute(id);
             }
         });
@@ -72,7 +73,6 @@ public class SearchActivity extends SherlockActivity {
         @Override
         protected ArrayList<SearchResult> doInBackground(String... params) {
             this.searchTerm = params[0];
-            Log.d(TAG, "Searching for '" + searchTerm + "'...");
             ArrayList<SearchResult> resultList = new SearchResultsParser(SearchActivity.this).parse(searchTerm);
             return resultList;
         }
@@ -124,16 +124,24 @@ public class SearchActivity extends SherlockActivity {
             switch (result) {
             case SUCCESS:
                 resultText = "Parsing succeeded, terms in database";
+                Log.d(TAG, "SUCCESS");
                 launch = true;
                 break;
 
             case DUPLICATE:
-                resultText = "Parsing failed. Duplicate.";
+                resultText = "You have already downloaded that module. Loading it now.";
+                Log.d(TAG, "DUPLICATE");
                 launch = true;
                 break;
 
             case NO_NODES:
-                resultText = "Parsing failed. No definitions in module.";
+                resultText = "That module has no definitions.";
+                Log.d(TAG, "NO_NODES");
+                break;
+                
+            case NO_XML:
+                resultText = "Could not download valid XML.";
+                Log.d(TAG, "NO_XML");
                 break;
             }
 
