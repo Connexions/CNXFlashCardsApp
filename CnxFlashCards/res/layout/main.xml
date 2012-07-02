@@ -22,6 +22,8 @@
 		        android:scrollHorizontally="true"
 		        android:hint="Search for a module"
 		        android:enabled="true"
+		        android:imeOptions="actionSearch"
+		        android:imeActionLabel="Search"
 		    />
 		    
 		    <Button
