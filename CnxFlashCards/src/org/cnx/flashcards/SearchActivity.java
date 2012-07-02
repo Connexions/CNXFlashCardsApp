@@ -59,7 +59,7 @@ public class SearchActivity extends SherlockActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
                 String id = ((SearchResult)resultsListView.getItemAtPosition(position)).getId();
-                setProgressBarIndeterminate(true);
+                setProgressBarIndeterminateVisibility(true);
                 new DownloadDeckTask().execute(id);
             }
         });
@@ -93,7 +93,7 @@ public class SearchActivity extends SherlockActivity {
                 resultText = "Successfully downloaded search results.";
     
                 Toast resultsToast = Toast.makeText(SearchActivity.this,
-                        resultText, Toast.LENGTH_LONG);
+                        resultText, Toast.LENGTH_SHORT);
                 resultsToast.show();
             }
         }
@@ -146,7 +146,7 @@ public class SearchActivity extends SherlockActivity {
             }
 
             Toast resultsToast = Toast.makeText(SearchActivity.this,
-                    resultText, Toast.LENGTH_LONG);
+                    resultText, Toast.LENGTH_SHORT);
             resultsToast.show();
             
             if(launch) {

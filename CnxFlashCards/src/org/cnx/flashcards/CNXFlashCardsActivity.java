@@ -182,7 +182,7 @@ public class CNXFlashCardsActivity extends SherlockActivity {
             }
 
             Toast resultsToast = Toast.makeText(CNXFlashCardsActivity.this,
-                    resultText, Toast.LENGTH_LONG);
+                    resultText, Toast.LENGTH_SHORT);
             resultsToast.show();
         }
     }
