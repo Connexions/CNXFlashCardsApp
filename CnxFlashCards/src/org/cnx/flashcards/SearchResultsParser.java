@@ -27,31 +27,46 @@ import android.util.Log;
 public class SearchResultsParser {
     
     Context context;
+    public int currentPage;
+    String searchTerm;
+    int resultsPerPage = 20;
     
-    
-    public SearchResultsParser(Context context) {
+
+    public SearchResultsParser(Context context, String searchTerm) {
         this.context = context;
+        this.searchTerm = searchTerm;
+        currentPage = -1;
+    }
+    
+    
+    public ArrayList<SearchResult> getNextPage() {
+        currentPage++;
+        return parse(searchTerm);
+    }
+    
+    
+    public ArrayList<SearchResult> getPrevPage() {
+        currentPage--;
+        return parse(searchTerm);
     }
     
 
     public ArrayList<SearchResult> parse(String searchTerm) {
 
         Document doc = retrieveXML(searchTerm);
-
+        
         /* Check that a valid document was returned
          * TODO: Better error handling here.
          */
         if (doc == null)
             return null;
 
-        Element root = doc.getDocumentElement();
 
         NodeList metadataNodes = doc.getElementsByTagName("oai_dc:dc");
         NodeList headerNodes = doc.getElementsByTagName("header");
         
         ArrayList<String> results = new ArrayList<String>();
         ArrayList<SearchResult> searchResults = new ArrayList<SearchResult>();
-        SearchResult result;
         
         for (int i=0; i < metadataNodes.getLength(); i++) {
             
@@ -78,9 +93,12 @@ public class SearchResultsParser {
         try {
             searchTerm = searchTerm.replace(" ", "%20");
             
+            int start = resultsPerPage * currentPage;
+            
             url = new URL("http://cnx.org/content/OAI?verb=SearchRecords&metadataPrefix=oai_dc&query:list=" + 
                             searchTerm + 
-                            "&b_start:int=0&b_size=20");
+                            "&b_start:int=" + start + 
+                            "&b_size=" + resultsPerPage);
             conn = url.openConnection();
             in = conn.getInputStream();
 

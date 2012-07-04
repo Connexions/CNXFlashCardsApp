@@ -4,21 +4,22 @@ import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.SEARCH_TERM;
 import static org.cnx.flashcards.Constants.TAG;
 
-import org.cnx.flashcards.CNXFlashCardsActivity.DownloadDeckTask;
-import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
-
 import java.util.ArrayList;
+
+import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -29,6 +30,11 @@ public class SearchActivity extends SherlockActivity {
     ListView resultsListView;
     SearchResultsAdapter resultsAdapter;
     ArrayList<SearchResult> results; 
+    SearchResultsParser resultsParser;
+    Button nextButton;
+    Button prevButton;
+    TextView pageText;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +51,17 @@ public class SearchActivity extends SherlockActivity {
 
         searchTerm = getIntent().getStringExtra(SEARCH_TERM);
         
+        resultsParser = new SearchResultsParser(this, searchTerm);
+        
         Toast searchingToast = Toast.makeText(
                 SearchActivity.this, "Searching for '" + searchTerm + "'...",
                 Toast.LENGTH_SHORT);
         searchingToast.show();
         setProgressBarIndeterminateVisibility(true);
         
-        new SearchResultsTask().execute(searchTerm);
+        pageText = (TextView)findViewById(R.id.pageText);
         
+        new SearchResultsTask().execute(true);
         
         resultsListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -63,17 +72,60 @@ public class SearchActivity extends SherlockActivity {
                 new DownloadDeckTask().execute(id);
             }
         });
+        
+        
+        nextButton = (Button)findViewById(R.id.nextPageButton);
+        nextButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                results.clear();
+                resultsAdapter.notifyDataSetChanged();
+                new SearchResultsTask().execute(true);
+                Toast searchingToast = Toast.makeText(
+                        SearchActivity.this, "Searching for '" + searchTerm + "'...",
+                        Toast.LENGTH_SHORT);
+                searchingToast.show();
+                setProgressBarIndeterminateVisibility(true);
+            }
+        });
+        
+        
+        prevButton = (Button)findViewById(R.id.prevPageButton);
+        prevButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                results.clear();
+                resultsAdapter.notifyDataSetChanged();
+                new SearchResultsTask().execute(false);
+                Toast searchingToast = Toast.makeText(
+                        SearchActivity.this, "Searching for '" + searchTerm + "'...",
+                        Toast.LENGTH_SHORT);
+                searchingToast.show();
+                setProgressBarIndeterminateVisibility(true);
+                
+            }
+        });
+        
+        
     }
 
     
-    private class SearchResultsTask extends AsyncTask<String, Void, ArrayList<SearchResult>> {
-        
-        String searchTerm;
+    private class SearchResultsTask extends AsyncTask<Boolean, Void, ArrayList<SearchResult>> {
 
         @Override
-        protected ArrayList<SearchResult> doInBackground(String... params) {
-            this.searchTerm = params[0];
-            ArrayList<SearchResult> resultList = new SearchResultsParser(SearchActivity.this).parse(searchTerm);
+        protected ArrayList<SearchResult> doInBackground(Boolean... next) {
+            ArrayList<SearchResult> resultList;
+            
+            if(next[0]) {
+                resultList = resultsParser.getNextPage();
+            }
+            else {
+                resultList = resultsParser.getPrevPage();
+            }
+            
+            
             return resultList;
         }
         
@@ -95,6 +147,8 @@ public class SearchActivity extends SherlockActivity {
                 Toast resultsToast = Toast.makeText(SearchActivity.this,
                         resultText, Toast.LENGTH_SHORT);
                 resultsToast.show();
+                
+                pageText.setText(Integer.toString(resultsParser.currentPage+1));
             }
         }
     }
