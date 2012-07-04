@@ -138,6 +138,10 @@ public class SearchActivity extends SherlockActivity {
                 resultsToast.show();
                 
                 pageText.setText(Integer.toString(resultsParser.currentPage+1));
+                if(resultsParser.currentPage == 0)
+                    prevButton.setEnabled(false);
+                else
+                    prevButton.setEnabled(true);
             }
         }
     }

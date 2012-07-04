@@ -14,7 +14,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="Previous page"/>
+            android:text="Previous page"
+            android:enabled="false"/>
         
         <TextView 
             android:id="@+id/pageText"
