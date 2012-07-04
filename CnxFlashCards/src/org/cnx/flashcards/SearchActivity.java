@@ -26,6 +26,11 @@ import com.actionbarsherlock.app.SherlockActivity;
 
 public class SearchActivity extends SherlockActivity {
     
+    public enum SearchDirection {
+        NEXT,
+        PREVIOUS
+    }
+    
     String searchTerm;
     ListView resultsListView;
     SearchResultsAdapter resultsAdapter;
@@ -42,29 +47,26 @@ public class SearchActivity extends SherlockActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.search);
         
-        
+        //Get UI elements
         resultsListView = (ListView)findViewById(R.id.resultsList);
-        results = new ArrayList<SearchResult>();
-        resultsAdapter = new SearchResultsAdapter(this, results);
+        pageText = (TextView)findViewById(R.id.pageText);
+        nextButton = (Button)findViewById(R.id.nextPageButton);
+        prevButton = (Button)findViewById(R.id.prevPageButton);
         
-        resultsListView.setAdapter(resultsAdapter);
-
+        // Get a parser for the search term
         searchTerm = getIntent().getStringExtra(SEARCH_TERM);
-        
         resultsParser = new SearchResultsParser(this, searchTerm);
         
-        Toast searchingToast = Toast.makeText(
-                SearchActivity.this, "Searching for '" + searchTerm + "'...",
-                Toast.LENGTH_SHORT);
-        searchingToast.show();
-        setProgressBarIndeterminateVisibility(true);
+        // Tie the ListView to the results
+        results = new ArrayList<SearchResult>();
+        resultsAdapter = new SearchResultsAdapter(this, results);
+        resultsListView.setAdapter(resultsAdapter);
         
-        pageText = (TextView)findViewById(R.id.pageText);
+        // Get the first page of search results
+        search(SearchDirection.NEXT);
         
-        new SearchResultsTask().execute(true);
-        
+        // When an item's clicked, try to download that module.
         resultsListView.setOnItemClickListener(new OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
                 String id = ((SearchResult)resultsListView.getItemAtPosition(position)).getId();
@@ -73,58 +75,49 @@ public class SearchActivity extends SherlockActivity {
             }
         });
         
-        
-        nextButton = (Button)findViewById(R.id.nextPageButton);
+        // Loads the next page when clicked
         nextButton.setOnClickListener(new OnClickListener() {
-            
             @Override
             public void onClick(View v) {
-                results.clear();
-                resultsAdapter.notifyDataSetChanged();
-                new SearchResultsTask().execute(true);
-                Toast searchingToast = Toast.makeText(
-                        SearchActivity.this, "Searching for '" + searchTerm + "'...",
-                        Toast.LENGTH_SHORT);
-                searchingToast.show();
-                setProgressBarIndeterminateVisibility(true);
+                search(SearchDirection.NEXT);
             }
         });
         
-        
-        prevButton = (Button)findViewById(R.id.prevPageButton);
+        // Loads the previous page when clicked
         prevButton.setOnClickListener(new OnClickListener() {
-            
             @Override
             public void onClick(View v) {
-                results.clear();
-                resultsAdapter.notifyDataSetChanged();
-                new SearchResultsTask().execute(false);
-                Toast searchingToast = Toast.makeText(
-                        SearchActivity.this, "Searching for '" + searchTerm + "'...",
-                        Toast.LENGTH_SHORT);
-                searchingToast.show();
-                setProgressBarIndeterminateVisibility(true);
-                
+                search(SearchDirection.PREVIOUS);
             }
         });
+    }
+    
+    
+    private void search(SearchDirection direction) {
+        results.clear();
+        resultsAdapter.notifyDataSetChanged();
         
+        new SearchResultsTask().execute(direction);
         
+        Toast searchingToast = Toast.makeText(
+                SearchActivity.this, "Searching for '" + searchTerm + "'...",
+                Toast.LENGTH_SHORT);
+        searchingToast.show();
+        
+        setProgressBarIndeterminateVisibility(true);
     }
 
     
-    private class SearchResultsTask extends AsyncTask<Boolean, Void, ArrayList<SearchResult>> {
+    private class SearchResultsTask extends AsyncTask<SearchDirection, Void, ArrayList<SearchResult>> {
 
         @Override
-        protected ArrayList<SearchResult> doInBackground(Boolean... next) {
+        protected ArrayList<SearchResult> doInBackground(SearchDirection... direction) {
             ArrayList<SearchResult> resultList;
             
-            if(next[0]) {
+            if(direction[0] == SearchDirection.NEXT)
                 resultList = resultsParser.getNextPage();
-            }
-            else {
+            else
                 resultList = resultsParser.getPrevPage();
-            }
-            
             
             return resultList;
         }
@@ -140,12 +133,8 @@ public class SearchActivity extends SherlockActivity {
                 results.addAll(result);
                 resultsAdapter.notifyDataSetChanged();
     
-                String resultText = "";
-                
-                resultText = "Successfully downloaded search results.";
-    
                 Toast resultsToast = Toast.makeText(SearchActivity.this,
-                        resultText, Toast.LENGTH_SHORT);
+                        "Successfully downloaded search results.", Toast.LENGTH_SHORT);
                 resultsToast.show();
                 
                 pageText.setText(Integer.toString(resultsParser.currentPage+1));
@@ -156,7 +145,7 @@ public class SearchActivity extends SherlockActivity {
 
     public class DownloadDeckTask extends AsyncTask<String, Void, ParseResult> {
 
-        String id = "Module";
+        String id;
 
         @Override
         protected ParseResult doInBackground(String... idParam) {
