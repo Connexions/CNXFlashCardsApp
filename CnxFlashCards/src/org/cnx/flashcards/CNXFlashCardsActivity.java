@@ -101,44 +101,8 @@ public class CNXFlashCardsActivity extends SherlockActivity {
         showCardsButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] projection = { DECK_ID, TITLE };
-                Cursor titlesCursor = getContentResolver().query(
-                        DeckProvider.CONTENT_URI, projection, null, null, null);
-                titlesCursor.moveToFirst();
-
-                final ArrayList<String> idList = new ArrayList<String>();
-                ArrayList<String> titlesList = new ArrayList<String>();
-
-                if (!titlesCursor.isAfterLast()) {
-                    do {
-                        idList.add(new String(
-                                titlesCursor.getString(titlesCursor
-                                        .getColumnIndex(DECK_ID))));
-                        titlesList.add(new String(titlesCursor
-                                .getString(titlesCursor.getColumnIndex(TITLE))));
-                    } while (titlesCursor.moveToNext());
-                }
-
-                titlesCursor.close();
-
-                final String[] titles = titlesList
-                        .toArray(new String[titlesList.size()]);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        CNXFlashCardsActivity.this);
-                builder.setTitle("Pick a deck");
-                builder.setItems(titles, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        id = idList.get(item);
-                        Intent cardIntent = new Intent(getApplicationContext(),
-                                ModeSelectActivity.class);
-                        cardIntent.putExtra(DECK_ID, id);
-                        startActivity(cardIntent);
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
+                Intent deckListIntent = new Intent(CNXFlashCardsActivity.this, DeckListActivity.class);
+                startActivity(deckListIntent);
             }
         });
 

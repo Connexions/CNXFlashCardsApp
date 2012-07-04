@@ -61,6 +61,11 @@
             android:name="org.cnx.flashcards.QuizEndActivity"
             android:label="QuizEndActivity" >
         </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.DeckListActivity"
+            android:label="DeckListActivity" >
+        </activity>
     </application>
 
 </manifest>
