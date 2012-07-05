@@ -71,6 +71,11 @@
             android:name="org.cnx.flashcards.activities.HelpActivity"
             android:label="HelpActivity" >
         </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.activities.DeckEditorActivity"
+            android:label="DeckEditorActivity" >
+         </activity>
     </application>
 
 </manifest>

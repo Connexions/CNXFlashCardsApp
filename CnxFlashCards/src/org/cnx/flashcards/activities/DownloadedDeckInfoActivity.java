@@ -29,6 +29,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     Button quizModeButton;
     Button studyModeButton;
     Button selfTestModeButton;
+    Button editButton;
     
     TextView titleText;
     TextView summaryText;
@@ -48,6 +49,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         quizModeButton = (Button) findViewById(R.id.quizModeButton);
         studyModeButton = (Button) findViewById(R.id.studyModeButton);
         selfTestModeButton = (Button) findViewById(R.id.selfTestModeButton);
+        editButton = (Button)findViewById(R.id.editButton);
         
         titleText = (TextView)findViewById(R.id.deckNameText);
         summaryText = (TextView)findViewById(R.id.deckSummaryText);
@@ -82,6 +84,16 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
                         QuizCardActivity.class);
                 cardIntent.putExtra(DECK_ID, id);
                 startActivityForResult(cardIntent, QUIZ_LAUNCH);
+            }
+        });
+        
+        editButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(DownloadedDeckInfoActivity.this, DeckEditorActivity.class);
+                editIntent.putExtra(DECK_ID, id);
+                startActivity(editIntent);
             }
         });
     }

@@ -25,10 +25,11 @@ public class CardDatabaseOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + CARDS_TABLE + " (" + BaseColumns._ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DECK_ID
-                + " STRING, " + TERM + " STRING, " + MEANING
-                + " TEXT NOT NULL);");
+        db.execSQL("CREATE TABLE " + CARDS_TABLE + " (" + 
+                BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
+                DECK_ID + " STRING, " + 
+                TERM + " STRING, " + 
+                MEANING + " TEXT NOT NULL);");
 
         db.execSQL("CREATE TABLE " + DECKS_TABLE + " (" + 
                 BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
