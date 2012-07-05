@@ -54,6 +54,7 @@ public class ModuleToDatabaseParser {
         SUCCESS, NO_NODES, DUPLICATE, NO_XML
     }
 
+    
     /** Constructor **/
     public ModuleToDatabaseParser(Context context) {
         this.context = context;
