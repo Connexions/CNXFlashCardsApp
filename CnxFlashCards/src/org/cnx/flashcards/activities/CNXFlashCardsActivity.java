@@ -5,7 +5,7 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards;
+package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.TAG;
@@ -14,7 +14,12 @@ import static org.cnx.flashcards.Constants.TITLE;
 
 import java.util.ArrayList;
 
+import org.cnx.flashcards.ModuleToDatabaseParser;
+import org.cnx.flashcards.R;
 import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
+import org.cnx.flashcards.R.id;
+import org.cnx.flashcards.R.layout;
+import org.cnx.flashcards.R.menu;
 
 import android.app.AlertDialog;
 import android.content.Context;

@@ -1,7 +1,11 @@
-package org.cnx.flashcards;
+package org.cnx.flashcards.activities;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import org.cnx.flashcards.R;
+import org.cnx.flashcards.R.id;
+import org.cnx.flashcards.R.layout;
 
 import android.app.LauncherActivity;
 import android.content.Intent;

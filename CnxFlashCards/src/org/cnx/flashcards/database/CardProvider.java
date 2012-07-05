@@ -1,4 +1,4 @@
-package org.cnx.flashcards;
+package org.cnx.flashcards.database;
 
 import static org.cnx.flashcards.Constants.CARDS_TABLE;
 import static org.cnx.flashcards.Constants.TAG;

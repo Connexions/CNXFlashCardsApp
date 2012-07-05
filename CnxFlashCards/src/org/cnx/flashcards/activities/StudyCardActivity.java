@@ -1,4 +1,8 @@
-package org.cnx.flashcards;
+package org.cnx.flashcards.activities;
+
+import org.cnx.flashcards.R;
+import org.cnx.flashcards.R.id;
+import org.cnx.flashcards.R.layout;
 
 import android.graphics.Color;
 import android.os.Bundle;

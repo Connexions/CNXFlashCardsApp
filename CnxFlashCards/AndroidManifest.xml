@@ -13,11 +13,11 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock">
         
-        <provider android:name=".CardProvider" android:authorities="org.cnx.flashcards.CardProvider" />
-        <provider android:name=".DeckProvider" android:authorities="org.cnx.flashcards.DeckProvider" />
+        <provider android:name=".database.CardProvider" android:authorities="org.cnx.flashcards.CardProvider" />
+        <provider android:name=".database.DeckProvider" android:authorities="org.cnx.flashcards.DeckProvider" />
         
         <activity
-            android:name=".CNXFlashCardsActivity"
+            android:name=".activities.CNXFlashCardsActivity"
             android:label="@string/app_name" >
             
             <intent-filter>
@@ -28,42 +28,42 @@
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.CardActivity"
+            android:name="org.cnx.flashcards.activities.CardActivity"
             android:label="CardActivity" >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.StudyCardActivity"
+            android:name = "org.cnx.flashcards.activities.StudyCardActivity"
             android:label="StudyCardActivity" >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.SelfTestCardActivity"
+            android:name="org.cnx.flashcards.activities.SelfTestCardActivity" 
             android:label="SelfTestCardActivity" >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.QuizCardActivity"
+            android:name="org.cnx.flashcards.activities.QuizCardActivity"
             android:label="QuizCardActivity" >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.ModeSelectActivity"
+            android:name="org.cnx.flashcards.activities.ModeSelectActivity"
             android:label="ModeSelectActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.SearchActivity"
+            android:name="org.cnx.flashcards.activities.SearchActivity"
             android:label="SearchActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.QuizEndActivity"
+            android:name="org.cnx.flashcards.activities.QuizEndActivity"
             android:label="QuizEndActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.DeckListActivity"
+            android:name="org.cnx.flashcards.activities.DeckListActivity"
             android:label="DeckListActivity" >
         </activity>
     </application>

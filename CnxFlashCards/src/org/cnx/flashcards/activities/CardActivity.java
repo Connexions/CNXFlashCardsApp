@@ -1,4 +1,4 @@
-package org.cnx.flashcards;
+package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.MEANING;
@@ -7,6 +7,10 @@ import static org.cnx.flashcards.Constants.TERM;
 import static org.cnx.flashcards.Constants.TITLE;
 
 import java.util.ArrayList;
+
+import org.cnx.flashcards.R;
+import org.cnx.flashcards.R.id;
+import org.cnx.flashcards.database.CardProvider;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

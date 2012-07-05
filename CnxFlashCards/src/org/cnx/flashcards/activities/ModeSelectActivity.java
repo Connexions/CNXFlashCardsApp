@@ -1,4 +1,4 @@
-package org.cnx.flashcards;
+package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.QUIZ_LAUNCH;
@@ -6,6 +6,12 @@ import static org.cnx.flashcards.Constants.RESULT_INVALID_DECK;
 import static org.cnx.flashcards.Constants.SELF_TEST_LAUNCH;
 import static org.cnx.flashcards.Constants.STUDY_LAUNCH;
 import static org.cnx.flashcards.Constants.TITLE;
+
+import org.cnx.flashcards.R;
+import org.cnx.flashcards.R.id;
+import org.cnx.flashcards.R.layout;
+import org.cnx.flashcards.database.DeckProvider;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;

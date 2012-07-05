@@ -1,8 +1,14 @@
-package org.cnx.flashcards;
+package org.cnx.flashcards.activities;
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.HIGH_SCORE;
 import static org.cnx.flashcards.Constants.SCORE;
 import static org.cnx.flashcards.Constants.TAG;
+
+import org.cnx.flashcards.R;
+import org.cnx.flashcards.R.id;
+import org.cnx.flashcards.R.layout;
+import org.cnx.flashcards.database.DeckProvider;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;

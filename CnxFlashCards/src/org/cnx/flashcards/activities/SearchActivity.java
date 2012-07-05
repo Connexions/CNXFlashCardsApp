@@ -1,4 +1,4 @@
-package org.cnx.flashcards;
+package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.SEARCH_TERM;
@@ -6,7 +6,14 @@ import static org.cnx.flashcards.Constants.TAG;
 
 import java.util.ArrayList;
 
+import org.cnx.flashcards.ModuleToDatabaseParser;
+import org.cnx.flashcards.R;
+import org.cnx.flashcards.SearchResult;
+import org.cnx.flashcards.SearchResultsAdapter;
+import org.cnx.flashcards.SearchResultsParser;
 import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
+import org.cnx.flashcards.R.id;
+import org.cnx.flashcards.R.layout;
 
 import android.content.Intent;
 import android.os.AsyncTask;
