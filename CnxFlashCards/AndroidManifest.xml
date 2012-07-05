@@ -76,6 +76,11 @@
             android:name="org.cnx.flashcards.activities.DeckEditorActivity"
             android:label="DeckEditorActivity" >
          </activity>
+         
+        <activity 
+            android:name="org.cnx.flashcards.activities.CardEditorActivity"
+            android:label="CardEditorActivity" >
+         </activity>
     </application>
 
 </manifest>

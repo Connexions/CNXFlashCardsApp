@@ -9,6 +9,7 @@ import org.cnx.flashcards.database.DeckProvider;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
@@ -54,7 +55,7 @@ public class DeckListActivity extends SherlockActivity {
     
     /**Extracts decks from the database, shows them in the ListView**/
     private void getDecks() {
-        String[] projection = {"_id", DECK_ID, TITLE };
+        String[] projection = {BaseColumns._ID, DECK_ID, TITLE };
         titlesCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, null, null, null);
         titlesCursor.moveToFirst();

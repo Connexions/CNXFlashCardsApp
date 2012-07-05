@@ -1,6 +1,7 @@
 package org.cnx.flashcards.database;
 
 import static org.cnx.flashcards.Constants.CARDS_TABLE;
+import static org.cnx.flashcards.Constants.DECKS_TABLE;
 import static org.cnx.flashcards.Constants.TAG;
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -60,8 +61,11 @@ public class CardProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
             String[] selectionArgs) {
-        // TODO Auto-generated method stub
-        return 0;
+        
+        SQLiteDatabase cardsdb = helper.getWritableDatabase();
+        int rowsUpdated = cardsdb.update(CARDS_TABLE, values, selection, selectionArgs);
+        
+        return rowsUpdated;
     }
 
 }
