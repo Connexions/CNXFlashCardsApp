@@ -48,7 +48,6 @@ import com.actionbarsherlock.view.MenuInflater;
 public class MainActivity extends SherlockActivity {
 
     private Button searchButton;
-    private Button parseTestButton;
     private Button showCardsButton;
     private Button viewHelpButton;
 
@@ -60,51 +59,19 @@ public class MainActivity extends SherlockActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         setContentView(R.layout.main);
-
-        setProgressBarIndeterminateVisibility(false);
 
         // Hide the keyboard at launch (as EditText will be focused
         // automatically)
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        
         // Get UI elements
         searchButton = (Button) findViewById(R.id.searchButton);
-        parseTestButton = (Button) findViewById(R.id.parseTestButton);
         showCardsButton = (Button) findViewById(R.id.showCardsButton);
         searchInput = (EditText) findViewById(R.id.searchInput);
         viewHelpButton = (Button)findViewById(R.id.viewHelpButton);
         
-        
-        searchInput.setOnEditorActionListener(new OnEditorActionListener() {
-            
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                search();
-                return true;
-            }
-        });
-        
-
-        // Parses the target CNXML file (currently just the offline test file)
-        parseTestButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                id = searchInput.getText().toString();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(searchInput.getWindowToken(), 0);
-
-                new DownloadDeckTask().execute(id);
-                Toast downloadToast = Toast.makeText(
-                        MainActivity.this, "Downloading module " + id,
-                        Toast.LENGTH_SHORT);
-                downloadToast.show();
-                setProgressBarIndeterminateVisibility(true);
-            }
-        });
-
+        // Show the user's existing decks
         showCardsButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,15 +80,24 @@ public class MainActivity extends SherlockActivity {
             }
         });
 
-        // Launch search
+        // Search when the user hits the search button
         searchButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 search();
             }
         });
         
+        // Search if the user hits enter while typing a search term
+        searchInput.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                search();
+                return true;
+            }
+        });
+        
+        // Launch the help screen
         viewHelpButton.setOnClickListener(new OnClickListener() {
-            
             @Override
             public void onClick(View v) {
                 Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
@@ -131,6 +107,7 @@ public class MainActivity extends SherlockActivity {
     }
     
     
+    /** Launch a search for the term in the search box **/
     public void search() {
         String searchTerm = searchInput.getText().toString();                
         Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
@@ -145,45 +122,5 @@ public class MainActivity extends SherlockActivity {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.mainmenu, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    
-    public class DownloadDeckTask extends AsyncTask<String, Void, ParseResult> {
-
-        String id = "Module";
-
-        @Override
-        protected ParseResult doInBackground(String... idParam) {
-            this.id = idParam[0];
-            ParseResult result = new ModuleToDatabaseParser(
-                    MainActivity.this).parse(id);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(ParseResult result) {
-            super.onPostExecute(result);
-
-            setProgressBarIndeterminateVisibility(false);
-
-            String resultText = "";
-
-            switch (result) {
-            case SUCCESS:
-                resultText = "Parsing succeeded, terms in database";
-                break;
-
-            case DUPLICATE:
-                resultText = "Parsing failed. Duplicate.";
-                break;
-
-            case NO_NODES:
-                resultText = "Parsing failed. No definitions in module.";
-            }
-
-            Toast resultsToast = Toast.makeText(MainActivity.this,
-                    resultText, Toast.LENGTH_SHORT);
-            resultsToast.show();
-        }
     }
 }
