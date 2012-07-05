@@ -47,6 +47,13 @@
 		        android:layout_height="wrap_content"
 		        android:text="Show cards"
 		    />
+		    
+		    <Button
+                android:id="@+id/viewHelpButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Help"
+            />
 			
 			
 		</LinearLayout>

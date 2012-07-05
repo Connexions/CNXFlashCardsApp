@@ -17,7 +17,7 @@
         <provider android:name=".database.DeckProvider" android:authorities="org.cnx.flashcards.DeckProvider" />
         
         <activity
-            android:name=".activities.CNXFlashCardsActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             
             <intent-filter>
@@ -65,6 +65,11 @@
         <activity 
             android:name="org.cnx.flashcards.activities.DeckListActivity"
             android:label="DeckListActivity" >
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.activities.HelpActivity"
+            android:label="HelpActivity" >
         </activity>
     </application>
 

@@ -50,6 +50,7 @@ public class MainActivity extends SherlockActivity {
     private Button searchButton;
     private Button parseTestButton;
     private Button showCardsButton;
+    private Button viewHelpButton;
 
     private EditText searchInput;
 
@@ -75,6 +76,7 @@ public class MainActivity extends SherlockActivity {
         parseTestButton = (Button) findViewById(R.id.parseTestButton);
         showCardsButton = (Button) findViewById(R.id.showCardsButton);
         searchInput = (EditText) findViewById(R.id.searchInput);
+        viewHelpButton = (Button)findViewById(R.id.viewHelpButton);
         
         
         searchInput.setOnEditorActionListener(new OnEditorActionListener() {
@@ -115,6 +117,15 @@ public class MainActivity extends SherlockActivity {
         searchButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 search();
+            }
+        });
+        
+        viewHelpButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(helpIntent);
             }
         });
     }
