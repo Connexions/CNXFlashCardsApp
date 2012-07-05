@@ -48,8 +48,8 @@
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.activities.ModeSelectActivity"
-            android:label="ModeSelectActivity" >
+            android:name=".activities.DownloadedDeckInfoActivity"
+            android:label="DeckInfoActivity" >
         </activity>
         
         <activity 

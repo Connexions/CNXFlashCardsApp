@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
-public class ModeSelectActivity extends SherlockActivity {
+public class DownloadedDeckInfoActivity extends SherlockActivity {
 
     Button quizModeButton;
     Button studyModeButton;
@@ -41,7 +41,7 @@ public class ModeSelectActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.modeselect);
+        setContentView(R.layout.downloadeddeck);
 
         id = getIntent().getStringExtra(DECK_ID);
 

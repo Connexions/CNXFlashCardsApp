@@ -205,7 +205,7 @@ public class SearchActivity extends SherlockActivity {
             
             if(launch) {
                 Intent cardIntent = new Intent(getApplicationContext(),
-                        ModeSelectActivity.class);
+                        DownloadedDeckInfoActivity.class);
                 cardIntent.putExtra(DECK_ID, id);
                 startActivity(cardIntent);
             }
