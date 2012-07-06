@@ -88,6 +88,7 @@ public class DeckEditorActivity extends SherlockActivity {
         case RESULT_OK:
             // TODO: Cursor.requery is deprecated, change.
             cardsCursor.requery();
+            cursorAdapter.notifyDataSetChanged();
             break;
             
         case RESULT_CANCELED:

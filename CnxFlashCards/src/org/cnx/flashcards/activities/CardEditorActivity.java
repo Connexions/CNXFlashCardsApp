@@ -11,6 +11,7 @@ import android.net.UrlQuerySanitizer.ValueSanitizer;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,8 @@ public class CardEditorActivity extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cardeditor);
+        
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         
         // Get UI elements
         termEditText = (EditText)findViewById(R.id.term);
