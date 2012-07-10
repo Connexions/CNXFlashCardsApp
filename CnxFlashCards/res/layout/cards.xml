@@ -1,56 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <SeekBar
-        android:id="@+id/deckPositionBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
-    
-    <TextView 
-	    android:id="@+id/deckPositionText"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center"
-	    android:paddingTop="30.0dip"/>
-	
-	<LinearLayout 
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal">
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" >
 	    
-	    <Button 
-	        android:id="@+id/prevCardButton"
-	        android:layout_width="0.0dip"
-	        android:layout_height="wrap_content"
-	        android:text=" &lt; "
-	        android:layout_weight="1.0"/>
+	    <SeekBar
+	        android:id="@+id/deckPositionBar"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"/>
 	    
 	    <TextView 
-	        android:id="@+id/termText"
-	        android:layout_width="0.0dip"
-	        android:layout_height="wrap_content"
-	        android:text="Term will go here."
-	        android:gravity="center"
-	        android:layout_weight="3.0"/>
-	    
-	    <Button 
-	        android:id="@+id/nextCardButton"
-	        android:layout_width="0.0dip"
-	        android:layout_height="wrap_content"
-	        android:text=" &gt; "
-	        android:layout_weight="1.0"/>
-	    
-	</LinearLayout>
+		    android:id="@+id/deckPositionText"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:gravity="center"
+		    android:paddingTop="30.0dip"/>
+		
+		<LinearLayout 
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal">
+		    
+		    <Button 
+		        android:id="@+id/prevCardButton"
+		        android:layout_width="0.0dip"
+		        android:layout_height="wrap_content"
+		        android:text=" &lt; "
+		        android:layout_weight="1.0"/>
+		    
+		    <TextView 
+		        android:id="@+id/termText"
+		        android:layout_width="0.0dip"
+		        android:layout_height="wrap_content"
+		        android:text="Term will go here."
+		        android:gravity="center"
+		        android:layout_weight="3.0"/>
+		    
+		    <Button 
+		        android:id="@+id/nextCardButton"
+		        android:layout_width="0.0dip"
+		        android:layout_height="wrap_content"
+		        android:text=" &gt; "
+		        android:layout_weight="1.0"/>
+		    
+		</LinearLayout>
+		
+		<TextView 
+		    android:id="@+id/meaningText"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:text="The meaning will go here."
+		    android:gravity="center"
+		    android:paddingTop="15dip"/>
 	
-	<TextView 
-	    android:id="@+id/meaningText"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:text="The meaning will go here."
-	    android:gravity="center"
-	    android:paddingTop="15dip"/>
-
-</LinearLayout>
+	</LinearLayout>

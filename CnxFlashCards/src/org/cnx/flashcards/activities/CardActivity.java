@@ -89,8 +89,14 @@ public abstract class CardActivity extends SherlockActivity implements
             return;
         }
         
-        positionBar.setMax(definitions.size()-1);
-        positionBar.setProgress(currentCard);
+        if(definitions.size()==1) {
+            positionBar.setMax(1);
+            positionBar.setProgress(1);
+        }
+        else {
+            positionBar.setMax(definitions.size()-1);
+            positionBar.setProgress(currentCard);
+        }
         
         termText.setText(definitions.get(currentCard)[0]);
         deckPositionText.setText(currentCard + 1 + "/" + definitions.size());
@@ -195,6 +201,7 @@ public abstract class CardActivity extends SherlockActivity implements
     
     
     protected void displayCard(int card) {
+        if(definitions.size()==1) return;
         termText.setText(definitions.get(currentCard)[0]);
         setMeaningText();
         deckPositionText.setText(currentCard + 1 + "/" + definitions.size());

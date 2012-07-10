@@ -13,6 +13,29 @@
     <ListView 
         android:id="@+id/cardListView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0"/>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+        <Button 
+	        android:id="@+id/saveButton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="Save"
+	        android:layout_weight="0.5"/>
+        
+        <Button 
+	        android:id="@+id/cancelButton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="Cancel"
+	        android:layout_weight="0.5"/>
+        
+    </LinearLayout>
+    
+    "
 
 </LinearLayout>
