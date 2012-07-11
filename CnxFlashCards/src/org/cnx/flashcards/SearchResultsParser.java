@@ -29,7 +29,7 @@ public class SearchResultsParser {
     Context context;
     public int currentPage;
     String searchTerm;
-    int resultsPerPage = 20;
+    public int resultsPerPage = 20;
     
 
     public SearchResultsParser(Context context, String searchTerm) {
@@ -98,7 +98,7 @@ public class SearchResultsParser {
             url = new URL("http://cnx.org/content/OAI?verb=SearchRecords&metadataPrefix=oai_dc&query:list=" + 
                             searchTerm + 
                             "&b_start:int=" + start + 
-                            "&b_size=" + resultsPerPage);
+                            "&b_size=" + (resultsPerPage+1));
             conn = url.openConnection();
             in = conn.getInputStream();
 

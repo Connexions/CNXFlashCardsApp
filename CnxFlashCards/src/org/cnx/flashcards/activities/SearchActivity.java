@@ -20,18 +20,18 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import com.actionbarsherlock.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Window;
 
 
 
@@ -99,6 +99,8 @@ public class SearchActivity extends SherlockActivity {
             @Override
             public void onClick(View v) {
                 search(SearchDirection.NEXT);
+                nextButton.setEnabled(false);
+                prevButton.setEnabled(false);
             }
         });
         
@@ -107,6 +109,8 @@ public class SearchActivity extends SherlockActivity {
             @Override
             public void onClick(View v) {
                 search(SearchDirection.PREVIOUS);
+                nextButton.setEnabled(false);
+                prevButton.setEnabled(false);
             }
         });
         
@@ -162,7 +166,15 @@ public class SearchActivity extends SherlockActivity {
             setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
             
             //TODO: Handle a null result better (repeat search?)
-            if(result != null) {
+            if(result != null && result.size()!=0) {
+                
+                Log.d(TAG, "Results: " + result.size());
+                
+                if(result.size() > resultsParser.resultsPerPage) {
+                    nextButton.setEnabled(true);
+                    result.remove(result.size()-1);
+                }
+                
                 results.addAll(result);
                 resultsAdapter.notifyDataSetChanged();
     
@@ -175,8 +187,7 @@ public class SearchActivity extends SherlockActivity {
                     prevButton.setEnabled(false);
                 else
                     prevButton.setEnabled(true);
-                
-                nextButton.setEnabled(true);
+             
             }
         }
     }
