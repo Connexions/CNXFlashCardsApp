@@ -17,12 +17,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.actionbarsherlock.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -105,6 +107,18 @@ public class SearchActivity extends SherlockActivity {
             @Override
             public void onClick(View v) {
                 search(SearchDirection.PREVIOUS);
+            }
+        });
+        
+     // Search if the user hits enter while typing a search term
+        searchInput.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                String searchTerm = searchInput.getText().toString();
+                resultsParser = new SearchResultsParser(SearchActivity.this, searchTerm);
+             // Get the first page of search results
+                search(SearchDirection.NEXT);
+                return true;
             }
         });
     }
