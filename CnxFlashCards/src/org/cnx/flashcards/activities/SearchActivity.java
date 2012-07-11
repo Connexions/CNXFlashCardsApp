@@ -114,10 +114,12 @@ public class SearchActivity extends SherlockActivity {
         searchInput.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                String searchTerm = searchInput.getText().toString();
+                searchTerm = searchInput.getText().toString();
                 resultsParser = new SearchResultsParser(SearchActivity.this, searchTerm);
-             // Get the first page of search results
                 search(SearchDirection.NEXT);
+                nextButton.setEnabled(false);
+                prevButton.setEnabled(false);
+                pageText.setText("");
                 return true;
             }
         });
@@ -173,6 +175,8 @@ public class SearchActivity extends SherlockActivity {
                     prevButton.setEnabled(false);
                 else
                     prevButton.setEnabled(true);
+                
+                nextButton.setEnabled(true);
             }
         }
     }
