@@ -7,22 +7,20 @@ import static org.cnx.flashcards.Constants.TAG;
 import java.util.ArrayList;
 
 import org.cnx.flashcards.ModuleToDatabaseParser;
+import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.SearchResult;
 import org.cnx.flashcards.SearchResultsAdapter;
 import org.cnx.flashcards.SearchResultsParser;
-import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
-import org.cnx.flashcards.R.id;
-import org.cnx.flashcards.R.layout;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.view.Window;
+import com.actionbarsherlock.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -32,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
+
+
 
 public class SearchActivity extends SherlockActivity {
     
@@ -87,7 +87,7 @@ public class SearchActivity extends SherlockActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
                 String id = ((SearchResult)resultsListView.getItemAtPosition(position)).getId();
-                setProgressBarIndeterminateVisibility(true);
+                setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
                 new DownloadDeckTask().execute(id);
             }
         });
@@ -121,7 +121,7 @@ public class SearchActivity extends SherlockActivity {
                 Toast.LENGTH_SHORT);
         searchingToast.show();
         
-        setProgressBarIndeterminateVisibility(true);
+        setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
     }
 
     
@@ -143,7 +143,7 @@ public class SearchActivity extends SherlockActivity {
         protected void onPostExecute(ArrayList<SearchResult> result) {
             super.onPostExecute(result);
 
-            setProgressBarIndeterminateVisibility(false);
+            setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
             
             //TODO: Handle a null result better (repeat search?)
             if(result != null) {
@@ -180,7 +180,7 @@ public class SearchActivity extends SherlockActivity {
         protected void onPostExecute(ParseResult result) {
             super.onPostExecute(result);
 
-            setProgressBarIndeterminateVisibility(false);
+            setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
 
             String resultText = "";
             boolean launch = false;

@@ -54,7 +54,7 @@
         
         <activity 
             android:name="org.cnx.flashcards.activities.SearchActivity"
-            android:label="SearchActivity" >
+            android:label="Search" >
         </activity>
         
         <activity 
