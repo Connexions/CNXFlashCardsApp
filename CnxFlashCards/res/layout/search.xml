@@ -4,7 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <LinearLayout 
+    <EditText
+	    android:id="@+id/searchInput"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:singleLine="true"
+	    android:maxLines="1"
+	    android:scrollHorizontally="true"
+	    android:hint="Search for a module"
+	    android:state_enabled="true"
+	    android:imeOptions="actionSearch"
+	    android:imeActionLabel="Search"/>
+    
+    
+    
+	<ListView 
+	    android:id="@+id/resultsList"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="1.0"/>
+	
+	<LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -26,20 +46,14 @@
             android:textStyle="bold"
             android:gravity="center_horizontal"/>
         
-	    <Button
-	        android:id="@+id/nextPageButton"
-	        android:layout_width="0dp"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="0.4"
-	        android:text="Next page"/>
+        <Button
+            android:id="@+id/nextPageButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="Next page"/>
     
     </LinearLayout>
-    
-	<ListView 
-	    android:id="@+id/resultsList"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"/>
 	
-	"
     
 </LinearLayout>

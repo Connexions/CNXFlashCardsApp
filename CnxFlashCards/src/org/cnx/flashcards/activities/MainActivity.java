@@ -61,8 +61,7 @@ public class MainActivity extends SherlockActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // Hide the keyboard at launch (as EditText will be focused
-        // automatically)
+        // Hide the keyboard at launch (as EditText will be focused automatically)
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         
         // Get UI elements

@@ -20,11 +20,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,9 +45,11 @@ public class SearchActivity extends SherlockActivity {
     SearchResultsAdapter resultsAdapter;
     ArrayList<SearchResult> results; 
     SearchResultsParser resultsParser;
+    
     Button nextButton;
     Button prevButton;
     TextView pageText;
+    EditText searchInput;
     
 
     @Override
@@ -54,14 +58,20 @@ public class SearchActivity extends SherlockActivity {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.search);
         
+        // Hide the keyboard at launch (as EditText will be focused automatically)
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        
         //Get UI elements
         resultsListView = (ListView)findViewById(R.id.resultsList);
         pageText = (TextView)findViewById(R.id.pageText);
         nextButton = (Button)findViewById(R.id.nextPageButton);
         prevButton = (Button)findViewById(R.id.prevPageButton);
+        searchInput = (EditText)findViewById(R.id.searchInput);
         
         // Get a parser for the search term
         searchTerm = getIntent().getStringExtra(SEARCH_TERM);
+        searchInput.setText(searchTerm);
+        
         resultsParser = new SearchResultsParser(this, searchTerm);
         
         // Tie the ListView to the results
