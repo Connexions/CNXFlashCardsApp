@@ -83,7 +83,7 @@ public class DeckEditorActivity extends SherlockActivity {
     private void getCards(String id) {
         String[] projection = {BaseColumns._ID, DECK_ID, TERM, MEANING };
         String selection = DECK_ID + " = '" + id + "'";
-        cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);
+        cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, TERM);
         cardsCursor.moveToFirst();
         
         int[] to = {R.id.term, R.id.meaning};
