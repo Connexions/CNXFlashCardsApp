@@ -1,18 +1,19 @@
 package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.TERM;
+import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.flashcards.Constants.*;
 
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.database.CardProvider;
 
 import android.content.ContentValues;
-import android.net.UrlQuerySanitizer.ValueSanitizer;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -26,7 +27,9 @@ public class CardEditorActivity extends SherlockActivity {
     Button saveButton;
     Button cancelButton;
     
-    int row_id;
+    int _id;
+    String deck;
+    boolean newCard = true;
     
     
     @Override
@@ -42,12 +45,17 @@ public class CardEditorActivity extends SherlockActivity {
         saveButton = (Button)findViewById(R.id.saveEditButton);
         cancelButton = (Button)findViewById(R.id.cancelEditButton);
         
-        row_id = getIntent().getIntExtra(BaseColumns._ID, 0);
+        _id = getIntent().getIntExtra(BaseColumns._ID, 0);
         String term = getIntent().getStringExtra(TERM);
         String meaning = getIntent().getStringExtra(MEANING);
+        deck = getIntent().getStringExtra(DECK_ID);
         
-        termEditText.setText(term);
-        meaningEditText.setText(meaning);
+        if(term != null) {
+            Log.d(TAG, "Term is null");
+            termEditText.setText(term);
+            meaningEditText.setText(meaning);
+            newCard = false;
+        }
         
         cancelButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -65,9 +73,15 @@ public class CardEditorActivity extends SherlockActivity {
                 editedValues.put(TERM, termEditText.getText().toString());
                 editedValues.put(MEANING, meaningEditText.getText().toString());
                 
-                String selection = BaseColumns._ID + " = '" + row_id + "'";
-                
-                getContentResolver().update(CardProvider.CONTENT_URI, editedValues, selection, null);
+                if(!newCard) {
+                    String selection = BaseColumns._ID + " = '" + _id + "'";                    
+                    getContentResolver().update(CardProvider.CONTENT_URI, editedValues, selection, null);
+                }
+                else {
+                    editedValues.put(DECK_ID, deck);
+                    getContentResolver().insert(CardProvider.CONTENT_URI, editedValues);
+                    Log.d(TAG, "Inserting a new card...");
+                }
                 
                 setResult(RESULT_OK);
                 

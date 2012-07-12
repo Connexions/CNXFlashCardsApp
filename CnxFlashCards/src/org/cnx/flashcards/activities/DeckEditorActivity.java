@@ -2,7 +2,8 @@ package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.flashcards.Constants.TERM;
 
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.database.CardProvider;
@@ -15,9 +16,11 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -27,6 +30,8 @@ public class DeckEditorActivity extends SherlockActivity {
     ListView cardListView;
     Cursor cardsCursor;
     SimpleCursorAdapter cursorAdapter;
+    Button newCardButton;
+    String id;
     
     static int CARD_EDIT_REQUEST = 0;
 
@@ -40,8 +45,9 @@ public class DeckEditorActivity extends SherlockActivity {
         
         // Get UI elements
         cardListView = (ListView)findViewById(R.id.cardListView);
+        newCardButton = (Button)findViewById(R.id.newCardButton);
         
-        String id = getIntent().getStringExtra(DECK_ID);
+        id = getIntent().getStringExtra(DECK_ID);
         
         getCards(id);
         
@@ -57,7 +63,18 @@ public class DeckEditorActivity extends SherlockActivity {
                 cardEditIntent.putExtra(BaseColumns._ID, row_id);
                 cardEditIntent.putExtra(TERM, term);
                 cardEditIntent.putExtra(MEANING, meaning);
+                cardEditIntent.putExtra(DECK_ID, id);
                 startActivityForResult(cardEditIntent, CARD_EDIT_REQUEST);
+            }
+        });
+        
+        newCardButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent newCardIntent = new Intent(DeckEditorActivity.this, CardEditorActivity.class);
+                newCardIntent.putExtra(DECK_ID, id);
+                startActivityForResult(newCardIntent, CARD_EDIT_REQUEST);
             }
         });
     }
