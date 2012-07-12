@@ -23,9 +23,11 @@ public class CardProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri arg0, String arg1, String[] arg2) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        SQLiteDatabase cardsdb = helper.getWritableDatabase();
+        int rowsUpdated = cardsdb.delete(CARDS_TABLE, selection, null);
+        
+        return rowsUpdated;
     }
 
     @Override

@@ -34,6 +34,13 @@
 		        android:layout_weight="0.5"/>
 	        
 	        <Button 
+                android:id="@+id/deleteButton"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:layout_weight="0.5"/>
+	        
+	        <Button 
 	            android:id="@+id/cancelEditButton"
 	            android:layout_width="0dip"
 	            android:layout_height="wrap_content"

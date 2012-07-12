@@ -10,7 +10,6 @@ package org.cnx.flashcards;
 import static org.cnx.flashcards.Constants.ABSTRACT;
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.NO_OF_CARDS;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
 import static org.cnx.flashcards.Constants.TITLE;
@@ -118,7 +117,6 @@ public class ModuleToDatabaseParser {
         values.put(DECK_ID, id);
         values.put(TITLE, title);
         values.put(ABSTRACT, summary);
-        values.put(NO_OF_CARDS, terms.size());
         Uri deckUri = context.getContentResolver().insert(
                 DeckProvider.CONTENT_URI, values);
 

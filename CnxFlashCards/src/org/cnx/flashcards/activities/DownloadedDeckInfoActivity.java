@@ -10,6 +10,7 @@ import static org.cnx.flashcards.Constants.TITLE;
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.R.id;
 import org.cnx.flashcards.R.layout;
+import org.cnx.flashcards.database.CardProvider;
 import org.cnx.flashcards.database.DeckProvider;
 
 import android.app.AlertDialog;
@@ -93,14 +94,14 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
             public void onClick(View v) {
                 Intent editIntent = new Intent(DownloadedDeckInfoActivity.this, DeckEditorActivity.class);
                 editIntent.putExtra(DECK_ID, id);
-                startActivity(editIntent);
+                startActivityForResult(editIntent, EDIT_LAUNCH);
             }
         });
     }
 
     
     private void setDetails() {
-        String[] projection = { TITLE, ABSTRACT, NO_OF_CARDS };
+        String[] projection = { TITLE, ABSTRACT };
         String selection = DECK_ID + " = '" + id + "'";
         Cursor deckInfoCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
@@ -112,42 +113,44 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         String summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
         summaryText.setText("Abstract: " + summary);
         
-        String noOfCards = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(NO_OF_CARDS));
-        noOfCardsText.setText("No. of cards: " + noOfCards);
+        projection = new String[]{TERM};
+        Cursor cardCountCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);
+        noOfCardsText.setText("No. of cards: " + cardCountCursor.getCount());
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Only dealing with invalid decks right now
-        if (resultCode != RESULT_INVALID_DECK)
-            return;
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+        if (resultCode == RESULT_INVALID_DECK) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            
+            switch(requestCode) {
+            case QUIZ_LAUNCH:
+                builder.setMessage("This deck has too few cards. You need at least 3 for a quiz.");
+                break;
+                
+            case SELF_TEST_LAUNCH:
+                builder.setMessage("This deck doesn't have any cards!");
+                break;
+                
+            case STUDY_LAUNCH:
+                builder.setMessage("This deck doesn't have any cards!");
+                break;
             }
-        });
-        
-        switch(requestCode) {
-        case QUIZ_LAUNCH:
-            builder.setMessage("This deck has too few cards. You need at least 3 for a quiz.");
-            break;
             
-        case SELF_TEST_LAUNCH:
-            builder.setMessage("This deck doesn't have any cards!");
-            break;
-            
-        case STUDY_LAUNCH:
-            builder.setMessage("This deck doesn't have any cards!");
-            break;
+            AlertDialog quizAlert = builder.create();
+            quizAlert.show();
         }
-        
-        AlertDialog quizAlert = builder.create();
-        quizAlert.show();
-        
+        else if (requestCode == EDIT_LAUNCH) {
+            setDetails();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

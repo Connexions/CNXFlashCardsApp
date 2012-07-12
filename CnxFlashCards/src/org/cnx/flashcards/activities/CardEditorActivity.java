@@ -26,6 +26,7 @@ public class CardEditorActivity extends SherlockActivity {
     
     Button saveButton;
     Button cancelButton;
+    Button deleteButton;
     
     int _id;
     String deck;
@@ -44,6 +45,7 @@ public class CardEditorActivity extends SherlockActivity {
         meaningEditText = (EditText)findViewById(R.id.meaning);
         saveButton = (Button)findViewById(R.id.saveEditButton);
         cancelButton = (Button)findViewById(R.id.cancelEditButton);
+        deleteButton = (Button)findViewById(R.id.deleteButton);
         
         _id = getIntent().getIntExtra(BaseColumns._ID, 0);
         String term = getIntent().getStringExtra(TERM);
@@ -51,7 +53,6 @@ public class CardEditorActivity extends SherlockActivity {
         deck = getIntent().getStringExtra(DECK_ID);
         
         if(term != null) {
-            Log.d(TAG, "Term is null");
             termEditText.setText(term);
             meaningEditText.setText(meaning);
             newCard = false;
@@ -80,11 +81,22 @@ public class CardEditorActivity extends SherlockActivity {
                 else {
                     editedValues.put(DECK_ID, deck);
                     getContentResolver().insert(CardProvider.CONTENT_URI, editedValues);
-                    Log.d(TAG, "Inserting a new card...");
                 }
                 
                 setResult(RESULT_OK);
                 
+                finish();
+            }
+        });
+        
+        deleteButton.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                String selection = BaseColumns._ID + " = '" + _id + "'";
+                getContentResolver().delete(CardProvider.CONTENT_URI, selection, null);
+                
+                setResult(RESULT_OK);
                 finish();
             }
         });
