@@ -31,6 +31,8 @@ public class DeckEditorActivity extends SherlockActivity {
     Cursor cardsCursor;
     SimpleCursorAdapter cursorAdapter;
     Button newCardButton;
+    Button saveButton;
+    Button cancelButton;
     String id;
     
     static int CARD_EDIT_REQUEST = 0;
