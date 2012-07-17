@@ -133,7 +133,6 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Only dealing with invalid decks right now
         if (resultCode == RESULT_INVALID_DECK) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -161,7 +160,14 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
             quizAlert.show();
         }
         else if (requestCode == EDIT_LAUNCH) {
-            setDetails();
+        	if(resultCode == RESULT_DECK_DELETED) {
+				Log.d(TAG, "Deck deleted.");
+				setResult(RESULT_DECK_DELETED);
+				finish();
+			}
+        	else {
+        		setDetails();
+        	}
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

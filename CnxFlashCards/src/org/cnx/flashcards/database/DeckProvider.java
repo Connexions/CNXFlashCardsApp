@@ -26,8 +26,10 @@ public class DeckProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        // TODO Auto-generated method stub
-        return 0;
+    	SQLiteDatabase cardsdb = helper.getWritableDatabase();
+        int rowsUpdated = cardsdb.delete(DECKS_TABLE, selection, null);
+        
+        return rowsUpdated;
     }
 
     @Override

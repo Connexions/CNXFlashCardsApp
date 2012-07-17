@@ -38,6 +38,7 @@ public interface Constants {
     
     // RESULT_FIRST_USER = 1, so need to start custom results above that
     public static int RESULT_INVALID_DECK = 2;
+    public static int RESULT_DECK_DELETED = 3;
     
     public static final String SEARCH_TERM = "search_term";
 }

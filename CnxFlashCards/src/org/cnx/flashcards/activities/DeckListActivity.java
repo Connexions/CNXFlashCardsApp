@@ -2,6 +2,7 @@ package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.TITLE;
+import static org.cnx.flashcards.Constants.RESULT_DECK_DELETED;
 
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.database.DeckProvider;
@@ -25,6 +26,9 @@ public class DeckListActivity extends SherlockActivity {
     ListView deckListView;
     Cursor titlesCursor;
     Button editButton;
+    
+    static int DECK_INFO_REQUEST = 0;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class DeckListActivity extends SherlockActivity {
                 // Launch the deck
                 Intent cardIntent = new Intent(getApplicationContext(), DownloadedDeckInfoActivity.class);
                 cardIntent.putExtra(DECK_ID, id);
-                startActivity(cardIntent);
+                startActivityForResult(cardIntent, DECK_INFO_REQUEST);
             }
         });
     }
@@ -65,5 +69,16 @@ public class DeckListActivity extends SherlockActivity {
         SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.search_row, titlesCursor, from, to, CursorAdapter.NO_SELECTION);
 
         deckListView.setAdapter(cursorAdapter);
+    }
+    
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(requestCode == DECK_INFO_REQUEST && resultCode == RESULT_DECK_DELETED) {
+    		getDecks();
+    	}
+    	
+    	
+    	super.onActivityResult(requestCode, resultCode, data);
     }
 }
