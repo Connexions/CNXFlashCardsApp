@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,6 +39,8 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     TextView noOfCardsText;
     
     String id;
+    String title;
+    String summary;
     
 
     @Override
@@ -94,6 +97,8 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
             public void onClick(View v) {
                 Intent editIntent = new Intent(DownloadedDeckInfoActivity.this, DeckEditorActivity.class);
                 editIntent.putExtra(DECK_ID, id);
+                editIntent.putExtra(TITLE, title);
+                editIntent.putExtra(ABSTRACT, summary);
                 startActivityForResult(editIntent, EDIT_LAUNCH);
             }
         });
@@ -107,10 +112,10 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
         deckInfoCursor.moveToFirst();
         
-        String title = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(TITLE));
+        title = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(TITLE));
         titleText.setText("Title: " + title);
         
-        String summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
+        summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
         summaryText.setText("Abstract: " + summary);
         
         projection = new String[]{TERM};

@@ -1,13 +1,15 @@
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.MEANING;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
 
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.database.CardProvider;
+import org.cnx.flashcards.database.DeckProvider;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -32,6 +35,7 @@ public class DeckEditorActivity extends SherlockActivity {
     SimpleCursorAdapter cursorAdapter;
     Button newCardButton;
     String id;
+    EditText titleEditText;
     
     static int CARD_EDIT_REQUEST = 0;
 
@@ -46,10 +50,15 @@ public class DeckEditorActivity extends SherlockActivity {
         // Get UI elements
         cardListView = (ListView)findViewById(R.id.cardListView);
         newCardButton = (Button)findViewById(R.id.newCardButton);
+        titleEditText = (EditText)findViewById(R.id.editDeckName);
         
         id = getIntent().getStringExtra(DECK_ID);
         
-        getCards(id);
+        getCards();
+        
+        String title = getIntent().getStringExtra(TITLE);
+        titleEditText.setText(title);
+        
         
         cardListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -80,7 +89,7 @@ public class DeckEditorActivity extends SherlockActivity {
     }
 
     
-    private void getCards(String id) {
+    private void getCards() {
         String[] projection = {BaseColumns._ID, DECK_ID, TERM, MEANING };
         String selection = DECK_ID + " = '" + id + "'";
         cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);
@@ -91,6 +100,15 @@ public class DeckEditorActivity extends SherlockActivity {
         cursorAdapter = new SimpleCursorAdapter(this, R.layout.card_row, cardsCursor, from, to, CursorAdapter.NO_SELECTION);
 
         cardListView.setAdapter(cursorAdapter);      
+    }
+    
+    
+    @Override
+    public void finish() {
+    	ContentValues values = new ContentValues();
+    	values.put(TITLE, titleEditText.getText().toString());
+    	getContentResolver().update(DeckProvider.CONTENT_URI, values, DECK_ID + " = '" + id + "'", null);
+    	super.finish();
     }
     
     
