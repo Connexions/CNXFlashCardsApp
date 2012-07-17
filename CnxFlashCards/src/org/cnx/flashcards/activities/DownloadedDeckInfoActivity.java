@@ -41,6 +41,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     String id;
     String title;
     String summary;
+    String authors;
     
 
     @Override
@@ -58,6 +59,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         titleText = (TextView)findViewById(R.id.deckNameText);
         summaryText = (TextView)findViewById(R.id.deckSummaryText);
         noOfCardsText = (TextView)findViewById(R.id.numberOfCardsText);
+        authorsText = (TextView)findViewById(R.id.deckAuthorsText);
         
         setDetails();
 
@@ -99,6 +101,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
                 editIntent.putExtra(DECK_ID, id);
                 editIntent.putExtra(TITLE, title);
                 editIntent.putExtra(ABSTRACT, summary);
+                editIntent.putExtra(AUTHOR, authors);
                 startActivityForResult(editIntent, EDIT_LAUNCH);
             }
         });
@@ -106,7 +109,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
 
     
     private void setDetails() {
-        String[] projection = { TITLE, ABSTRACT };
+        String[] projection = { TITLE, ABSTRACT, AUTHOR };
         String selection = DECK_ID + " = '" + id + "'";
         Cursor deckInfoCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
@@ -117,6 +120,10 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         
         summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
         summaryText.setText("Abstract: " + summary);
+        
+        authors = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(AUTHOR));
+        if(authors != null)
+        	authorsText.setText("Author(s): " + authors);
         
         projection = new String[]{TERM};
         Cursor cardCountCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);

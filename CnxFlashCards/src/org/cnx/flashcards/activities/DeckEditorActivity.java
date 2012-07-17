@@ -1,6 +1,7 @@
 package org.cnx.flashcards.activities;
 
 import static org.cnx.flashcards.Constants.ABSTRACT;
+import static org.cnx.flashcards.Constants.AUTHOR;
 import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.TITLE;
 
@@ -9,6 +10,7 @@ import org.cnx.flashcards.database.DeckProvider;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.IntentFilter.AuthorityEntry;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +28,7 @@ public class DeckEditorActivity extends SherlockActivity {
     String id;
     EditText titleEditText;
     EditText summaryEditText;
+    EditText authorEditText;
     
     static int CARD_EDIT_REQUEST = 0;
 
@@ -41,6 +44,7 @@ public class DeckEditorActivity extends SherlockActivity {
         newCardButton = (Button)findViewById(R.id.editCardsButton);
         titleEditText = (EditText)findViewById(R.id.editDeckName);
         summaryEditText = (EditText)findViewById(R.id.editDeckSummary);
+        authorEditText = (EditText)findViewById(R.id.editDeckAuthors);
         
         id = getIntent().getStringExtra(DECK_ID);
         
@@ -69,6 +73,7 @@ public class DeckEditorActivity extends SherlockActivity {
     	ContentValues values = new ContentValues();
     	values.put(TITLE, titleEditText.getText().toString());
     	values.put(ABSTRACT, summaryEditText.getText().toString());
+    	values.put(AUTHOR, authorEditText.getText().toString());
     	getContentResolver().update(DeckProvider.CONTENT_URI, values, DECK_ID + " = '" + id + "'", null);
     	super.finish();
     }
