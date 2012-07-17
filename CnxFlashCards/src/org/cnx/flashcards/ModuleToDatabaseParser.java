@@ -79,6 +79,8 @@ public class ModuleToDatabaseParser {
 
         Element root = doc.getDocumentElement();
         title = getValue("title", root);
+        if(title == null)
+            title = getValue("name", root);
         
         NodeList metadataNodes = doc.getElementsByTagName("metadata");
         summary = getValue("md:abstract", metadataNodes.item(0));
@@ -222,8 +224,8 @@ public class ModuleToDatabaseParser {
         Node value;
         
         try {
-        NodeList childnodes = ((Element) n).getElementsByTagName(tagname).item(0).getChildNodes();
-        value = (Node) childnodes.item(0);
+            NodeList childnodes = ((Element) n).getElementsByTagName(tagname).item(0).getChildNodes();
+            value = (Node) childnodes.item(0);
         }
         catch (NullPointerException npe) {
             value = null;
