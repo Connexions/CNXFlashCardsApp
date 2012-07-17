@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.cnx.flashcards"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:targetSdkVersion="15" android:minSdkVersion="7"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Sherlock">
+        
+        <provider android:name=".database.CardProvider" android:authorities="org.cnx.flashcards.CardProvider" />
+        <provider android:name=".database.DeckProvider" android:authorities="org.cnx.flashcards.DeckProvider" />
+        
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name" >
+            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
+        </activity>
+        
+        <activity
+            android:name="org.cnx.flashcards.activities.CardActivity"
+            android:label="CardActivity" >
+        </activity>
+        
+        <activity
+            android:name = "org.cnx.flashcards.activities.StudyCardActivity"
+            android:label="StudyCardActivity" >
+        </activity>
+        
+        <activity
+            android:name="org.cnx.flashcards.activities.SelfTestCardActivity" 
+            android:label="SelfTestCardActivity" >
+        </activity>
+        
+        <activity
+            android:name="org.cnx.flashcards.activities.QuizCardActivity"
+            android:label="QuizCardActivity" >
+        </activity>
+        
+        <activity
+            android:name=".activities.DownloadedDeckInfoActivity"
+            android:label="DeckInfoActivity" >
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.activities.SearchActivity"
+            android:label="Search" >
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.activities.QuizEndActivity"
+            android:label="QuizEndActivity" >
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.activities.DeckListActivity"
+            android:label="DeckListActivity" >
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.activities.HelpActivity"
+            android:label="HelpActivity" >
+        </activity>
+        
+        <activity 
+            android:name="org.cnx.flashcards.activities.DeckEditorActivity"
+            android:label="DeckEditorActivity" >
+         </activity>
+         
+        <activity 
+            android:name="org.cnx.flashcards.activities.CardEditorActivity"
+            android:label="CardEditorActivity" >
+         </activity>
+    </application>
+
+</manifest>
