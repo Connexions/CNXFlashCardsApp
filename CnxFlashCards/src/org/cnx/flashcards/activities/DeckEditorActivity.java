@@ -29,13 +29,11 @@ import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockActivity;
 
 public class DeckEditorActivity extends SherlockActivity {
-    
-    ListView cardListView;
-    Cursor cardsCursor;
-    SimpleCursorAdapter cursorAdapter;
+	
     Button newCardButton;
     String id;
     EditText titleEditText;
+    EditText summaryEditText;
     
     static int CARD_EDIT_REQUEST = 0;
 
@@ -48,58 +46,29 @@ public class DeckEditorActivity extends SherlockActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         
         // Get UI elements
-        cardListView = (ListView)findViewById(R.id.cardListView);
-        newCardButton = (Button)findViewById(R.id.newCardButton);
+        newCardButton = (Button)findViewById(R.id.editCardsButton);
         titleEditText = (EditText)findViewById(R.id.editDeckName);
+        summaryEditText = (EditText)findViewById(R.id.editDeckSummary);
         
         id = getIntent().getStringExtra(DECK_ID);
-        
-        getCards();
         
         String title = getIntent().getStringExtra(TITLE);
         titleEditText.setText(title);
         
+        String summary = getIntent().getStringExtra(ABSTRACT);
+        if(!summary.equals("This module doesn't have an abstract."))
+        	summaryEditText.setText(summary);
         
-        cardListView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
-                cardsCursor.moveToPosition(position);
-                int row_id = cardsCursor.getInt(cardsCursor.getColumnIndex(BaseColumns._ID));
-                String term = cardsCursor.getString(cardsCursor.getColumnIndex(TERM));
-                String meaning = cardsCursor.getString(cardsCursor.getColumnIndex(MEANING));
-                
-                Intent cardEditIntent = new Intent(DeckEditorActivity.this, CardEditorActivity.class);
-                cardEditIntent.putExtra(BaseColumns._ID, row_id);
-                cardEditIntent.putExtra(TERM, term);
-                cardEditIntent.putExtra(MEANING, meaning);
-                cardEditIntent.putExtra(DECK_ID, id);
-                startActivityForResult(cardEditIntent, CARD_EDIT_REQUEST);
-            }
-        });
         
         newCardButton.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                Intent newCardIntent = new Intent(DeckEditorActivity.this, CardEditorActivity.class);
+                Intent newCardIntent = new Intent(DeckEditorActivity.this, CardListActivity.class);
                 newCardIntent.putExtra(DECK_ID, id);
-                startActivityForResult(newCardIntent, CARD_EDIT_REQUEST);
+                startActivity(newCardIntent);
             }
         });
-    }
-
-    
-    private void getCards() {
-        String[] projection = {BaseColumns._ID, DECK_ID, TERM, MEANING };
-        String selection = DECK_ID + " = '" + id + "'";
-        cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);
-        cardsCursor.moveToFirst();
-        
-        int[] to = {R.id.term, R.id.meaning};
-        String[] from = {TERM, MEANING };
-        cursorAdapter = new SimpleCursorAdapter(this, R.layout.card_row, cardsCursor, from, to, CursorAdapter.NO_SELECTION);
-
-        cardListView.setAdapter(cursorAdapter);      
     }
     
     
@@ -109,27 +78,5 @@ public class DeckEditorActivity extends SherlockActivity {
     	values.put(TITLE, titleEditText.getText().toString());
     	getContentResolver().update(DeckProvider.CONTENT_URI, values, DECK_ID + " = '" + id + "'", null);
     	super.finish();
-    }
-    
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "Got a result.");
-        
-        if(requestCode != CARD_EDIT_REQUEST)
-            return;
-        
-        switch (resultCode) {
-        case RESULT_OK:
-            // TODO: Cursor.requery is deprecated, change.
-            cardsCursor.requery();
-            cursorAdapter.notifyDataSetChanged();
-            break;
-            
-        case RESULT_CANCELED:
-            break;
-        }
-        
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

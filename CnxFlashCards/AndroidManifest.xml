@@ -81,6 +81,11 @@
             android:name="org.cnx.flashcards.activities.CardEditorActivity"
             android:label="CardEditorActivity" >
          </activity>
+         
+        <activity 
+            android:name="org.cnx.flashcards.activities.CardListActivity"
+            android:label="CardListActivity" >
+         </activity>
     </application>
 
 </manifest>

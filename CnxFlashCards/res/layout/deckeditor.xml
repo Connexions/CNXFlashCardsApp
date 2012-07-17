@@ -10,39 +10,17 @@
         android:layout_height="wrap_content"
         android:hint="Enter a name..."/>
     
-    <ListView 
-        android:id="@+id/cardListView"
+    <EditText 
+        android:id="@+id/editDeckSummary"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1.0"/>
+        android:layout_height="wrap_content"
+        android:hint="Enter a summary..."
+        android:lines="3"/>
     
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        
-        <Button 
-	        android:id="@+id/saveButton"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Save"
-	        android:layout_weight="0.5"/>
-        
-        <Button 
-            android:id="@+id/newCardButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="New card"
-            android:layout_weight="0.5"/>
-        
-        <Button 
-	        android:id="@+id/cancelButton"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:text="Cancel"
-	        android:layout_weight="0.5"/>
-        
-    </LinearLayout>
-    
-    "
+    <Button 
+        android:id="@+id/editCardsButton"
+        android:text="Edit cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
