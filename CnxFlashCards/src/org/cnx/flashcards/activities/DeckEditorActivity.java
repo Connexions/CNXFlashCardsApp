@@ -68,6 +68,7 @@ public class DeckEditorActivity extends SherlockActivity {
     public void finish() {
     	ContentValues values = new ContentValues();
     	values.put(TITLE, titleEditText.getText().toString());
+    	values.put(ABSTRACT, summaryEditText.getText().toString());
     	getContentResolver().update(DeckProvider.CONTENT_URI, values, DECK_ID + " = '" + id + "'", null);
     	super.finish();
     }
