@@ -79,6 +79,8 @@ public class ModuleToDatabaseParser {
 
         Element root = doc.getDocumentElement();
         title = getValue("title", root);
+        if(title == null)
+            title = getValue("name", root);
         
         NodeList metadataNodes = doc.getElementsByTagName("metadata");
         summary = getValue("md:abstract", metadataNodes.item(0));
@@ -219,9 +221,15 @@ public class ModuleToDatabaseParser {
     /** Get a value with a given tag from a node **/
     private String getValue(String tagname, Node n) {
         // TODO: This needs better error handling around all of it.
-        NodeList childnodes = ((Element) n).getElementsByTagName(tagname)
-                .item(0).getChildNodes();
-        Node value = (Node) childnodes.item(0);
+        Node value;
+        
+        try {
+            NodeList childnodes = ((Element) n).getElementsByTagName(tagname).item(0).getChildNodes();
+            value = (Node) childnodes.item(0);
+        }
+        catch (NullPointerException npe) {
+            value = null;
+        }
         
         if(value == null) return null;
         else return value.getNodeValue();

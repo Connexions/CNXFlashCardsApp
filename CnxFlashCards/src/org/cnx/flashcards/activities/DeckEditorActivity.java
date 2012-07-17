@@ -1,36 +1,28 @@
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.TAG;
-import static org.cnx.flashcards.Constants.TERM;
+import static org.cnx.flashcards.Constants.ABSTRACT;
+import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.TITLE;
 
 import org.cnx.flashcards.R;
-import org.cnx.flashcards.database.CardProvider;
 import org.cnx.flashcards.database.DeckProvider;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
 public class DeckEditorActivity extends SherlockActivity {
 	
     Button newCardButton;
+    Button saveButton;
+    Button cancelButton;
     String id;
     EditText titleEditText;
     EditText summaryEditText;
