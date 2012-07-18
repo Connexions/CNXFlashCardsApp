@@ -98,6 +98,9 @@ public class DeckEditorActivity extends SherlockActivity {
     	values.put(AUTHOR, authorEditText.getText().toString());
     	if(!newDeck)
     		getContentResolver().update(DeckProvider.CONTENT_URI, values, BaseColumns._ID + " = '" + id + "'", null);
+    	else {
+    		getContentResolver().insert(DeckProvider.CONTENT_URI, values);
+    	}
     	
     	super.finish();
     }

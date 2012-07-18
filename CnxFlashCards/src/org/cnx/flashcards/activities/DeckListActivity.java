@@ -29,6 +29,7 @@ public class DeckListActivity extends SherlockActivity {
     Button newDeckButton;
     
     static int DECK_INFO_REQUEST = 0;
+    static int NEW_DECK_REQUEST = 1;
     
 
     @Override
@@ -63,7 +64,7 @@ public class DeckListActivity extends SherlockActivity {
 			public void onClick(View v) {
 				Intent editIntent = new Intent(DeckListActivity.this, DeckEditorActivity.class);
 				editIntent.putExtra(NEW_DECK, true);
-				startActivity(editIntent);
+				startActivityForResult(editIntent, NEW_DECK_REQUEST);
 			}
 		});
     }
@@ -86,7 +87,7 @@ public class DeckListActivity extends SherlockActivity {
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	if(requestCode == DECK_INFO_REQUEST && resultCode == RESULT_DECK_DELETED) {
+    	if(requestCode == DECK_INFO_REQUEST || requestCode == NEW_DECK_REQUEST) {
     		getDecks();
     	}
     	
