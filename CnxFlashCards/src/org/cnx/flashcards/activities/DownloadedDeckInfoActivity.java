@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +51,8 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         setContentView(R.layout.downloadeddeck);
 
         id = getIntent().getStringExtra(DECK_ID);
+        if(id == null)
+        	id = getRowIdFromModuleId(getIntent().getStringExtra(MODULE_ID));
 
         quizModeButton = (Button) findViewById(R.id.quizModeButton);
         studyModeButton = (Button) findViewById(R.id.studyModeButton);
@@ -102,15 +105,28 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
                 editIntent.putExtra(TITLE, title);
                 editIntent.putExtra(ABSTRACT, summary);
                 editIntent.putExtra(AUTHOR, authors);
+                editIntent.putExtra(NEW_DECK, false);
                 startActivityForResult(editIntent, EDIT_LAUNCH);
             }
         });
     }
 
     
-    private void setDetails() {
+    private String getRowIdFromModuleId(String moduleID) {
+		String[] projection = {BaseColumns._ID};
+		String selection = MODULE_ID + " = '" + moduleID + "'";
+		Cursor idCursor = getContentResolver().query(DeckProvider.CONTENT_URI, projection, selection, null, null);
+		idCursor.moveToFirst();
+		
+		String _id = idCursor.getString(idCursor.getColumnIndex(BaseColumns._ID));
+		
+		return _id;
+	}
+
+
+	private void setDetails() {
         String[] projection = { TITLE, ABSTRACT, AUTHOR };
-        String selection = DECK_ID + " = '" + id + "'";
+        String selection = BaseColumns._ID + " = '" + id + "'";
         Cursor deckInfoCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
         deckInfoCursor.moveToFirst();
@@ -120,6 +136,8 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         	titleText.setText("Title: This deck has no title.");
         else
         	titleText.setText("Title: " + title);
+        
+        Log.d(TAG, title);
         	
         
         summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
@@ -128,13 +146,17 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         else
         	summaryText.setText("Abstract: " + summary);
         
+        Log.d(TAG, summary);
+        
         authors = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(AUTHOR));
         if(authors == null || authors.equals(""))
-        	authorsText.setText("Authors(s): No authors.");
-        else
-        	authorsText.setText("Author(s): " + authors);
+        	authors = "No authors";
+    	authorsText.setText("Author(s): " + authors);
+    	
+    	Log.d(TAG, authors);
         
         projection = new String[]{TERM};
+        selection = DECK_ID + " = '" + id + "'";
         Cursor cardCountCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);
         noOfCardsText.setText("No. of cards: " + cardCountCursor.getCount());
     }
@@ -142,6 +164,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	Log.d(TAG, "Result received.");
         if (resultCode == RESULT_INVALID_DECK) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -174,6 +197,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
 				finish();
 			}
         	else {
+        		Log.d(TAG, "Should be updating details.");
         		setDetails();
         	}
         }

@@ -48,7 +48,7 @@ public class DeckListActivity extends SherlockActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
                 // Get the id of the selected deck
                 titlesCursor.moveToPosition(position);
-                String id = titlesCursor.getString(titlesCursor.getColumnIndex(DECK_ID));
+                String id = titlesCursor.getString(titlesCursor.getColumnIndex(BaseColumns._ID));
                 
                 // Launch the deck
                 Intent cardIntent = new Intent(getApplicationContext(), DownloadedDeckInfoActivity.class);
@@ -71,13 +71,13 @@ public class DeckListActivity extends SherlockActivity {
     
     /**Extracts decks from the database, shows them in the ListView**/
     private void getDecks() {
-        String[] projection = {BaseColumns._ID, DECK_ID, TITLE };
+        String[] projection = {BaseColumns._ID, MODULE_ID, TITLE };
         titlesCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, null, null, null);
         titlesCursor.moveToFirst();
         
         int[] to = {R.id.url, R.id.title};
-        String[] from = {DECK_ID, TITLE };
+        String[] from = {MODULE_ID, TITLE };
         SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.search_row, titlesCursor, from, to, CursorAdapter.NO_SELECTION);
 
         deckListView.setAdapter(cursorAdapter);

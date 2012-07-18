@@ -1,7 +1,7 @@
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.ABSTRACT;
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.MODULE_ID;
 import static org.cnx.flashcards.Constants.MEANING;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
@@ -51,7 +51,7 @@ public class CardListActivity extends SherlockActivity {
         cardListView = (ListView)findViewById(R.id.cardListView);
         newCardButton = (Button)findViewById(R.id.newCardButton);
         
-        id = getIntent().getStringExtra(DECK_ID);
+        id = getIntent().getStringExtra(MODULE_ID);
         
         getCards();        
         

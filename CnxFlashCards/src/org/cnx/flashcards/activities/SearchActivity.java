@@ -1,6 +1,6 @@
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.SEARCH_TERM;
 import static org.cnx.flashcards.Constants.TAG;
 
@@ -114,7 +114,7 @@ public class SearchActivity extends SherlockActivity {
             }
         });
         
-     // Search if the user hits enter while typing a search term
+        // Search if the user hits enter while typing a search term
         searchInput.setOnEditorActionListener(new OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -245,7 +245,7 @@ public class SearchActivity extends SherlockActivity {
             if(launch) {
                 Intent cardIntent = new Intent(getApplicationContext(),
                         DownloadedDeckInfoActivity.class);
-                cardIntent.putExtra(DECK_ID, id);
+                cardIntent.putExtra(MODULE_ID, id);
                 startActivity(cardIntent);
             }
         }

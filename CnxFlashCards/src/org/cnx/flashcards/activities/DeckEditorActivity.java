@@ -1,8 +1,8 @@
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.ABSTRACT;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.AUTHOR;
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.MODULE_ID;
 import static org.cnx.flashcards.Constants.NEW_DECK;
 import static org.cnx.flashcards.Constants.RESULT_DECK_DELETED;
 import static org.cnx.flashcards.Constants.TITLE;
@@ -14,6 +14,8 @@ import org.cnx.flashcards.database.DeckProvider;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.BaseColumns;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -30,7 +32,7 @@ public class DeckEditorActivity extends SherlockActivity {
     EditText titleEditText;
     EditText summaryEditText;
     EditText authorEditText;
-    boolean newDeck;
+    boolean newDeck = false;
     
     static int CARD_EDIT_REQUEST = 0;
 
@@ -95,16 +97,19 @@ public class DeckEditorActivity extends SherlockActivity {
     	values.put(ABSTRACT, summaryEditText.getText().toString());
     	values.put(AUTHOR, authorEditText.getText().toString());
     	if(!newDeck)
-    		getContentResolver().update(DeckProvider.CONTENT_URI, values, DECK_ID + " = '" + id + "'", null);
+    		getContentResolver().update(DeckProvider.CONTENT_URI, values, BaseColumns._ID + " = '" + id + "'", null);
     	
     	super.finish();
     }
     
     
     private void deleteThisDeck() {
-    	String selection = DECK_ID + " = '" + id + "'";
+    	String selection = BaseColumns._ID + " = '" + id + "'";
 		getContentResolver().delete(DeckProvider.CONTENT_URI, selection, null);
+		
+		selection = DECK_ID + " = '" + id + "'";
 		getContentResolver().delete(CardProvider.CONTENT_URI, selection, null);
+		
 		setResult(RESULT_DECK_DELETED);
 		finish();
 	}

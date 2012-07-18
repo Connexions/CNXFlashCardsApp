@@ -17,7 +17,7 @@ import static org.cnx.flashcards.Constants.*;
 
 public class CardDatabaseOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
 
     public CardDatabaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,13 +27,13 @@ public class CardDatabaseOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + CARDS_TABLE + " (" + 
                 BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-                DECK_ID + " STRING, " + 
+                DECK_ID + " INT, " + 
                 TERM + " STRING, " + 
                 MEANING + " TEXT NOT NULL);");
 
         db.execSQL("CREATE TABLE " + DECKS_TABLE + " (" + 
                 BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-                DECK_ID + " STRING, " + 
+                MODULE_ID + " STRING, " + 
                 TITLE + " STRING, " + 
                 AUTHOR + " STRING, " + 
                 MODIFIED + " BOOLEAN, " + 

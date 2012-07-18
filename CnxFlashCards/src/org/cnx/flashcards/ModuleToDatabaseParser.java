@@ -7,8 +7,8 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.ABSTRACT;
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.MODULE_ID;
 import static org.cnx.flashcards.Constants.MEANING;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
@@ -33,6 +33,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -99,8 +100,8 @@ public class ModuleToDatabaseParser {
 
     
     private boolean isDuplicate(String id) {
-        String[] projection = {DECK_ID};
-        String selection = DECK_ID + " = '" + id + "'";
+        String[] projection = {MODULE_ID};
+        String selection = MODULE_ID + " = '" + id + "'";
         Cursor idCursor = context.getContentResolver().query(DeckProvider.CONTENT_URI, projection, selection, null, null);
         
         if(idCursor.getCount() == 0)
@@ -116,7 +117,7 @@ public class ModuleToDatabaseParser {
 
         // Insert deck first to check for duplicates
         values = new ContentValues();
-        values.put(DECK_ID, id);
+        values.put(MODULE_ID, id);
         values.put(TITLE, title);
         values.put(ABSTRACT, summary);
         Uri deckUri = context.getContentResolver().insert(
@@ -125,9 +126,11 @@ public class ModuleToDatabaseParser {
         if (deckUri == null)
             return null;
 
+        int newDeckRowID = (int) ContentUris.parseId(deckUri);
+        
         for (int i = 0; i < terms.size(); i++) {
             values = new ContentValues();
-            values.put(DECK_ID, id);
+            values.put(DECK_ID, newDeckRowID);
             values.put(MEANING, meanings.get(i));
             values.put(TERM, terms.get(i));
             context.getContentResolver().insert(CardProvider.CONTENT_URI,

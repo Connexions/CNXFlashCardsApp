@@ -47,8 +47,8 @@ public class DeckProvider extends ContentProvider {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         // Check to see if this module is already a deck
-        String newID = values.getAsString(DECK_ID);
-        Cursor c = db.query(DECKS_TABLE, new String[] { DECK_ID }, DECK_ID
+        String newID = values.getAsString(MODULE_ID);
+        Cursor c = db.query(DECKS_TABLE, new String[] { MODULE_ID }, MODULE_ID
                 + "='" + newID + "'", null, null, null, null);
         if (c.getCount() > 0)
             return null;
