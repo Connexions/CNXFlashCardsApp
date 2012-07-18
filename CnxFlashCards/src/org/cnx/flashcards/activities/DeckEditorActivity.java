@@ -3,6 +3,7 @@ package org.cnx.flashcards.activities;
 import static org.cnx.flashcards.Constants.ABSTRACT;
 import static org.cnx.flashcards.Constants.AUTHOR;
 import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.NEW_DECK;
 import static org.cnx.flashcards.Constants.RESULT_DECK_DELETED;
 import static org.cnx.flashcards.Constants.TITLE;
 
@@ -29,6 +30,7 @@ public class DeckEditorActivity extends SherlockActivity {
     EditText titleEditText;
     EditText summaryEditText;
     EditText authorEditText;
+    boolean newDeck;
     
     static int CARD_EDIT_REQUEST = 0;
 
@@ -48,13 +50,19 @@ public class DeckEditorActivity extends SherlockActivity {
         deleteDeckButton = (Button)findViewById(R.id.deleteDeckButton);
         
         id = getIntent().getStringExtra(DECK_ID);
+        newDeck = getIntent().getBooleanExtra(NEW_DECK, false);
         
-        String title = getIntent().getStringExtra(TITLE);
-        titleEditText.setText(title);
-        
-        String summary = getIntent().getStringExtra(ABSTRACT);
-        if(!summary.equals("This module doesn't have an abstract."))
-        	summaryEditText.setText(summary);
+        if(!newDeck) {
+	        String title = getIntent().getStringExtra(TITLE);
+	        titleEditText.setText(title);
+	        
+	        String summary = getIntent().getStringExtra(ABSTRACT);
+	        if(!summary.equals("This module doesn't have an abstract."))
+	        	summaryEditText.setText(summary);
+	        
+	        String authors = getIntent().getStringExtra(AUTHOR);
+	        authorEditText.setText(authors);
+        }
         
         
         editCardsButton.setOnClickListener(new OnClickListener() {
@@ -86,7 +94,9 @@ public class DeckEditorActivity extends SherlockActivity {
     	values.put(TITLE, titleEditText.getText().toString());
     	values.put(ABSTRACT, summaryEditText.getText().toString());
     	values.put(AUTHOR, authorEditText.getText().toString());
-    	getContentResolver().update(DeckProvider.CONTENT_URI, values, DECK_ID + " = '" + id + "'", null);
+    	if(!newDeck)
+    		getContentResolver().update(DeckProvider.CONTENT_URI, values, DECK_ID + " = '" + id + "'", null);
+    	
     	super.finish();
     }
     

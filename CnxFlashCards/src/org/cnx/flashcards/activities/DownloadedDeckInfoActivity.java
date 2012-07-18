@@ -116,13 +116,22 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         deckInfoCursor.moveToFirst();
         
         title = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(TITLE));
-        titleText.setText("Title: " + title);
+        if(title == null || title.equals(""))
+        	titleText.setText("Title: This deck has no title.");
+        else
+        	titleText.setText("Title: " + title);
+        	
         
         summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
-        summaryText.setText("Abstract: " + summary);
+        if(summary == null || summary.equals(""))
+        	summaryText.setText("Abstract: This deck has no abstract.");
+        else
+        	summaryText.setText("Abstract: " + summary);
         
         authors = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(AUTHOR));
-        if(authors != null)
+        if(authors == null || authors.equals(""))
+        	authorsText.setText("Authors(s): No authors.");
+        else
         	authorsText.setText("Author(s): " + authors);
         
         projection = new String[]{TERM};
@@ -161,7 +170,6 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         }
         else if (requestCode == EDIT_LAUNCH) {
         	if(resultCode == RESULT_DECK_DELETED) {
-				Log.d(TAG, "Deck deleted.");
 				setResult(RESULT_DECK_DELETED);
 				finish();
 			}

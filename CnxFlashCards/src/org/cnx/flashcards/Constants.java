@@ -29,6 +29,8 @@ public interface Constants {
     // public static final String TEST_ID = "m9006/2.22";
     public static final String TEST_ID = "testfile";
     
+    public static final String NEW_DECK = "new_deck";
+    
     public static int QUIZ_LAUNCH = 0;
     public static int STUDY_LAUNCH = 1;
     public static int SELF_TEST_LAUNCH = 2;

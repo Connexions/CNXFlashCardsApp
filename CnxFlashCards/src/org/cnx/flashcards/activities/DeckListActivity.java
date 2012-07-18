@@ -1,6 +1,6 @@
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.*;
 import static org.cnx.flashcards.Constants.TITLE;
 import static org.cnx.flashcards.Constants.RESULT_DECK_DELETED;
 
@@ -14,6 +14,7 @@ import android.provider.BaseColumns;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -25,7 +26,7 @@ public class DeckListActivity extends SherlockActivity {
     
     ListView deckListView;
     Cursor titlesCursor;
-    Button editButton;
+    Button newDeckButton;
     
     static int DECK_INFO_REQUEST = 0;
     
@@ -37,6 +38,7 @@ public class DeckListActivity extends SherlockActivity {
         
         // Get UI elements
         deckListView = (ListView)findViewById(R.id.deckListView);
+        newDeckButton = (Button)findViewById(R.id.newDeckButton);
         
         // Retrieve decks from the database, show in list
         getDecks();
@@ -54,6 +56,16 @@ public class DeckListActivity extends SherlockActivity {
                 startActivityForResult(cardIntent, DECK_INFO_REQUEST);
             }
         });
+        
+        newDeckButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent editIntent = new Intent(DeckListActivity.this, DeckEditorActivity.class);
+				editIntent.putExtra(NEW_DECK, true);
+				startActivity(editIntent);
+			}
+		});
     }
 
     
