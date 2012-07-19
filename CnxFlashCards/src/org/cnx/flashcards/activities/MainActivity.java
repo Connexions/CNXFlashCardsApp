@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,10 +109,20 @@ public class MainActivity extends SherlockActivity {
     
     /** Launch a search for the term in the search box **/
     public void search() {
-        String searchTerm = searchInput.getText().toString();                
-        Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
-        searchIntent.putExtra(SEARCH_TERM, searchTerm);
-        startActivity(searchIntent);
+     // Check the internet connection
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(cm.getActiveNetworkInfo() == null || !cm.getActiveNetworkInfo().isConnectedOrConnecting()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("You must be connected to the internet to search Connexions.");
+            builder.setTitle("Unable to search");
+            builder.create().show();
+        }
+        else {
+            String searchTerm = searchInput.getText().toString();                
+            Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+            searchIntent.putExtra(SEARCH_TERM, searchTerm);
+            startActivity(searchIntent);
+        }
     }
     
 

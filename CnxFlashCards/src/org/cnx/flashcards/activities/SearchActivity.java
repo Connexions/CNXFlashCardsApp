@@ -13,7 +13,9 @@ import org.cnx.flashcards.SearchResult;
 import org.cnx.flashcards.SearchResultsAdapter;
 import org.cnx.flashcards.SearchResultsParser;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -167,8 +169,6 @@ public class SearchActivity extends SherlockActivity {
             
             //TODO: Handle a null result better (repeat search?)
             if(result != null && result.size()!=0) {
-                
-                Log.d(TAG, "Results: " + result.size());
                 
                 if(result.size() > resultsParser.resultsPerPage) {
                     nextButton.setEnabled(true);

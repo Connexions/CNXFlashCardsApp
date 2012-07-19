@@ -119,6 +119,7 @@ public class SearchResultsParser {
             return doc;
         } catch (MalformedURLException mue) {
         } catch (IOException ioe) {
+            Log.d(TAG, "IOException");
         }
 
         return null;
