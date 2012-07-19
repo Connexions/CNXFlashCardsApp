@@ -13,6 +13,8 @@ import org.cnx.flashcards.SearchResult;
 import org.cnx.flashcards.SearchResultsAdapter;
 import org.cnx.flashcards.SearchResultsParser;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -162,20 +164,20 @@ public class SearchActivity extends SherlockActivity {
         }
         
         @Override
-        protected void onPostExecute(ArrayList<SearchResult> result) {
-            super.onPostExecute(result);
+        protected void onPostExecute(ArrayList<SearchResult> resultList) {
+            super.onPostExecute(resultList);
 
             setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
             
             //TODO: Handle a null result better (repeat search?)
-            if(result != null && result.size()!=0) {
+            if(resultList != null && resultList.size()!=0) {
                 
-                if(result.size() > resultsParser.resultsPerPage) {
+                if(resultList.size() > resultsParser.resultsPerPage) {
                     nextButton.setEnabled(true);
-                    result.remove(result.size()-1);
+                    resultList.remove(resultList.size()-1);
                 }
                 
-                results.addAll(result);
+                results.addAll(resultList);
                 resultsAdapter.notifyDataSetChanged();
     
                 Toast resultsToast = Toast.makeText(SearchActivity.this,
@@ -187,7 +189,18 @@ public class SearchActivity extends SherlockActivity {
                     prevButton.setEnabled(false);
                 else
                     prevButton.setEnabled(true);
-             
+            }
+            else if(resultList == null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
+                builder.setTitle("Unable to search");
+                builder.setMessage("Couldn't reach Connexions to search.");
+                builder.create().show();
+            }
+            else if(resultList.size() == 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
+                builder.setTitle("No results");
+                builder.setMessage("No results were found for the search term \"" + searchTerm + "\".");
+                builder.create().show();
             }
         }
     }
@@ -200,8 +213,7 @@ public class SearchActivity extends SherlockActivity {
         @Override
         protected ParseResult doInBackground(String... idParam) {
             this.id = idParam[0];
-            ParseResult result = new ModuleToDatabaseParser(
-                    SearchActivity.this).parse(id);
+            ParseResult result = new ModuleToDatabaseParser(SearchActivity.this).parse(id);
             return result;
         }
 
@@ -243,8 +255,7 @@ public class SearchActivity extends SherlockActivity {
             resultsToast.show();
             
             if(launch) {
-                Intent cardIntent = new Intent(getApplicationContext(),
-                        DownloadedDeckInfoActivity.class);
+                Intent cardIntent = new Intent(getApplicationContext(), DownloadedDeckInfoActivity.class);
                 cardIntent.putExtra(MODULE_ID, id);
                 startActivity(cardIntent);
             }
