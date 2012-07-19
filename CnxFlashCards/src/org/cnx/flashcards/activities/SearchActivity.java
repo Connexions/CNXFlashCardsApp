@@ -134,6 +134,7 @@ public class SearchActivity extends SherlockActivity {
             }
         });
         
+        // Search if the user hits the search button (identical to hitting enter, TODO: combine them)
         searchButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
