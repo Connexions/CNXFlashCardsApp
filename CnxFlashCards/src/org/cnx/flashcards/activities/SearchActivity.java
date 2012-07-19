@@ -54,6 +54,7 @@ public class SearchActivity extends SherlockActivity {
     
     Button nextButton;
     Button prevButton;
+    Button searchButton;
     TextView pageText;
     EditText searchInput;
     
@@ -73,6 +74,7 @@ public class SearchActivity extends SherlockActivity {
         nextButton = (Button)findViewById(R.id.nextPageButton);
         prevButton = (Button)findViewById(R.id.prevPageButton);
         searchInput = (EditText)findViewById(R.id.searchInput);
+        searchButton = (Button)findViewById(R.id.searchButton);
         
         // Get a parser for the search term
         searchTerm = getIntent().getStringExtra(SEARCH_TERM);
@@ -129,6 +131,18 @@ public class SearchActivity extends SherlockActivity {
                 prevButton.setEnabled(false);
                 pageText.setText("");
                 return true;
+            }
+        });
+        
+        searchButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchTerm = searchInput.getText().toString();
+                resultsParser = new SearchResultsParser(SearchActivity.this, searchTerm);
+                search(SearchDirection.NEXT);
+                nextButton.setEnabled(false);
+                prevButton.setEnabled(false);
+                pageText.setText("");                
             }
         });
     }
