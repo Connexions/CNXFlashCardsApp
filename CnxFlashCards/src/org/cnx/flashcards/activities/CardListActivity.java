@@ -51,7 +51,7 @@ public class CardListActivity extends SherlockActivity {
         cardListView = (ListView)findViewById(R.id.cardListView);
         newCardButton = (Button)findViewById(R.id.newCardButton);
         
-        id = getIntent().getStringExtra(MODULE_ID);
+        id = getIntent().getStringExtra(DECK_ID);
         
         getCards();        
         

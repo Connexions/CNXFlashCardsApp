@@ -79,7 +79,7 @@ public class CardEditorActivity extends SherlockActivity {
                     getContentResolver().update(CardProvider.CONTENT_URI, editedValues, selection, null);
                 }
                 else {
-                    editedValues.put(MODULE_ID, deck);
+                    editedValues.put(DECK_ID, deck);
                     getContentResolver().insert(CardProvider.CONTENT_URI, editedValues);
                 }
                 

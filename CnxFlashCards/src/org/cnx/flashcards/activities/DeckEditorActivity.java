@@ -7,12 +7,16 @@ import static org.cnx.flashcards.Constants.NEW_DECK;
 import static org.cnx.flashcards.Constants.RESULT_DECK_DELETED;
 import static org.cnx.flashcards.Constants.TITLE;
 
+import java.net.URI;
+
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.database.CardProvider;
 import org.cnx.flashcards.database.DeckProvider;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.util.Log;
@@ -33,6 +37,7 @@ public class DeckEditorActivity extends SherlockActivity {
     EditText summaryEditText;
     EditText authorEditText;
     boolean newDeck = false;
+    boolean inDatabase = false;
     
     static int CARD_EDIT_REQUEST = 0;
 
@@ -51,7 +56,6 @@ public class DeckEditorActivity extends SherlockActivity {
         authorEditText = (EditText)findViewById(R.id.editDeckAuthors);
         deleteDeckButton = (Button)findViewById(R.id.deleteDeckButton);
         
-        id = getIntent().getStringExtra(DECK_ID);
         newDeck = getIntent().getBooleanExtra(NEW_DECK, false);
         
         if(!newDeck) {
@@ -64,6 +68,9 @@ public class DeckEditorActivity extends SherlockActivity {
 	        
 	        String authors = getIntent().getStringExtra(AUTHOR);
 	        authorEditText.setText(authors);
+	        
+	        inDatabase = true;
+	        id = getIntent().getStringExtra(DECK_ID);
         }
         
         
@@ -71,6 +78,7 @@ public class DeckEditorActivity extends SherlockActivity {
             
             @Override
             public void onClick(View v) {
+            	addToDatabase();
                 Intent newCardIntent = new Intent(DeckEditorActivity.this, CardListActivity.class);
                 newCardIntent.putExtra(DECK_ID, id);
                 startActivity(newCardIntent);
@@ -82,28 +90,32 @@ public class DeckEditorActivity extends SherlockActivity {
 			@Override
 			public void onClick(View v) {
 				deleteThisDeck();
-				
 			}
-
-			
 		});
     }
     
     
     @Override
     public void finish() {
-    	ContentValues values = new ContentValues();
-    	values.put(TITLE, titleEditText.getText().toString());
-    	values.put(ABSTRACT, summaryEditText.getText().toString());
-    	values.put(AUTHOR, authorEditText.getText().toString());
-    	if(!newDeck)
-    		getContentResolver().update(DeckProvider.CONTENT_URI, values, BaseColumns._ID + " = '" + id + "'", null);
-    	else {
-    		getContentResolver().insert(DeckProvider.CONTENT_URI, values);
-    	}
+    	addToDatabase();
     	
     	super.finish();
     }
+
+
+	private void addToDatabase() {
+		ContentValues values = new ContentValues();
+    	values.put(TITLE, titleEditText.getText().toString());
+    	values.put(ABSTRACT, summaryEditText.getText().toString());
+    	values.put(AUTHOR, authorEditText.getText().toString());
+    	if(inDatabase)
+    		getContentResolver().update(DeckProvider.CONTENT_URI, values, BaseColumns._ID + " = '" + id + "'", null);
+    	else {
+    		Uri idUri = getContentResolver().insert(DeckProvider.CONTENT_URI, values);
+    		id = Long.toString(ContentUris.parseId(idUri));
+    		inDatabase = true;
+    	}
+	}
     
     
     private void deleteThisDeck() {
