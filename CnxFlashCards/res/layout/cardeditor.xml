@@ -12,7 +12,8 @@
 	        android:id="@+id/term"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:hint="Enter a term..."/>
+	        android:hint="Enter a term..."
+	        android:inputType="textCapSentences"/>
 	    
 	    <EditText 
 	        android:id="@+id/meaning"
@@ -20,7 +21,8 @@
 	        android:layout_height="wrap_content"
 	        android:gravity="top"
 	        android:lines="5"
-	        android:hint="Enter a definition..."/>
+	        android:hint="Enter a definition..."
+	        android:inputType="textCapSentences"/>
 	    
 	    <LinearLayout 
 	        android:layout_width="fill_parent"

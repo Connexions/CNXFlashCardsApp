@@ -8,20 +8,23 @@
         android:id="@+id/editDeckName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter a name..."/>
+        android:hint="Enter a name..."
+        android:inputType="textCapSentences"/>
     
     <EditText 
         android:id="@+id/editDeckAuthors"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter an author..."/>
+        android:hint="Enter an author..."
+        android:inputType="textCapSentences"/>
     
     <EditText 
         android:id="@+id/editDeckSummary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Enter a summary..."
-        android:lines="3"/>
+        android:lines="3"
+        android:inputType="textCapSentences"/>
     
     <Button 
         android:id="@+id/editCardsButton"
