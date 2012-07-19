@@ -42,7 +42,7 @@ public class CardListActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cardlisteditor);
+        setContentView(R.layout.cardlist);
         
         // Hide the keyboard at launch (as EditText will be focused automatically)
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
