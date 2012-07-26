@@ -11,7 +11,7 @@
     
 	    <EditText
 		    android:id="@+id/searchInput"
-		    android:layout_width="0px"
+		    android:layout_width="0dp"
 		    android:layout_height="wrap_content"
 		    android:singleLine="true"
 		    android:maxLines="1"
@@ -20,14 +20,14 @@
 		    android:state_enabled="true"
 		    android:imeOptions="actionSearch"
 		    android:imeActionLabel="Search"
-		    android:layout_weight="0.8"/>
+		    android:layout_weight="1"/>
 	    
 	    <Button 
-	        android:id="@+id/searchButton"
-	        android:layout_height="wrap_content"
-	        android:layout_width="0px"
-	        android:layout_weight="0.2"
-	        android:text="Search"/>
+            android:id="@+id/searchButton"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Search"/>
+	    
     
     </LinearLayout>
     
