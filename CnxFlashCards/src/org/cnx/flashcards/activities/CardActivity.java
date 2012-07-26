@@ -28,7 +28,9 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public abstract class CardActivity extends SherlockActivity implements
         OnTouchListener {
@@ -69,6 +71,8 @@ public abstract class CardActivity extends SherlockActivity implements
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Unique id of this deck of cards
         id = getIntent().getStringExtra(DECK_ID);
@@ -147,6 +151,21 @@ public abstract class CardActivity extends SherlockActivity implements
             }
         });
     }
+    
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+            finish();
+            break;
+
+        default:
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
 
     private void loadCards(String id) {
         String[] columns = { TERM, MEANING };
