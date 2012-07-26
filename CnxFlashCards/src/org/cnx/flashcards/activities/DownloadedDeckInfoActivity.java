@@ -119,6 +119,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
 		idCursor.moveToFirst();
 		
 		String _id = idCursor.getString(idCursor.getColumnIndex(BaseColumns._ID));
+		idCursor.close();
 		
 		return _id;
 	}
@@ -159,6 +160,9 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         selection = DECK_ID + " = '" + id + "'";
         Cursor cardCountCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);
         noOfCardsText.setText("No. of cards: " + cardCountCursor.getCount());
+        
+        deckInfoCursor.close();
+        cardCountCursor.close();
     }
 
 

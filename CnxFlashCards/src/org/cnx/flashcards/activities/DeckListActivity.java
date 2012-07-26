@@ -90,8 +90,14 @@ public class DeckListActivity extends SherlockActivity {
     	if(requestCode == DECK_INFO_REQUEST || requestCode == NEW_DECK_REQUEST) {
     		getDecks();
     	}
-    	
-    	
+
     	super.onActivityResult(requestCode, resultCode, data);
+    }
+    
+    
+    @Override
+    public void finish() {
+        titlesCursor.close();
+        super.finish();
     }
 }

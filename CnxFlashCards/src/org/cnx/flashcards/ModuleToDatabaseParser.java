@@ -103,8 +103,10 @@ public class ModuleToDatabaseParser {
         String[] projection = {MODULE_ID};
         String selection = MODULE_ID + " = '" + id + "'";
         Cursor idCursor = context.getContentResolver().query(DeckProvider.CONTENT_URI, projection, selection, null, null);
+        int count = idCursor.getCount();
+        idCursor.close();
         
-        if(idCursor.getCount() == 0)
+        if(count == 0)
             return false;
         else 
             return true;
