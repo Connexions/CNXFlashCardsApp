@@ -53,6 +53,7 @@ public class SearchActivity extends SherlockActivity {
     SearchResultsAdapter resultsAdapter;
     ArrayList<SearchResult> results; 
     SearchResultsParser resultsParser;
+    SearchResultsTask searchResultsTask;
     
     Button nextButton;
     Button prevButton;
@@ -169,11 +170,23 @@ public class SearchActivity extends SherlockActivity {
     }
     
     
+    @Override
+    public void finish() {
+        if(searchResultsTask != null)
+            searchResultsTask.cancel(true);
+        
+        super.finish();
+    }
+    
+    
     private void search(SearchDirection direction) {
         results.clear();
         resultsAdapter.notifyDataSetChanged();
         
-        new SearchResultsTask().execute(direction);
+        if(searchResultsTask != null)
+            searchResultsTask.cancel(true);
+        searchResultsTask = new SearchResultsTask();
+        searchResultsTask.execute(direction);
         
         Toast searchingToast = Toast.makeText(
                 SearchActivity.this, "Searching for '" + searchTerm + "'...",
@@ -203,6 +216,9 @@ public class SearchActivity extends SherlockActivity {
             super.onPostExecute(resultList);
 
             setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+            
+            if(isCancelled())
+                return;
             
             //TODO: Handle a null result better (repeat search?)
             if(resultList != null && resultList.size()!=0) {
