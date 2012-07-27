@@ -7,6 +7,8 @@ import org.cnx.flashcards.R;
 import org.cnx.flashcards.R.id;
 import org.cnx.flashcards.R.layout;
 
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,7 +58,7 @@ public class QuizCardActivity extends CardActivity {
         positionBar.setEnabled(false);
         nextCardButton.setEnabled(false);
     }
-
+    
     
     /*
      * Display the right answer and two wrong ones 

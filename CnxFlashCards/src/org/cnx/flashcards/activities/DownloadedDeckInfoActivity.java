@@ -25,7 +25,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class DownloadedDeckInfoActivity extends SherlockActivity {
 
@@ -49,6 +51,10 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.downloadeddeck);
+        
+        // Allow going back with ActionBar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         id = getIntent().getStringExtra(DECK_ID);
         if(id == null)
@@ -111,6 +117,20 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         });
     }
 
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+            finish();
+            break;
+
+        default:
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
     
     private String getRowIdFromModuleId(String moduleID) {
 		String[] projection = {BaseColumns._ID};

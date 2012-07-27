@@ -18,7 +18,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 
 public class QuizEndActivity extends SherlockActivity {
@@ -37,6 +39,10 @@ public class QuizEndActivity extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quizend);
+        
+        // Allow going back with ActionBar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         
         scoreTextView = (TextView)findViewById(R.id.finalScoreText);
         finishButton = (Button)findViewById(R.id.exitButton);
@@ -59,6 +65,20 @@ public class QuizEndActivity extends SherlockActivity {
                 
             }
         });
+    }
+    
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+            finish();
+            break;
+
+        default:
+            break;
+        }
+        return super.onOptionsItemSelected(item);
     }
     
     

@@ -20,7 +20,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 public class DeckListActivity extends SherlockActivity {
     
@@ -36,6 +38,10 @@ public class DeckListActivity extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.decklist);
+        
+        // Allow going back with ActionBar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         
         // Get UI elements
         deckListView = (ListView)findViewById(R.id.deckListView);
@@ -69,6 +75,20 @@ public class DeckListActivity extends SherlockActivity {
 		});
     }
 
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case android.R.id.home:
+            finish();
+            break;
+
+        default:
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
     
     /**Extracts decks from the database, shows them in the ListView**/
     private void getDecks() {

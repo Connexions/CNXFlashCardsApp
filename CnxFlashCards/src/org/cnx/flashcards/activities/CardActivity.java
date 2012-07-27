@@ -71,6 +71,8 @@ public abstract class CardActivity extends SherlockActivity implements
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
