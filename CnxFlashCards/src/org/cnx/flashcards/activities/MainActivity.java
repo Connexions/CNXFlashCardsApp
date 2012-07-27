@@ -125,13 +125,4 @@ public class MainActivity extends SherlockActivity {
             startActivity(searchIntent);
         }
     }
-    
-
-    /** Called when Activity created, loads the ActionBar **/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.mainmenu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 }
