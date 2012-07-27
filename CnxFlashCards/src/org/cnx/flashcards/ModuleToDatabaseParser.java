@@ -29,6 +29,7 @@ import org.cnx.flashcards.database.CardProvider;
 import org.cnx.flashcards.database.DeckProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -86,6 +87,18 @@ public class ModuleToDatabaseParser {
         NodeList metadataNodes = doc.getElementsByTagName("metadata");
         summary = getValue("md:abstract", metadataNodes.item(0));
         if(summary == null) summary = "This module doesn't have an abstract.";
+        
+        
+        /*NodeList authorlist = doc.getElementsByTagName("md:author");
+        String authors = getValue("md:firstname", authorlist.item(0));
+
+        if(authors == null) {
+            authorlist = doc.getElementsByTagName("md:roles");
+            authors = getValue("md:role", authorlist.item(0));
+        }
+        
+        Log.d(TAG, "Author: " + authors);*/
+        
 
         NodeList definitionNodes = doc.getElementsByTagName("definition");
         
