@@ -71,114 +71,43 @@ public class ModuleToDatabaseParser {
         if(isDuplicate(id))
             return ParseResult.DUPLICATE;
 
-        Document doc = retrieveXML(id);
+        Document moduleDoc = retrieveModuleXML(id);
+        Document metadataDoc = retrieveMetadataXML(id);
 
         /* Check that a valid document was returned
          * TODO: Better error handling here.
          */
-        if (doc == null)
+        if (moduleDoc == null || metadataDoc == null)
             return ParseResult.NO_XML;
-
-        Element root = doc.getDocumentElement();
-        title = getValue("title", root);
-        if(title == null)
-            title = getValue("name", root);
         
-        NodeList metadataNodes = doc.getElementsByTagName("metadata");
-        summary = getValue("md:abstract", metadataNodes.item(0));
-        if(summary == null) summary = "This module doesn't have an abstract.";
+        // Get module metadata
+        Element metaRoot = metadataDoc.getDocumentElement();
+        title = getValue("md:title", metaRoot);
+        summary = getValue("md:abstract", metaRoot);
         
-        
-        /*NodeList authorlist = doc.getElementsByTagName("md:author");
-        String authors = getValue("md:firstname", authorlist.item(0));
-
-        if(authors == null) {
-            authorlist = doc.getElementsByTagName("md:roles");
-            authors = getValue("md:role", authorlist.item(0));
-        }
-        
-        Log.d(TAG, "Author: " + authors);*/
-        
-
-        NodeList definitionNodes = doc.getElementsByTagName("definition");
+        // Get the definitions
+        NodeList definitionNodes = moduleDoc.getElementsByTagName("definition");
         
         if(definitionNodes.getLength() == 0)
             return ParseResult.NO_NODES;
         
         extractDefinitions(definitionNodes);
-        Uri deckUri = addValuesToDatabase(id);
+        addValuesToDatabase(id);
 
         return ParseResult.SUCCESS;
     }
 
     
-    private boolean isDuplicate(String id) {
-        String[] projection = {MODULE_ID};
-        String selection = MODULE_ID + " = '" + id + "'";
-        Cursor idCursor = context.getContentResolver().query(DeckProvider.CONTENT_URI, projection, selection, null, null);
-        int count = idCursor.getCount();
-        idCursor.close();
-        
-        if(count == 0)
-            return false;
-        else 
-            return true;
-    }
-
-
-    /** Add the parsed definitions to the database. **/
-    private Uri addValuesToDatabase(String id) {
-        ContentValues values;
-
-        // Insert deck first to check for duplicates
-        values = new ContentValues();
-        values.put(MODULE_ID, id);
-        values.put(TITLE, title);
-        values.put(ABSTRACT, summary);
-        Uri deckUri = context.getContentResolver().insert(
-                DeckProvider.CONTENT_URI, values);
-
-        if (deckUri == null)
-            return null;
-
-        int newDeckRowID = (int) ContentUris.parseId(deckUri);
-        
-        for (int i = 0; i < terms.size(); i++) {
-            values = new ContentValues();
-            values.put(DECK_ID, newDeckRowID);
-            values.put(MEANING, meanings.get(i));
-            values.put(TERM, terms.get(i));
-            context.getContentResolver().insert(CardProvider.CONTENT_URI,
-                    values);
-        }
-
-        return deckUri;
-    }
-
-    
-    /**
-     * Retrieve the CNXML file as a list of nodes
-     * 
-     * @param id
-     **/
-    private Document retrieveXML(String id) {
+    private Document retrieveMetadataXML(String id) {
         URL url;
         URLConnection conn;
         InputStream in = null;
 
-        String teststring = (String) id.subSequence(0, 4);
-
         try {
-            if (teststring.equals("test")) {
-                Log.d(TAG, "Loading XML from resource");
-                in = context.getResources().openRawResource(R.raw.testmodule);
-            } else {
-                Log.d(TAG, "Downloading XML");
-                url = new URL("http://cnx.org/content/" + id
-                        + "/latest/module_export?format=plain"); // m9006/2.22
-                conn = url.openConnection();
-                in = conn.getInputStream();
-            }
+            Log.d(TAG, "Downloading metadata");
+            url = new URL("http://cnx.org/content/" + id + "/latest/metadata");
+            conn = url.openConnection();
+            in = conn.getInputStream();
 
             Document doc = null;
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -187,7 +116,46 @@ public class ModuleToDatabaseParser {
             try {
                 docBuilder = dbf.newDocumentBuilder();
                 doc = docBuilder.parse(in);
-                Log.d(TAG, "Succesful parse.");
+            } catch (ParserConfigurationException pce) {
+                Log.d(TAG, "Caught parser exception.");
+            } catch (SAXException e) {
+                Log.d(TAG, "Caught SAX exception.");
+            }
+
+            return doc;
+        } catch (MalformedURLException mue) {
+        } catch (IOException ioe) {
+        }
+
+        return null;
+    }
+
+    
+    /**
+     * Retrieve the CNXML file as a list of nodes
+     * 
+     * @param id
+     **/
+    private Document retrieveModuleXML(String id) {
+        URL url;
+        URLConnection conn;
+        InputStream in = null;
+
+        String teststring = (String) id.subSequence(0, 4);
+
+        try {
+            url = new URL("http://cnx.org/content/" + id
+                    + "/latest/module_export?format=plain"); // m9006/2.22
+            conn = url.openConnection();
+            in = conn.getInputStream();
+
+            Document doc = null;
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder;
+
+            try {
+                docBuilder = dbf.newDocumentBuilder();
+                doc = docBuilder.parse(in);
             } catch (ParserConfigurationException pce) {
                 Log.d(TAG, "Caught parser exception.");
             } catch (SAXException e) {
@@ -234,6 +202,51 @@ public class ModuleToDatabaseParser {
             }
         }
     }
+    
+    
+    /** Add the parsed definitions to the database. **/
+    private Uri addValuesToDatabase(String id) {
+        ContentValues values;
+
+        // Insert deck first to check for duplicates
+        values = new ContentValues();
+        values.put(MODULE_ID, id);
+        values.put(TITLE, title);
+        values.put(ABSTRACT, summary);
+        Uri deckUri = context.getContentResolver().insert(
+                DeckProvider.CONTENT_URI, values);
+
+        if (deckUri == null)
+            return null;
+
+        int newDeckRowID = (int) ContentUris.parseId(deckUri);
+        
+        for (int i = 0; i < terms.size(); i++) {
+            values = new ContentValues();
+            values.put(DECK_ID, newDeckRowID);
+            values.put(MEANING, meanings.get(i));
+            values.put(TERM, terms.get(i));
+            context.getContentResolver().insert(CardProvider.CONTENT_URI,
+                    values);
+        }
+
+        return deckUri;
+    }
+    
+    
+    /** Check if this particular module has already been downloaded + added to the database */
+    private boolean isDuplicate(String id) {
+        String[] projection = {MODULE_ID};
+        String selection = MODULE_ID + " = '" + id + "'";
+        Cursor idCursor = context.getContentResolver().query(DeckProvider.CONTENT_URI, projection, selection, null, null);
+        int count = idCursor.getCount();
+        idCursor.close();
+        
+        if(count == 0)
+            return false;
+        else 
+            return true;
+    }
 
     
     /** Get a value with a given tag from a node **/
@@ -244,12 +257,15 @@ public class ModuleToDatabaseParser {
         try {
             NodeList childnodes = ((Element) n).getElementsByTagName(tagname).item(0).getChildNodes();
             value = (Node) childnodes.item(0);
+            
         }
         catch (NullPointerException npe) {
             value = null;
         }
         
-        if(value == null) return null;
+        if(value == null) {
+            return null;
+        }
         else return value.getNodeValue();
     }
 }
