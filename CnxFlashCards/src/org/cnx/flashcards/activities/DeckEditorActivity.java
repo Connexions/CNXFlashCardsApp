@@ -69,7 +69,7 @@ public class DeckEditorActivity extends SherlockActivity {
 	        titleEditText.setText(title);
 	        
 	        String summary = getIntent().getStringExtra(ABSTRACT);
-	        if(!summary.equals("This module doesn't have an abstract."))
+	        if(summary != null && !summary.equals("This module doesn't have an abstract."))
 	        	summaryEditText.setText(summary);
 	        
 	        String authors = getIntent().getStringExtra(AUTHOR);

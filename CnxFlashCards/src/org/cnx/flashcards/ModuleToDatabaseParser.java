@@ -85,6 +85,34 @@ public class ModuleToDatabaseParser {
         title = getValue("md:title", metaRoot);
         summary = getValue("md:abstract", metaRoot);
         
+        // Summaries are often bullet pointed <list>s which need to be on separate lines
+        if(summary == null) {
+            Node summaryNode = metadataDoc.getElementsByTagName("md:abstract").item(0);
+            Node summaryList = summaryNode.getFirstChild();
+            if(summaryList != null) {
+                summary = "";
+                NodeList summaryItems = summaryList.getChildNodes();
+                Log.d(TAG, summaryItems.getLength() + " items");
+                for (int i = 0; i < summaryItems.getLength(); i++) {
+                    Node item = summaryItems.item(i);
+                    if(item.getNodeName().equals("item")) {
+                        summary += item.getTextContent() + "\n";
+                    }
+                }
+            }
+        }
+        
+        
+        NodeList roles = metadataDoc.getElementsByTagName("md:role");
+        Log.d(TAG, "Number of roles: " + roles.getLength());
+        Node role;
+        for(int i = 0; i < roles.getLength(); i++) {
+            role = roles.item(0);
+            String type = ((Element)role).getAttribute("type");
+            Log.d(TAG, "Type: " + type);
+        }
+        
+        
         // Get the definitions
         NodeList definitionNodes = moduleDoc.getElementsByTagName("definition");
         
