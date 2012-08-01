@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,6 +47,7 @@ public class ModuleToDatabaseParser {
     private ArrayList<String> terms;
     private ArrayList<String> meanings;
     private String title;
+    private ArrayList<String> authorsList;
     private String authors;
     private String summary;
 
@@ -92,7 +94,6 @@ public class ModuleToDatabaseParser {
             if(summaryList != null) {
                 summary = "";
                 NodeList summaryItems = summaryList.getChildNodes();
-                Log.d(TAG, summaryItems.getLength() + " items");
                 for (int i = 0; i < summaryItems.getLength(); i++) {
                     Node item = summaryItems.item(i);
                     if(item.getNodeName().equals("item")) {
@@ -102,16 +103,31 @@ public class ModuleToDatabaseParser {
             }
         }
         
-        
+        // Get the userids of the authors
         NodeList roles = metadataDoc.getElementsByTagName("md:role");
-        Log.d(TAG, "Number of roles: " + roles.getLength());
-        Node role;
+        ArrayList<String> authorIdList = new ArrayList<String>();
         for(int i = 0; i < roles.getLength(); i++) {
-            role = roles.item(0);
+            Node role = roles.item(i);
             String type = ((Element)role).getAttribute("type");
-            Log.d(TAG, "Type: " + type);
+            if(type.equals("author")) {
+                Log.d(TAG, "Author IDs - " + role.getTextContent());
+                String[] splitIds = role.getTextContent().split("\\s+");
+                authorIdList.addAll(Arrays.asList(splitIds));
+            }
         }
         
+        authorsList = new ArrayList<String>();
+        NodeList people = metadataDoc.getElementsByTagName("md:person");
+        NodeList organisations = metadataDoc.getElementsByTagName("md:organization");
+        getAuthorsFromNodelist(people, authorIdList);
+        getAuthorsFromNodelist(organisations, authorIdList);
+        
+        for(String name : authorsList) {
+            if(authorsList.indexOf(name) == 0)
+                authors = name;
+            else
+                authors += ", " + name;
+        }
         
         // Get the definitions
         NodeList definitionNodes = moduleDoc.getElementsByTagName("definition");
@@ -126,6 +142,24 @@ public class ModuleToDatabaseParser {
     }
 
     
+    private void getAuthorsFromNodelist(NodeList actorNodes, ArrayList<String> authorIdList) {
+        for(int i = 0; i < actorNodes.getLength(); i++) {
+            Node org = actorNodes.item(i);
+            String userid = ((Element)org).getAttribute("userid");
+            if(authorIdList.contains(userid)) {
+                NodeList children = org.getChildNodes();
+                for(int j = 0; j < children.getLength(); j++) {
+                    Node child = children.item(j);
+                    if(child.getNodeName().equals("md:fullname")) {
+                        authorsList.add(child.getTextContent());
+                        Log.d(TAG, "Author's full name - " + child.getTextContent());
+                    }
+                }
+            }
+        }
+    }
+
+
     private Document retrieveMetadataXML(String id) {
         URL url;
         URLConnection conn;
@@ -169,8 +203,6 @@ public class ModuleToDatabaseParser {
         URLConnection conn;
         InputStream in = null;
 
-        String teststring = (String) id.subSequence(0, 4);
-
         try {
             url = new URL("http://cnx.org/content/" + id
                     + "/latest/module_export?format=plain"); // m9006/2.22
@@ -211,22 +243,24 @@ public class ModuleToDatabaseParser {
                 // Get terms and meanings
                 String term = getValue("term", n);
                 String meaning = getValue("meaning", n);
-
-                // Remove/replace whitespace and quotation marks
-                term = term.replace("\n", "");
-                term = term.replace("\t", "");
-                term = term.replaceAll("\\s+", " ");
-                term = term.replaceAll("^\\s+", "");
-
-                meaning = meaning.replace("\n", "");
-                meaning = meaning.replace("\t", "");
-                meaning = meaning.replaceAll("^\\s+", "");
-                meaning = meaning.replaceAll("\\s+", " ");
-                meaning = meaning.replace("\"", "");
-
-                // Add them to the lists
-                terms.add(term);
-                meanings.add(meaning);
+                
+                if(term != null && meaning != null) {
+                    // Remove/replace whitespace and quotation marks
+                    term = term.replace("\n", "");
+                    term = term.replace("\t", "");
+                    term = term.replaceAll("\\s+", " ");
+                    term = term.replaceAll("^\\s+", "");
+    
+                    meaning = meaning.replace("\n", "");
+                    meaning = meaning.replace("\t", "");
+                    meaning = meaning.replaceAll("^\\s+", "");
+                    meaning = meaning.replaceAll("\\s+", " ");
+                    meaning = meaning.replace("\"", "");
+    
+                    // Add them to the lists
+                    terms.add(term);
+                    meanings.add(meaning);
+                }
             }
         }
     }
@@ -241,6 +275,7 @@ public class ModuleToDatabaseParser {
         values.put(MODULE_ID, id);
         values.put(TITLE, title);
         values.put(ABSTRACT, summary);
+        values.put(AUTHOR, authors);
         Uri deckUri = context.getContentResolver().insert(
                 DeckProvider.CONTENT_URI, values);
 
