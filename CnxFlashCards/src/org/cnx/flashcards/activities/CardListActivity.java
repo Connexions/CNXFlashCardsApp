@@ -30,13 +30,14 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class CardListActivity extends SherlockActivity {
 	ListView cardListView;
     Cursor cardsCursor;
     SimpleCursorAdapter cursorAdapter;
-    Button newCardButton;
     String id;
     
     static int CARD_EDIT_REQUEST = 0;
@@ -55,7 +56,6 @@ public class CardListActivity extends SherlockActivity {
         
         // Get UI elements
         cardListView = (ListView)findViewById(R.id.cardListView);
-        newCardButton = (Button)findViewById(R.id.newCardButton);
         
         id = getIntent().getStringExtra(DECK_ID);
         
@@ -77,16 +77,14 @@ public class CardListActivity extends SherlockActivity {
                 startActivityForResult(cardEditIntent, CARD_EDIT_REQUEST);
             }
         });
-        
-        newCardButton.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                Intent newCardIntent = new Intent(CardListActivity.this, CardEditorActivity.class);
-                newCardIntent.putExtra(DECK_ID, id);
-                startActivityForResult(newCardIntent, CARD_EDIT_REQUEST);
-            }
-        });
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.cardlistmenu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     
@@ -95,6 +93,12 @@ public class CardListActivity extends SherlockActivity {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
+            break;
+            
+        case R.id.newCardActionItem:
+            Intent newCardIntent = new Intent(CardListActivity.this, CardEditorActivity.class);
+            newCardIntent.putExtra(DECK_ID, id);
+            startActivityForResult(newCardIntent, CARD_EDIT_REQUEST);
             break;
 
         default:

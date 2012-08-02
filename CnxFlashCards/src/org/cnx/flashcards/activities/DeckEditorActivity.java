@@ -28,12 +28,12 @@ import android.widget.EditText;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class DeckEditorActivity extends SherlockActivity {
-	
-    Button editCardsButton;
-    Button deleteDeckButton;
+
     String id;
     EditText titleEditText;
     EditText summaryEditText;
@@ -56,13 +56,9 @@ public class DeckEditorActivity extends SherlockActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         
         // Get UI elements
-        editCardsButton = (Button)findViewById(R.id.editCardsButton);
         titleEditText = (EditText)findViewById(R.id.editDeckName);
         summaryEditText = (EditText)findViewById(R.id.editDeckSummary);
         authorEditText = (EditText)findViewById(R.id.editDeckAuthors);
-        deleteDeckButton = (Button)findViewById(R.id.deleteDeckButton);
-        
-        //summaryEditText.setLines(5);
         
         newDeck = getIntent().getBooleanExtra(NEW_DECK, false);
         
@@ -80,26 +76,14 @@ public class DeckEditorActivity extends SherlockActivity {
 	        inDatabase = true;
 	        id = getIntent().getStringExtra(DECK_ID);
         }
-        
-        
-        editCardsButton.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-            	addToDatabase();
-                Intent newCardIntent = new Intent(DeckEditorActivity.this, CardListActivity.class);
-                newCardIntent.putExtra(DECK_ID, id);
-                startActivity(newCardIntent);
-            }
-        });
-        
-        deleteDeckButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				deleteThisDeck();
-			}
-		});
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.deckeditormenu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
     
     
@@ -108,6 +92,17 @@ public class DeckEditorActivity extends SherlockActivity {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
+            break;
+            
+        case R.id.editCardsActionItem:
+            addToDatabase();
+            Intent newCardIntent = new Intent(DeckEditorActivity.this, CardListActivity.class);
+            newCardIntent.putExtra(DECK_ID, id);
+            startActivity(newCardIntent);
+            break;
+            
+        case R.id.deleteDeckActionItem:
+            deleteThisDeck();
             break;
 
         default:

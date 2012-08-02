@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class DownloadedDeckInfoActivity extends SherlockActivity {
@@ -34,7 +36,6 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     Button quizModeButton;
     Button studyModeButton;
     Button selfTestModeButton;
-    Button editButton;
     
     TextView titleText;
     TextView summaryText;
@@ -63,7 +64,6 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         quizModeButton = (Button) findViewById(R.id.quizModeButton);
         studyModeButton = (Button) findViewById(R.id.studyModeButton);
         selfTestModeButton = (Button) findViewById(R.id.selfTestModeButton);
-        editButton = (Button)findViewById(R.id.editButton);
         
         titleText = (TextView)findViewById(R.id.deckNameText);
         summaryText = (TextView)findViewById(R.id.deckSummaryText);
@@ -101,20 +101,14 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
                 startActivityForResult(cardIntent, QUIZ_LAUNCH);
             }
         });
-        
-        editButton.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                Intent editIntent = new Intent(DownloadedDeckInfoActivity.this, DeckEditorActivity.class);
-                editIntent.putExtra(DECK_ID, id);
-                editIntent.putExtra(TITLE, title);
-                editIntent.putExtra(ABSTRACT, summary);
-                editIntent.putExtra(AUTHOR, authors);
-                editIntent.putExtra(NEW_DECK, false);
-                startActivityForResult(editIntent, EDIT_LAUNCH);
-            }
-        });
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.deckinfomenu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     
@@ -123,6 +117,16 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
+            break;
+            
+        case R.id.editDeckActionItem:
+            Intent editIntent = new Intent(DownloadedDeckInfoActivity.this, DeckEditorActivity.class);
+            editIntent.putExtra(DECK_ID, id);
+            editIntent.putExtra(TITLE, title);
+            editIntent.putExtra(ABSTRACT, summary);
+            editIntent.putExtra(AUTHOR, authors);
+            editIntent.putExtra(NEW_DECK, false);
+            startActivityForResult(editIntent, EDIT_LAUNCH);
             break;
 
         default:

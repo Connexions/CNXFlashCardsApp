@@ -22,13 +22,14 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class DeckListActivity extends SherlockActivity {
     
     ListView deckListView;
     Cursor titlesCursor;
-    Button newDeckButton;
     
     static int DECK_INFO_REQUEST = 0;
     static int NEW_DECK_REQUEST = 1;
@@ -45,7 +46,6 @@ public class DeckListActivity extends SherlockActivity {
         
         // Get UI elements
         deckListView = (ListView)findViewById(R.id.deckListView);
-        newDeckButton = (Button)findViewById(R.id.newDeckButton);
         
         // Retrieve decks from the database, show in list
         getDecks();
@@ -63,16 +63,14 @@ public class DeckListActivity extends SherlockActivity {
                 startActivityForResult(cardIntent, DECK_INFO_REQUEST);
             }
         });
-        
-        newDeckButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent editIntent = new Intent(DeckListActivity.this, DeckEditorActivity.class);
-				editIntent.putExtra(NEW_DECK, true);
-				startActivityForResult(editIntent, NEW_DECK_REQUEST);
-			}
-		});
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.decklistmenu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     
@@ -81,6 +79,12 @@ public class DeckListActivity extends SherlockActivity {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
+            break;
+            
+        case R.id.newDeckActionItem:
+            Intent editIntent = new Intent(DeckListActivity.this, DeckEditorActivity.class);
+            editIntent.putExtra(NEW_DECK, true);
+            startActivityForResult(editIntent, NEW_DECK_REQUEST);
             break;
 
         default:

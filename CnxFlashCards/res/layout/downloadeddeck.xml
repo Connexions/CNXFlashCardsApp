@@ -52,12 +52,6 @@
         android:text="Quiz"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
-    
-    <Button 
-        android:id="@+id/editButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit"/>
 
 </LinearLayout>
 
