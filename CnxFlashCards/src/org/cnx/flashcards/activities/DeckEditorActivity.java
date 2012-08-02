@@ -62,6 +62,8 @@ public class DeckEditorActivity extends SherlockActivity {
         authorEditText = (EditText)findViewById(R.id.editDeckAuthors);
         deleteDeckButton = (Button)findViewById(R.id.deleteDeckButton);
         
+        //summaryEditText.setLines(5);
+        
         newDeck = getIntent().getBooleanExtra(NEW_DECK, false);
         
         if(!newDeck) {
