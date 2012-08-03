@@ -18,6 +18,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -81,6 +83,8 @@ public class SearchActivity extends SherlockActivity {
         prevButton = (Button)findViewById(R.id.prevPageButton);
         searchInput = (EditText)findViewById(R.id.searchInput);
         searchButton = (Button)findViewById(R.id.searchButton);
+        
+        
         
         // Get a parser for the search term
         searchTerm = getIntent().getStringExtra(SEARCH_TERM);
@@ -154,6 +158,23 @@ public class SearchActivity extends SherlockActivity {
                 // Hide the keyboard after search
                 InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mgr.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+        
+        searchInput.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().equals(""))
+                    searchButton.setEnabled(false);
+                else
+                    searchButton.setEnabled(true);
             }
         });
     }
