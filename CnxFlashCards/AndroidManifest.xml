@@ -29,63 +29,52 @@
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.activities.CardActivity"
-            android:label="CardActivity" >
+            android:name="org.cnx.flashcards.activities.CardActivity">
         </activity>
         
         <activity
-            android:name = "org.cnx.flashcards.activities.StudyCardActivity"
-            android:label="StudyCardActivity" >
+            android:name = "org.cnx.flashcards.activities.StudyCardActivity" >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.activities.SelfTestCardActivity" 
-            android:label="SelfTestCardActivity" >
+            android:name="org.cnx.flashcards.activities.SelfTestCardActivity"  >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.activities.QuizCardActivity"
-            android:label="QuizCardActivity" >
+            android:name="org.cnx.flashcards.activities.QuizCardActivity" >
         </activity>
         
         <activity
-            android:name=".activities.DownloadedDeckInfoActivity"
-            android:label="DeckInfoActivity" >
+            android:name=".activities.DownloadedDeckInfoActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.SearchActivity"
-            android:label="Search" >
+            android:name="org.cnx.flashcards.activities.SearchActivity" 
+            android:configChanges="orientation|screenSize">
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.QuizEndActivity"
-            android:label="QuizEndActivity" >
+            android:name="org.cnx.flashcards.activities.QuizEndActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.DeckListActivity"
-            android:label="DeckListActivity" >
+            android:name="org.cnx.flashcards.activities.DeckListActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.HelpActivity"
-            android:label="HelpActivity" >
+            android:name="org.cnx.flashcards.activities.HelpActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.DeckEditorActivity"
-            android:label="DeckEditorActivity" >
+            android:name="org.cnx.flashcards.activities.DeckEditorActivity" >
          </activity>
          
         <activity 
-            android:name="org.cnx.flashcards.activities.CardEditorActivity"
-            android:label="CardEditorActivity" >
+            android:name="org.cnx.flashcards.activities.CardEditorActivity" >
          </activity>
          
         <activity 
-            android:name="org.cnx.flashcards.activities.CardListActivity"
-            android:label="CardListActivity" >
+            android:name="org.cnx.flashcards.activities.CardListActivity" >
          </activity>
     </application>
 
