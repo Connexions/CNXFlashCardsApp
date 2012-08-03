@@ -13,8 +13,10 @@ import org.cnx.flashcards.R;
 import org.cnx.flashcards.database.CardProvider;
 import org.cnx.flashcards.database.DeckProvider;
 
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -136,13 +138,31 @@ public class DeckEditorActivity extends SherlockActivity {
     
     
     private void deleteThisDeck() {
-    	String selection = BaseColumns._ID + " = '" + id + "'";
-		getContentResolver().delete(DeckProvider.CONTENT_URI, selection, null);
-		
-		selection = DECK_ID + " = '" + id + "'";
-		getContentResolver().delete(CardProvider.CONTENT_URI, selection, null);
-		
-		setResult(RESULT_DECK_DELETED);
-		finish();
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete this deck?");
+        
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String selection = BaseColumns._ID + " = '" + id + "'";
+                getContentResolver().delete(DeckProvider.CONTENT_URI, selection, null);
+                
+                selection = DECK_ID + " = '" + id + "'";
+                getContentResolver().delete(CardProvider.CONTENT_URI, selection, null);
+                
+                setResult(RESULT_DECK_DELETED);
+                finish();
+            }
+        });
+        
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    	
 	}
 }

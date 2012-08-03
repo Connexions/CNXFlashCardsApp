@@ -7,13 +7,12 @@ import static org.cnx.flashcards.Constants.TERM;
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.database.CardProvider;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -105,10 +104,26 @@ public class CardEditorActivity extends SherlockActivity {
             break;
             
         case R.id.deleteCardActionItem:
-            String selection = BaseColumns._ID + " = '" + _id + "'";
-            getContentResolver().delete(CardProvider.CONTENT_URI, selection, null);
-            setResult(RESULT_OK);
-            finish();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to delete this card?");
+            
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String selection = BaseColumns._ID + " = '" + _id + "'";
+                    getContentResolver().delete(CardProvider.CONTENT_URI, selection, null);
+                    setResult(RESULT_OK);
+                    finish();
+                }
+            });
+            
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
             break;
 
         default:
