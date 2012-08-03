@@ -29,6 +29,8 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,8 +56,6 @@ public class MainActivity extends SherlockActivity {
     private Button viewHelpButton;
 
     private EditText searchInput;
-
-    private String id = TEST_ID;
 
     /** Called when the activity is first created. */
     @Override
@@ -94,6 +94,23 @@ public class MainActivity extends SherlockActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 search();
                 return true;
+            }
+        });
+        
+        searchInput.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().equals(""))
+                    searchButton.setEnabled(false);
+                else
+                    searchButton.setEnabled(true);
             }
         });
         
