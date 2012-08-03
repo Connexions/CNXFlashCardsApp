@@ -15,6 +15,7 @@ import org.cnx.flashcards.SearchResultsParser;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -269,12 +270,24 @@ public class SearchActivity extends SherlockActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
                 builder.setTitle("Unable to search");
                 builder.setMessage("Couldn't reach Connexions to search.");
+                builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder.create().show();
             }
             else if(resultList.size() == 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
                 builder.setTitle("No results");
                 builder.setMessage("No results were found for the search term \"" + searchTerm + "\".");
+                builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 builder.create().show();
             }
         }
