@@ -24,7 +24,7 @@
 	                android:singleLine="true"
 	                android:maxLines="1"
 	                android:scrollHorizontally="true"
-	                android:hint="Search for a module..."
+	                android:hint="@string/searchHint"
 	                android:state_enabled="true"
 	                android:imeOptions="actionSearch"
 	                android:imeActionLabel="Search"
@@ -35,7 +35,7 @@
 	                android:id="@+id/searchButton"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:text="Search"
+	                android:text="@string/search"
 	                android:state_enabled="true"
 	            />
     		</LinearLayout>
@@ -44,14 +44,14 @@
 		        android:id="@+id/showCardsButton"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:text="Show cards"
+		        android:text="@string/userCards"
 		    />
 		    
 		    <Button
                 android:id="@+id/viewHelpButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Help"
+                android:text="@string/help"
             />
 			
 			

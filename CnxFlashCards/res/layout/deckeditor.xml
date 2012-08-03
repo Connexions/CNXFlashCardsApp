@@ -12,21 +12,21 @@
 	        android:id="@+id/editDeckName"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:hint="Enter a name..."
+	        android:hint="@string/enterNameHint"
 	        android:inputType="textCapSentences"/>
 	    
 	    <EditText 
 	        android:id="@+id/editDeckAuthors"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:hint="Enter an author..."
+	        android:hint="@string/enterAuthorHint"
 	        android:inputType="textCapSentences"/>
 	    
 	    <EditText 
 	        android:id="@+id/editDeckSummary"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:hint="Enter a summary..."
+	        android:hint="@string/enterSummaryHint"
 	        android:inputType="textCapSentences|textMultiLine"
 	        android:singleLine="false"
 	        android:lines="5"

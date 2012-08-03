@@ -34,7 +34,6 @@
 		        android:id="@+id/termText"
 		        android:layout_width="0.0dip"
 		        android:layout_height="wrap_content"
-		        android:text="Term will go here."
 		        android:gravity="center"
 		        android:layout_weight="3.0"/>
 		    
@@ -51,7 +50,6 @@
 		    android:id="@+id/meaningText"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent"
-		    android:text="The meaning will go here."
 		    android:layout_gravity="center"
 		    android:gravity="center"
 		    />

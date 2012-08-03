@@ -16,7 +16,7 @@
 		    android:singleLine="true"
 		    android:maxLines="1"
 		    android:scrollHorizontally="true"
-		    android:hint="Search for a module"
+		    android:hint="@string/searchHint"
 		    android:state_enabled="true"
 		    android:imeOptions="actionSearch"
 		    android:imeActionLabel="Search"
@@ -26,7 +26,7 @@
             android:id="@+id/searchButton"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Search"/>
+            android:text="@string/search"/>
 	    
     
     </LinearLayout>
@@ -47,14 +47,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="Previous page"
+            android:text="@string/previousSearchPage"
             android:enabled="false"/>
         
         <TextView 
             android:id="@+id/pageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_weight="0.2"
             android:textStyle="bold"
             android:gravity="center_horizontal"/>
@@ -64,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="Next page"
+            android:text="@string/nextSearchPage"
             android:enabled="false"/>
     
     </LinearLayout>

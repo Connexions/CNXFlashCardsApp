@@ -6,7 +6,7 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" 
     android:paddingLeft="15dip"
     android:paddingRight="15dip">
@@ -14,20 +14,17 @@
     <TextView 
         android:id="@+id/deckNameText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Deck title here"/>
+        android:layout_height="wrap_content"/>
     
     <TextView 
         android:id="@+id/deckAuthorsText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Author(s): This doesn't work yet."/>
+        android:layout_height="wrap_content"/>
     
     <TextView 
         android:id="@+id/deckSummaryText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Deck summary here"/>
+        android:layout_height="wrap_content"/>
     
     <TextView 
         android:id="@+id/numberOfCardsText"
@@ -36,20 +33,20 @@
     
     <Button 
         android:id="@+id/studyModeButton"
-        android:text="Study"
+        android:text="@string/studyModeTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         />
     
     <Button 
         android:id="@+id/selfTestModeButton"
-        android:text="Self Test"
+        android:text="@string/selfTestModeTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
     
     <Button 
         android:id="@+id/quizModeButton"
-        android:text="Quiz"
+        android:text="@string/quizModeTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
 
