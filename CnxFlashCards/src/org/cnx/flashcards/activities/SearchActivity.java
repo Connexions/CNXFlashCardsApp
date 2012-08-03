@@ -1,6 +1,6 @@
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.flashcards.Constants.MODULE_ID;
 import static org.cnx.flashcards.Constants.SEARCH_TERM;
 import static org.cnx.flashcards.Constants.TAG;
 
@@ -14,10 +14,8 @@ import org.cnx.flashcards.SearchResultsAdapter;
 import org.cnx.flashcards.SearchResultsParser;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -150,7 +149,11 @@ public class SearchActivity extends SherlockActivity {
                 search(SearchDirection.NEXT);
                 nextButton.setEnabled(false);
                 prevButton.setEnabled(false);
-                pageText.setText("");                
+                pageText.setText("");  
+                
+                // Hide the keyboard after search
+                InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mgr.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
     }
