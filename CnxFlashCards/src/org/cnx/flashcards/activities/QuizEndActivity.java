@@ -1,5 +1,5 @@
 package org.cnx.flashcards.activities;
-import static org.cnx.flashcards.Constants.DECK_ID;
+import static org.cnx.flashcards.Constants.MODULE_ID;
 import static org.cnx.flashcards.Constants.HIGH_SCORE;
 import static org.cnx.flashcards.Constants.SCORE;
 import static org.cnx.flashcards.Constants.TAG;
@@ -49,7 +49,7 @@ public class QuizEndActivity extends SherlockActivity {
         previousHighScoreText = (TextView)findViewById(R.id.previousHighScoreText);
         highScoreText = (TextView)findViewById(R.id.highScoreText);
         
-        id = getIntent().getStringExtra(DECK_ID);
+        id = getIntent().getStringExtra(MODULE_ID);
         
         score = getIntent().getIntExtra(SCORE, 0);
         scoreTextView.setText("Score: " + score);
@@ -84,7 +84,7 @@ public class QuizEndActivity extends SherlockActivity {
     
     private void checkHighScore() {
         String[] projection = { HIGH_SCORE };
-        String selection = DECK_ID + " = " + "'" + id + "'";
+        String selection = MODULE_ID + " = " + "'" + id + "'";
         Cursor highScoreCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
         highScoreCursor.moveToFirst();
@@ -107,9 +107,5 @@ public class QuizEndActivity extends SherlockActivity {
         else {
             highScoreText.setText("You didn't get a new high score.");
         }
-        
-        
-        
     }
-    
 }

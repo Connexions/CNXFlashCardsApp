@@ -174,8 +174,6 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         	authors = "No authors";
     	authorsText.setText("Author(s): " + authors);
     	
-    	Log.d(TAG, authors);
-        
         projection = new String[]{TERM};
         selection = DECK_ID + " = '" + id + "'";
         Cursor cardCountCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);

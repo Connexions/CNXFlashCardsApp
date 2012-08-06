@@ -14,6 +14,7 @@ import org.cnx.flashcards.SearchResultsAdapter;
 import org.cnx.flashcards.SearchResultsParser;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -311,41 +312,46 @@ public class SearchActivity extends SherlockActivity {
 
             setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
 
-            String resultText = "";
+            String errorText = null;
             boolean launch = false;
 
             switch (result) {
             case SUCCESS:
-                resultText = "Parsing succeeded, terms in database";
-                Log.d(TAG, "SUCCESS");
                 launch = true;
                 break;
 
             case DUPLICATE:
-                resultText = "You have already downloaded that module. Loading it now.";
-                Log.d(TAG, "DUPLICATE");
+                Toast resultsToast = Toast.makeText(SearchActivity.this, 
+                        "You've already downloaded this deck.", Toast.LENGTH_SHORT);
+                resultsToast.show();
+                
                 launch = true;
                 break;
 
             case NO_NODES:
-                resultText = "That module has no definitions.";
-                Log.d(TAG, "NO_NODES");
+                errorText = "That chapter has no glossary and can't be made into flash cards.";
                 break;
                 
             case NO_XML:
-                resultText = "Could not download valid XML.";
-                Log.d(TAG, "NO_XML");
+                errorText = "Unable to download chapter from Connexions. Try again shortly.";
                 break;
             }
-
-            Toast resultsToast = Toast.makeText(SearchActivity.this,
-                    resultText, Toast.LENGTH_SHORT);
-            resultsToast.show();
             
             if(launch) {
                 Intent cardIntent = new Intent(getApplicationContext(), DownloadedDeckInfoActivity.class);
                 cardIntent.putExtra(MODULE_ID, id);
                 startActivity(cardIntent);
+            }
+            else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
+                builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setMessage(errorText);
+                builder.create().show();
             }
         }
     }
