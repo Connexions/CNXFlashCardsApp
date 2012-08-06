@@ -85,6 +85,8 @@ public abstract class CardActivity extends SherlockActivity implements
         prevCardButton = (Button) findViewById(R.id.prevCardButton);
         deckPositionText = (TextView) findViewById(R.id.deckPositionText);
         positionBar = (SeekBar)findViewById(R.id.deckPositionBar);
+        
+        
 
         loadCards(id);
         boolean valid = checkIfValidDeck();
