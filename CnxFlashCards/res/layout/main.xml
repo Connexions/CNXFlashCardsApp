@@ -30,7 +30,6 @@
 		                android:state_enabled="true"
 		                android:imeOptions="actionSearch"
 		                android:imeActionLabel="Search"
-		                
 		            />
             
 	            <Button

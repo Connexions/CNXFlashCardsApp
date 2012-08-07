@@ -219,6 +219,8 @@ public class SearchActivity extends SherlockActivity {
                 Toast.LENGTH_SHORT);
         searchingToast.show();
         
+        searchInput.setText(searchTerm);
+        
         setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
     }
 
