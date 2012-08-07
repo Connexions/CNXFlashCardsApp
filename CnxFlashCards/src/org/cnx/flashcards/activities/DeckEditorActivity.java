@@ -21,6 +21,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,6 +42,8 @@ public class DeckEditorActivity extends SherlockActivity {
     EditText titleEditText;
     EditText summaryEditText;
     EditText authorEditText;
+    MenuItem saveActionBarItem;
+    
     boolean newDeck = false;
     boolean inDatabase = false;
     
@@ -78,6 +82,48 @@ public class DeckEditorActivity extends SherlockActivity {
 	        inDatabase = true;
 	        id = getIntent().getStringExtra(DECK_ID);
         }
+        
+        titleEditText.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveActionBarItem.setEnabled(true);
+            }
+        });
+        
+        summaryEditText.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveActionBarItem.setEnabled(true);
+            }
+        });
+        
+        authorEditText.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveActionBarItem.setEnabled(true);
+            }
+        });
     }
     
     
@@ -85,6 +131,7 @@ public class DeckEditorActivity extends SherlockActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.deckeditormenu, menu);
+        saveActionBarItem = menu.findItem(R.id.saveDeckActionItem);
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -106,19 +153,15 @@ public class DeckEditorActivity extends SherlockActivity {
         case R.id.deleteDeckActionItem:
             deleteThisDeck();
             break;
+            
+        case R.id.saveDeckActionItem:
+            addToDatabase();
+            break;
 
         default:
             break;
         }
         return super.onOptionsItemSelected(item);
-    }
-    
-    
-    @Override
-    public void finish() {
-    	addToDatabase();
-    	
-    	super.finish();
     }
 
 

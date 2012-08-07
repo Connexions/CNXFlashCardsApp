@@ -12,6 +12,8 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.BaseColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.widget.EditText;
 
@@ -25,11 +27,11 @@ public class CardEditorActivity extends SherlockActivity {
     
     EditText termEditText;
     EditText meaningEditText;
+    MenuItem saveActionBarItem;
     
     int _id;
     String deck;
     boolean newCard = true;
-    boolean cancelled = false;
     
     
     @Override
@@ -57,34 +59,53 @@ public class CardEditorActivity extends SherlockActivity {
             meaningEditText.setText(meaning);
             newCard = false;
         }
+        
+        termEditText.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveActionBarItem.setEnabled(true);
+            }
+        });
+        
+        meaningEditText.addTextChangedListener(new TextWatcher() {
+            
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveActionBarItem.setEnabled(true);
+            }
+        });
     }
     
     
-    @Override
-    public void finish() {
+    public void saveCard() {
+        ContentValues editedValues = new ContentValues();
         
-        String term = termEditText.getText().toString();
-        String meaning = meaningEditText.getText().toString();
+        editedValues.put(TERM, termEditText.getText().toString());
+        editedValues.put(MEANING, meaningEditText.getText().toString());
         
-        if(!cancelled && !(term.equals("") && meaning.equals(""))) {
-            ContentValues editedValues = new ContentValues();
-            
-            editedValues.put(TERM, termEditText.getText().toString());
-            editedValues.put(MEANING, meaningEditText.getText().toString());
-            
-            if(!newCard) {
-                String selection = BaseColumns._ID + " = '" + _id + "'";                    
-                getContentResolver().update(CardProvider.CONTENT_URI, editedValues, selection, null);
-            }
-            else {
-                editedValues.put(DECK_ID, deck);
-                getContentResolver().insert(CardProvider.CONTENT_URI, editedValues);
-            }
-            
-            setResult(RESULT_OK);
+        if(!newCard) {
+            String selection = BaseColumns._ID + " = '" + _id + "'";                    
+            getContentResolver().update(CardProvider.CONTENT_URI, editedValues, selection, null);
+        }
+        else {
+            editedValues.put(DECK_ID, deck);
+            getContentResolver().insert(CardProvider.CONTENT_URI, editedValues);
         }
         
-        super.finish();
+        setResult(RESULT_OK);
     }
     
     
@@ -92,6 +113,7 @@ public class CardEditorActivity extends SherlockActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.cardeditormenu, menu);
+        saveActionBarItem = menu.findItem(R.id.saveCardActionItem);
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -125,10 +147,15 @@ public class CardEditorActivity extends SherlockActivity {
             });
             builder.create().show();
             break;
+            
+        case R.id.saveCardActionItem:
+            saveCard();
+            break;
 
         default:
             break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
