@@ -7,6 +7,7 @@ import static org.cnx.flashcards.Constants.TERM;
 import static org.cnx.flashcards.Constants.TITLE;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.cnx.flashcards.R;
 import org.cnx.flashcards.R.id;
@@ -97,6 +98,9 @@ public abstract class CardActivity extends SherlockActivity implements
             return;
         }
         
+        // Shuffle the deck
+        Collections.shuffle(definitions);
+        
         if(definitions.size()==1) {
             positionBar.setMax(1);
             positionBar.setProgress(1);
@@ -182,13 +186,9 @@ public abstract class CardActivity extends SherlockActivity implements
         definitions = new ArrayList<String[]>();
 
         if (!cardsCursor.isAfterLast()) {
-            do {
-                definitions
-                        .add(new String[] {
-                                cardsCursor.getString(cardsCursor
-                                        .getColumnIndex(TERM)),
-                                cardsCursor.getString(cardsCursor
-                                        .getColumnIndex(MEANING)) });
+            do {definitions.add(new String[] {
+                    cardsCursor.getString(cardsCursor.getColumnIndex(TERM)),
+                    cardsCursor.getString(cardsCursor.getColumnIndex(MEANING)) });
             } while (cardsCursor.moveToNext());
         }
 

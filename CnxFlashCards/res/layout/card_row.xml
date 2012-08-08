@@ -7,7 +7,7 @@
     android:paddingBottom="5dip"
     android:paddingLeft="10dip"
     android:paddingRight="10dip"
-    android:background="@color/background"    >
+    android:background="@color/background">
     
     <TextView 
         android:id="@+id/term"
