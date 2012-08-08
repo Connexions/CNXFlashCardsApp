@@ -51,7 +51,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.downloadeddeck);
+        setContentView(R.layout.deck_details);
         
         // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();

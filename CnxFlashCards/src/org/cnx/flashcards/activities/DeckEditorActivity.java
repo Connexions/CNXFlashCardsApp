@@ -52,7 +52,7 @@ public class DeckEditorActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.deckeditor);
+        setContentView(R.layout.deck_editor);
         
         // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();

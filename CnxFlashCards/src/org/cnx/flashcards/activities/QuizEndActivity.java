@@ -38,7 +38,7 @@ public class QuizEndActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {        
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.quizend);
+        setContentView(R.layout.quiz_end);
         
         // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();

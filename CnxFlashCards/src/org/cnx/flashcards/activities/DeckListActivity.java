@@ -38,7 +38,7 @@ public class DeckListActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.decklist);
+        setContentView(R.layout.deck_list);
         
         // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();
@@ -97,14 +97,14 @@ public class DeckListActivity extends SherlockActivity {
     /**Extracts decks from the database, shows them in the ListView**/
     private void getDecks() {
         String[] projection = {BaseColumns._ID, MODULE_ID, TITLE };
-        String order = "LOWER(" + TITLE + "), " + TITLE;
+        String order = "LOWER(" + TITLE + ")";
         titlesCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, null, null, order);
         titlesCursor.moveToFirst();
         
         int[] to = {R.id.url, R.id.title};
         String[] from = {MODULE_ID, TITLE };
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.search_row, titlesCursor, from, to, CursorAdapter.NO_SELECTION);
+        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.deck_list_row, titlesCursor, from, to, CursorAdapter.NO_SELECTION);
 
         deckListView.setAdapter(cursorAdapter);
     }

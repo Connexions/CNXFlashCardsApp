@@ -32,7 +32,7 @@ public class QuizCardActivity extends CardActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.quizmode);
+        setContentView(R.layout.quiz_mode);
         rand = new Random();
 
         // Get UI elements

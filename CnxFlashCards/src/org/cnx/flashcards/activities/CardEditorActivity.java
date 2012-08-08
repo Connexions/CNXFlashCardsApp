@@ -37,7 +37,7 @@ public class CardEditorActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cardeditor);
+        setContentView(R.layout.card_editor);
         
         // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();

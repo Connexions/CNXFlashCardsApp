@@ -45,7 +45,7 @@ public class CardListActivity extends SherlockActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cardlist);
+        setContentView(R.layout.card_list);
         
         // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();
@@ -111,13 +111,13 @@ public class CardListActivity extends SherlockActivity {
     private void getCards() {
         String[] projection = {BaseColumns._ID, DECK_ID, TERM, MEANING };
         String selection = DECK_ID + " = '" + id + "'";
-        String order = "LOWER(" + TERM + "), " + TERM; //SQLite normally orders any upper case before all lower case
+        String order = "LOWER(" + TERM + ")"; //SQLite normally orders any upper case before all lower case
         cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, order);
         cardsCursor.moveToFirst();
         
         int[] to = {R.id.term, R.id.meaning};
         String[] from = {TERM, MEANING };
-        cursorAdapter = new SimpleCursorAdapter(this, R.layout.card_row, cardsCursor, from, to, CursorAdapter.NO_SELECTION);
+        cursorAdapter = new SimpleCursorAdapter(this, R.layout.card_list_row, cardsCursor, from, to, CursorAdapter.NO_SELECTION);
 
         cardListView.setAdapter(cursorAdapter);      
     }

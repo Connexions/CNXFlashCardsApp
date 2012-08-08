@@ -69,7 +69,7 @@ public class SearchActivity extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setContentView(R.layout.search);
+        setContentView(R.layout.search_results);
         
         // Allow going back with ActionBar
         ActionBar actionBar = getSupportActionBar();
