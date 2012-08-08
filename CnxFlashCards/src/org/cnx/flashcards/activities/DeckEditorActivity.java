@@ -144,7 +144,7 @@ public class DeckEditorActivity extends SherlockActivity {
             break;
             
         case R.id.editCardsActionItem:
-            addToDatabase();
+            saveDeck();
             Intent newCardIntent = new Intent(DeckEditorActivity.this, CardListActivity.class);
             newCardIntent.putExtra(DECK_ID, id);
             startActivity(newCardIntent);
@@ -155,7 +155,7 @@ public class DeckEditorActivity extends SherlockActivity {
             break;
             
         case R.id.saveDeckActionItem:
-            addToDatabase();
+            saveDeck();
             break;
 
         default:
@@ -165,7 +165,7 @@ public class DeckEditorActivity extends SherlockActivity {
     }
 
 
-	private void addToDatabase() {
+	private void saveDeck() {
 		ContentValues values = new ContentValues();
     	values.put(TITLE, titleEditText.getText().toString());
     	values.put(ABSTRACT, summaryEditText.getText().toString());
@@ -177,6 +177,8 @@ public class DeckEditorActivity extends SherlockActivity {
     		id = Long.toString(ContentUris.parseId(idUri));
     		inDatabase = true;
     	}
+    	
+    	saveActionBarItem.setEnabled(false);
 	}
     
     

@@ -105,6 +105,8 @@ public class CardEditorActivity extends SherlockActivity {
             getContentResolver().insert(CardProvider.CONTENT_URI, editedValues);
         }
         
+        saveActionBarItem.setEnabled(false);
+        
         setResult(RESULT_OK);
     }
     
