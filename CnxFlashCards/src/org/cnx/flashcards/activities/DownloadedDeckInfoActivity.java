@@ -40,7 +40,6 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     TextView titleText;
     TextView summaryText;
     TextView authorsText;
-    TextView noOfCardsText;
     
     String id;
     String title;
@@ -67,7 +66,6 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         
         titleText = (TextView)findViewById(R.id.deckNameText);
         summaryText = (TextView)findViewById(R.id.deckSummaryText);
-        noOfCardsText = (TextView)findViewById(R.id.numberOfCardsText);
         authorsText = (TextView)findViewById(R.id.deckAuthorsText);
         
         setDetails();
@@ -173,14 +171,8 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         if(authors == null || authors.equals(""))
         	authors = "No authors";
     	authorsText.setText("Author(s): " + authors);
-    	
-        projection = new String[]{TERM};
-        selection = DECK_ID + " = '" + id + "'";
-        Cursor cardCountCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, null);
-        noOfCardsText.setText("No. of cards: " + cardCountCursor.getCount());
         
         deckInfoCursor.close();
-        cardCountCursor.close();
     }
 
 

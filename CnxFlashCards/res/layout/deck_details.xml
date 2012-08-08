@@ -27,11 +27,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
     
-    <TextView 
-        android:id="@+id/numberOfCardsText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
-    
     <Button 
         android:id="@+id/studyModeButton"
         android:text="@string/studyModeTitle"
