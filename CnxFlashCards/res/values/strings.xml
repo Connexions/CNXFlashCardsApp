@@ -19,5 +19,8 @@
     <string name="score">Score</string>
     <string name="nextSearchPage">Next</string>
     <string name="previousSearchPage">Previous</string>
+    <string name="title">Title:</string>
+    <string name="authors">Author(s):</string>
+    <string name="summary">Summary:</string>
 
 </resources>

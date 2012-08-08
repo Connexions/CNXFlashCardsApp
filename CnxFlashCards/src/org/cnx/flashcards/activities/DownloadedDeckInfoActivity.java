@@ -156,21 +156,21 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         
         title = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(TITLE));
         if(title == null || title.equals(""))
-        	titleText.setText("Title: This deck has no title.");
+        	titleText.setText("This deck has no title.");
         else
-        	titleText.setText("Title: " + title);
+        	titleText.setText(title);
         	
         
         summary = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(ABSTRACT));
         if(summary == null || summary.equals(""))
-        	summaryText.setText("Abstract: This deck has no abstract.");
+        	summaryText.setText("This deck has no abstract.");
         else
-        	summaryText.setText("Abstract: " + summary);
+        	summaryText.setText(summary);
         
         authors = deckInfoCursor.getString(deckInfoCursor.getColumnIndex(AUTHOR));
         if(authors == null || authors.equals(""))
         	authors = "No authors";
-    	authorsText.setText("Author(s): " + authors);
+    	authorsText.setText(authors);
         
         deckInfoCursor.close();
     }

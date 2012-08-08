@@ -9,23 +9,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
-    android:paddingLeft="15dip"
-    android:paddingRight="15dip">
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip">
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title"/>
     
     <TextView 
         android:id="@+id/deckNameText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"/>
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/authors"/>
     
     <TextView 
         android:id="@+id/deckAuthorsText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"/>
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/summary"/>
     
     <TextView 
         android:id="@+id/deckSummaryText"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"/>
     
     <Button 
         android:id="@+id/studyModeButton"
