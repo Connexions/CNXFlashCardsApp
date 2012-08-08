@@ -97,8 +97,9 @@ public class DeckListActivity extends SherlockActivity {
     /**Extracts decks from the database, shows them in the ListView**/
     private void getDecks() {
         String[] projection = {BaseColumns._ID, MODULE_ID, TITLE };
+        String order = "LOWER(" + TITLE + "), " + TITLE;
         titlesCursor = getContentResolver().query(
-                DeckProvider.CONTENT_URI, projection, null, null, null);
+                DeckProvider.CONTENT_URI, projection, null, null, order);
         titlesCursor.moveToFirst();
         
         int[] to = {R.id.url, R.id.title};

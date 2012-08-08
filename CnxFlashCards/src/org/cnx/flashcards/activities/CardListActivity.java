@@ -111,7 +111,8 @@ public class CardListActivity extends SherlockActivity {
     private void getCards() {
         String[] projection = {BaseColumns._ID, DECK_ID, TERM, MEANING };
         String selection = DECK_ID + " = '" + id + "'";
-        cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, TERM);
+        String order = "LOWER(" + TERM + "), " + TERM; //SQLite normally orders any upper case before all lower case
+        cardsCursor = getContentResolver().query(CardProvider.CONTENT_URI, projection, selection, null, order);
         cardsCursor.moveToFirst();
         
         int[] to = {R.id.term, R.id.meaning};
