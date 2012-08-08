@@ -10,15 +10,24 @@
     android:background="@color/background">
     
     <TextView 
-        android:id="@+id/term"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textStyle="bold"/>
     
     <TextView 
-        android:id="@+id/meaning"
+        android:id="@+id/authors"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textStyle="italic"/>
+    
+    <TextView 
+        android:id="@+id/summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:paddingTop="3dp"/>
 
 </LinearLayout>
