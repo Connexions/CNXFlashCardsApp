@@ -70,7 +70,8 @@ public class CardEditorActivity extends SherlockActivity {
             
             @Override
             public void afterTextChanged(Editable s) {
-                saveActionBarItem.setEnabled(true);
+                if(saveActionBarItem != null)
+                    saveActionBarItem.setEnabled(true);
             }
         });
         
@@ -84,7 +85,8 @@ public class CardEditorActivity extends SherlockActivity {
             
             @Override
             public void afterTextChanged(Editable s) {
-                saveActionBarItem.setEnabled(true);
+                if(saveActionBarItem != null)
+                    saveActionBarItem.setEnabled(true);
             }
         });
     }
@@ -114,7 +116,7 @@ public class CardEditorActivity extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.cardeditormenu, menu);
+        inflater.inflate(R.menu.card_editor_menu, menu);
         saveActionBarItem = menu.findItem(R.id.saveCardActionItem);
         return super.onCreateOptionsMenu(menu);
     }

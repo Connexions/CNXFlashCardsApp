@@ -43,6 +43,7 @@ public class DeckEditorActivity extends SherlockActivity {
     EditText summaryEditText;
     EditText authorEditText;
     MenuItem saveActionBarItem;
+    Button editCardsButton;
     
     boolean newDeck = false;
     boolean inDatabase = false;
@@ -65,6 +66,7 @@ public class DeckEditorActivity extends SherlockActivity {
         titleEditText = (EditText)findViewById(R.id.editDeckName);
         summaryEditText = (EditText)findViewById(R.id.editDeckSummary);
         authorEditText = (EditText)findViewById(R.id.editDeckAuthors);
+        editCardsButton = (Button)findViewById(R.id.editCardsButton);
         
         newDeck = getIntent().getBooleanExtra(NEW_DECK, false);
         
@@ -83,6 +85,16 @@ public class DeckEditorActivity extends SherlockActivity {
 	        id = getIntent().getStringExtra(DECK_ID);
         }
         
+        editCardsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveDeck();
+                Intent newCardIntent = new Intent(DeckEditorActivity.this, CardListActivity.class);
+                newCardIntent.putExtra(DECK_ID, id);
+                startActivity(newCardIntent);
+            }
+        });
+        
         titleEditText.addTextChangedListener(new TextWatcher() {
             
             @Override
@@ -93,7 +105,8 @@ public class DeckEditorActivity extends SherlockActivity {
             
             @Override
             public void afterTextChanged(Editable s) {
-                saveActionBarItem.setEnabled(true);
+                if(saveActionBarItem != null)
+                    saveActionBarItem.setEnabled(true);
             }
         });
         
@@ -107,7 +120,8 @@ public class DeckEditorActivity extends SherlockActivity {
             
             @Override
             public void afterTextChanged(Editable s) {
-                saveActionBarItem.setEnabled(true);
+                if(saveActionBarItem != null)
+                    saveActionBarItem.setEnabled(true);
             }
         });
         
@@ -121,7 +135,8 @@ public class DeckEditorActivity extends SherlockActivity {
             
             @Override
             public void afterTextChanged(Editable s) {
-                saveActionBarItem.setEnabled(true);
+                if(saveActionBarItem != null)
+                    saveActionBarItem.setEnabled(true);
             }
         });
     }
@@ -130,7 +145,7 @@ public class DeckEditorActivity extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.deckeditormenu, menu);
+        inflater.inflate(R.menu.deck_editor_menu, menu);
         saveActionBarItem = menu.findItem(R.id.saveDeckActionItem);
         return super.onCreateOptionsMenu(menu);
     }
@@ -141,13 +156,6 @@ public class DeckEditorActivity extends SherlockActivity {
         switch (item.getItemId()) {
         case android.R.id.home:
             finish();
-            break;
-            
-        case R.id.editCardsActionItem:
-            saveDeck();
-            Intent newCardIntent = new Intent(DeckEditorActivity.this, CardListActivity.class);
-            newCardIntent.putExtra(DECK_ID, id);
-            startActivity(newCardIntent);
             break;
             
         case R.id.deleteDeckActionItem:

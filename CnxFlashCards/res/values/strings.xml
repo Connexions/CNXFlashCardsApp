@@ -22,5 +22,6 @@
     <string name="title">Title:</string>
     <string name="authors">Author(s):</string>
     <string name="summary">Summary:</string>
+    <string name="editCards">Edit cards</string>
 
 </resources>

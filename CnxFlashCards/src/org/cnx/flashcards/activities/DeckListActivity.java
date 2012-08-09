@@ -69,7 +69,7 @@ public class DeckListActivity extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.decklistmenu, menu);
+        inflater.inflate(R.menu.deck_list_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

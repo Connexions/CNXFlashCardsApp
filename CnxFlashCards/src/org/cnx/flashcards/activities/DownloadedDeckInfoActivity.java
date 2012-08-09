@@ -105,7 +105,7 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.deckinfomenu, menu);
+        inflater.inflate(R.menu.deck_details_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

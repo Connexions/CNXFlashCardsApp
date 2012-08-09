@@ -83,7 +83,7 @@ public class CardListActivity extends SherlockActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.cardlistmenu, menu);
+        inflater.inflate(R.menu.card_list_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
