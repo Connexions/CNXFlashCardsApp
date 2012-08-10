@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/saveDeckActionItem" android:showAsAction="always|withText" android:enabled="false" android:title="Save" android:icon="@drawable/ic_menu_save"></item>
-    <item android:id="@+id/deleteDeckActionItem" android:title="Delete" android:showAsAction="never|withText" android:icon="@drawable/ic_menu_delete"></item>
+    
     
     
 

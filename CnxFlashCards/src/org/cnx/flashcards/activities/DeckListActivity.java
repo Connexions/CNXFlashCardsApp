@@ -58,7 +58,7 @@ public class DeckListActivity extends SherlockActivity {
                 String id = titlesCursor.getString(titlesCursor.getColumnIndex(BaseColumns._ID));
                 
                 // Launch the deck
-                Intent cardIntent = new Intent(getApplicationContext(), DownloadedDeckInfoActivity.class);
+                Intent cardIntent = new Intent(getApplicationContext(), DeckDetailsActivity.class);
                 cardIntent.putExtra(DECK_ID, id);
                 startActivityForResult(cardIntent, DECK_INFO_REQUEST);
             }

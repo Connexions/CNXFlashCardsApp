@@ -45,7 +45,7 @@
         </activity>
         
         <activity
-            android:name=".activities.DownloadedDeckInfoActivity" >
+            android:name=".activities.DeckDetailsActivity" >
         </activity>
         
         <activity 

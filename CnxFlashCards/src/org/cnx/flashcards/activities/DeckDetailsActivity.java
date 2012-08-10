@@ -31,7 +31,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class DownloadedDeckInfoActivity extends SherlockActivity {
+public class DeckDetailsActivity extends SherlockActivity {
 
     Button quizModeButton;
     Button studyModeButton;
@@ -118,13 +118,17 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
             break;
             
         case R.id.editDeckActionItem:
-            Intent editIntent = new Intent(DownloadedDeckInfoActivity.this, DeckEditorActivity.class);
+            Intent editIntent = new Intent(DeckDetailsActivity.this, DeckEditorActivity.class);
             editIntent.putExtra(DECK_ID, id);
             editIntent.putExtra(TITLE, title);
             editIntent.putExtra(ABSTRACT, summary);
             editIntent.putExtra(AUTHOR, authors);
             editIntent.putExtra(NEW_DECK, false);
             startActivityForResult(editIntent, EDIT_LAUNCH);
+            break;
+            
+        case R.id.deleteDeckActionItem:
+            deleteThisDeck();
             break;
 
         default:
@@ -216,5 +220,35 @@ public class DownloadedDeckInfoActivity extends SherlockActivity {
         	}
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private void deleteThisDeck() {
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete this deck?");
+        
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String selection = BaseColumns._ID + " = '" + id + "'";
+                getContentResolver().delete(DeckProvider.CONTENT_URI, selection, null);
+                
+                selection = DECK_ID + " = '" + id + "'";
+                getContentResolver().delete(CardProvider.CONTENT_URI, selection, null);
+                
+                setResult(RESULT_DECK_DELETED);
+                finish();
+            }
+        });
+        
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+        
     }
 }

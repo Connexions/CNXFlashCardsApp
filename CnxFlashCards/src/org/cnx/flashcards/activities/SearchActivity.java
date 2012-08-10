@@ -340,7 +340,7 @@ public class SearchActivity extends SherlockActivity {
             }
             
             if(launch) {
-                Intent cardIntent = new Intent(getApplicationContext(), DownloadedDeckInfoActivity.class);
+                Intent cardIntent = new Intent(getApplicationContext(), DeckDetailsActivity.class);
                 cardIntent.putExtra(MODULE_ID, id);
                 startActivity(cardIntent);
             }
