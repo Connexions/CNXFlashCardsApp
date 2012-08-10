@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CNXFlashCards</string>
+    <string name="app_name">QuizCards</string>
     <string name="enterTermHint">Enter a term...</string>
     <string name="enterMeaningHint">Enter the meaning...</string>
     <string name="enterNameHint">Enter a title...</string>

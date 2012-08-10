@@ -5,10 +5,9 @@
  android:layout_height="match_parent"
  android:background="@color/background">
     
-     <TextView 
-     android:id="@+id/helpText"
+     <WebView 
+     android:id="@+id/helpWeb"
      android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:text="@string/helpText"/>
+     android:layout_height="wrap_content"/>
      
 </ScrollView>

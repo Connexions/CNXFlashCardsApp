@@ -53,6 +53,9 @@ public class DeckProvider extends ContentProvider {
         if (c.getCount() > 0)
             return null;
         c.close();
+        
+        // Always have a default high score of 0
+        values.put(HIGH_SCORE, 0);
 
         // If not, insert it in.
         long rowNum = db.insertOrThrow(DECKS_TABLE, null, values);

@@ -9,8 +9,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
-    android:paddingLeft="15dip"
-    android:paddingRight="15dip">
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip"
+    android:layout_gravity="center">
+    
+    <TextView 
+        android:id="@+id/titleText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Title Here"
+        android:textStyle="bold"/>"
     
     <TextView 
         android:id="@+id/finalScoreText"
@@ -34,6 +42,6 @@
         android:layout_height="wrap_content"
         android:text="@string/finish"/>
 
-</LinearLayout>
+    </LinearLayout>
 
 </ScrollView>

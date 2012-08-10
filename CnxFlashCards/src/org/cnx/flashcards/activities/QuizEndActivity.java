@@ -1,18 +1,17 @@
 package org.cnx.flashcards.activities;
-import static org.cnx.flashcards.Constants.MODULE_ID;
+import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.HIGH_SCORE;
+import static org.cnx.flashcards.Constants.MODULE_ID;
 import static org.cnx.flashcards.Constants.SCORE;
-import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.flashcards.Constants.TITLE;
 
 import org.cnx.flashcards.R;
-import org.cnx.flashcards.R.id;
-import org.cnx.flashcards.R.layout;
 import org.cnx.flashcards.database.DeckProvider;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.BaseColumns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,6 +28,7 @@ public class QuizEndActivity extends SherlockActivity {
     Button finishButton;
     TextView previousHighScoreText;
     TextView highScoreText;
+    TextView titleText;
     
     int score = 0;
     String id;
@@ -48,13 +48,14 @@ public class QuizEndActivity extends SherlockActivity {
         finishButton = (Button)findViewById(R.id.exitButton);
         previousHighScoreText = (TextView)findViewById(R.id.previousHighScoreText);
         highScoreText = (TextView)findViewById(R.id.highScoreText);
+        titleText = (TextView)findViewById(R.id.titleText);
         
-        id = getIntent().getStringExtra(MODULE_ID);
+        id = getIntent().getStringExtra(DECK_ID);
         
         score = getIntent().getIntExtra(SCORE, 0);
         scoreTextView.setText("Score: " + score);
         
-        checkHighScore();
+        getDetails();
         
         finishButton.setOnClickListener(new OnClickListener() {
             
@@ -82,16 +83,15 @@ public class QuizEndActivity extends SherlockActivity {
     }
     
     
-    private void checkHighScore() {
-        String[] projection = { HIGH_SCORE };
-        String selection = MODULE_ID + " = " + "'" + id + "'";
+    private void getDetails() {
+        String[] projection = { TITLE, HIGH_SCORE };
+        String selection = BaseColumns._ID + " = " + "'" + id + "'";
         Cursor highScoreCursor = getContentResolver().query(
                 DeckProvider.CONTENT_URI, projection, selection, null, null);
         highScoreCursor.moveToFirst();
         
-        if(highScoreCursor.getCount() != 0) {
-            highScore = highScoreCursor.getInt(highScoreCursor.getColumnIndex(HIGH_SCORE));
-        }
+        titleText.setText(highScoreCursor.getString(highScoreCursor.getColumnIndex(TITLE)));
+        highScore = highScoreCursor.getInt(highScoreCursor.getColumnIndex(HIGH_SCORE));
         
         highScoreCursor.close();
         
