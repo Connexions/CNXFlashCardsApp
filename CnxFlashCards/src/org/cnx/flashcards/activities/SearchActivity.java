@@ -326,32 +326,33 @@ public class SearchActivity extends SherlockActivity {
             
             ModuleToDatabaseParser parser = new ModuleToDatabaseParser(SearchActivity.this, id);
             
+            // Horrible number of if statements to avoid downloading after being cancelled
+            
+            // Check if module is already downloaded
             if(parser.isDuplicate())
                 return ParseResult.DUPLICATE;
 
-            if(!isCancelled())
-                parser.retrieveModuleXML();
+            // Download the module and metadata, if task isn't cancelled
+            if(!isCancelled())  parser.retrieveModuleXML();
+            if(!isCancelled())  parser.retrieveMetadataXML();
             
-            if(!isCancelled())
-                parser.retrieveMetadataXML();
-            
-            if(parser.nullDocuments())
+            // Check that module and metadata downloaded successfully
+            if(!isCancelled() && parser.gotXML())
+                parser.parseXML();
+            else
                 return ParseResult.NO_XML;
             
-            if(!isCancelled()) {
-                parser.parseXML();
-            }
-            
+            // Check that module has definitions, get them if it does
             if(!isCancelled() && parser.hasDefinitions())
                 parser.extractDefinitions();
             else
                 return ParseResult.NO_NODES;
-                
+               
+            // Finally, add definitions to the database
             if(!isCancelled())
                 parser.addValuesToDatabase();
-            
-            if(isCancelled())
-                Log.d(TAG, "Cancelled in doInBackground");
+
+            // Return value is ignored if task cancelled, so just return SUCCESS
             return ParseResult.SUCCESS;
         }
 

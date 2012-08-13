@@ -129,11 +129,11 @@ public class ModuleToDatabaseParser {
     }
 
     
-    public boolean nullDocuments() {
+    public boolean gotXML() {
         /* Check that a valid document was returned
          * TODO: Better error handling here.
          */
-        if (moduleDoc == null || metadataDoc == null)
+        if (moduleDoc != null && metadataDoc != null)
             return true;
         else
             return false;
