@@ -56,6 +56,7 @@ public class ModuleToDatabaseParser {
     
     private Document moduleDoc;
     private Document metadataDoc;
+    NodeList definitionNodes;
     
 
     public static enum ParseResult {
@@ -74,14 +75,7 @@ public class ModuleToDatabaseParser {
 
     
     /** Parses definitions from a CNXML file, places into database **/
-    public ParseResult parse() {
-        
-
-        /* Check that a valid document was returned
-         * TODO: Better error handling here.
-         */
-        if (moduleDoc == null || metadataDoc == null)
-            return ParseResult.NO_XML;
+    public void parseXML() {
         
         // Get module metadata
         Element metaRoot = metadataDoc.getDocumentElement();
@@ -131,17 +125,27 @@ public class ModuleToDatabaseParser {
         }
         
         // Get the definitions
-        NodeList definitionNodes = moduleDoc.getElementsByTagName("definition");
-        
-        if(definitionNodes.getLength() == 0)
-            return ParseResult.NO_NODES;
-        
-        extractDefinitions(definitionNodes);
-        addValuesToDatabase(id);
-
-        return ParseResult.SUCCESS;
+        definitionNodes = moduleDoc.getElementsByTagName("definition");
     }
 
+    
+    public boolean nullDocuments() {
+        /* Check that a valid document was returned
+         * TODO: Better error handling here.
+         */
+        if (moduleDoc == null || metadataDoc == null)
+            return true;
+        else
+            return false;
+    }
+   
+    
+    public boolean hasDefinitions() {
+        if(definitionNodes.getLength() == 0)
+            return false;
+        else
+            return true;
+    }
     
     private void getAuthorsFromNodelist(NodeList actorNodes, ArrayList<String> authorIdList) {
         for(int i = 0; i < actorNodes.getLength(); i++) {
@@ -232,9 +236,9 @@ public class ModuleToDatabaseParser {
      * Extract definitions from the list of nodes, puts them in ArrayLists Might
      * make this go straight from xml to database, depends on final structure.
      **/
-    private void extractDefinitions(NodeList nodes) {
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node n = nodes.item(i);
+    public void extractDefinitions() {
+        for (int i = 0; i < definitionNodes.getLength(); i++) {
+            Node n = definitionNodes.item(i);
 
             if (n.getNodeType() == Node.ELEMENT_NODE) {
                 // Get terms and meanings
@@ -264,7 +268,7 @@ public class ModuleToDatabaseParser {
     
     
     /** Add the parsed definitions to the database. **/
-    private Uri addValuesToDatabase(String id) {
+    public Uri addValuesToDatabase() {
         ContentValues values;
 
         // Insert deck first to check for duplicates

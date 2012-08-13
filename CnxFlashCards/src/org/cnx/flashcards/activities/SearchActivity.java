@@ -329,13 +329,30 @@ public class SearchActivity extends SherlockActivity {
             if(parser.isDuplicate())
                 return ParseResult.DUPLICATE;
 
-            parser.retrieveModuleXML();
-            parser.retrieveMetadataXML();
+            if(!isCancelled())
+                parser.retrieveModuleXML();
             
-            ParseResult result = parser.parse();
+            if(!isCancelled())
+                parser.retrieveMetadataXML();
+            
+            if(parser.nullDocuments())
+                return ParseResult.NO_XML;
+            
+            if(!isCancelled()) {
+                parser.parseXML();
+            }
+            
+            if(!isCancelled() && parser.hasDefinitions())
+                parser.extractDefinitions();
+            else
+                return ParseResult.NO_NODES;
+                
+            if(!isCancelled())
+                parser.addValuesToDatabase();
+            
             if(isCancelled())
                 Log.d(TAG, "Cancelled in doInBackground");
-            return result;
+            return ParseResult.SUCCESS;
         }
 
         @Override
@@ -369,7 +386,7 @@ public class SearchActivity extends SherlockActivity {
                 break;
             }
             
-            
+            downloadingDialog.dismiss();
             
             if(launch) {
                 Intent cardIntent = new Intent(getApplicationContext(), DeckDetailsActivity.class);
