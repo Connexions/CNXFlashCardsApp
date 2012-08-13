@@ -277,10 +277,6 @@ public class SearchActivity extends SherlockActivity {
                 
                 results.addAll(resultList);
                 resultsAdapter.notifyDataSetChanged();
-    
-                Toast resultsToast = Toast.makeText(SearchActivity.this,
-                        "Successfully downloaded search results.", Toast.LENGTH_SHORT);
-                resultsToast.show();
                 
                 pageText.setText(Integer.toString(resultsParser.currentPage+1));
                 if(resultsParser.currentPage == 0)
