@@ -52,6 +52,11 @@ public class ModuleToDatabaseParser {
     private String summary;
 
     private Context context;
+    String id;
+    
+    private Document moduleDoc;
+    private Document metadataDoc;
+    
 
     public static enum ParseResult {
         SUCCESS, NO_NODES, DUPLICATE, NO_XML
@@ -59,22 +64,18 @@ public class ModuleToDatabaseParser {
 
     
     /** Constructor **/
-    public ModuleToDatabaseParser(Context context) {
+    public ModuleToDatabaseParser(Context context, String id) {
         this.context = context;
+        this.id = id;
+        
+        terms = new ArrayList<String>();
+        meanings = new ArrayList<String>();
     }
 
     
     /** Parses definitions from a CNXML file, places into database **/
-    public ParseResult parse(String id) {
-
-        terms = new ArrayList<String>();
-        meanings = new ArrayList<String>();
+    public ParseResult parse() {
         
-        if(isDuplicate(id))
-            return ParseResult.DUPLICATE;
-
-        Document moduleDoc = retrieveModuleXML(id);
-        Document metadataDoc = retrieveMetadataXML(id);
 
         /* Check that a valid document was returned
          * TODO: Better error handling here.
@@ -160,31 +161,30 @@ public class ModuleToDatabaseParser {
     }
 
 
-    private Document retrieveMetadataXML(String id) {
+    public Document retrieveMetadataXML() {
         URL url;
         URLConnection conn;
         InputStream in = null;
 
         try {
-            Log.d(TAG, "Downloading metadata");
             url = new URL("http://cnx.org/content/" + id + "/latest/metadata");
             conn = url.openConnection();
             in = conn.getInputStream();
 
-            Document doc = null;
+            metadataDoc = null;
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;
 
             try {
                 docBuilder = dbf.newDocumentBuilder();
-                doc = docBuilder.parse(in);
+                metadataDoc = docBuilder.parse(in);
             } catch (ParserConfigurationException pce) {
                 Log.d(TAG, "Caught parser exception.");
             } catch (SAXException e) {
                 Log.d(TAG, "Caught SAX exception.");
             }
 
-            return doc;
+            return metadataDoc;
         } catch (MalformedURLException mue) {
         } catch (IOException ioe) {
         }
@@ -198,7 +198,7 @@ public class ModuleToDatabaseParser {
      * 
      * @param id
      **/
-    private Document retrieveModuleXML(String id) {
+    public void retrieveModuleXML() {
         URL url;
         URLConnection conn;
         InputStream in = null;
@@ -209,25 +209,22 @@ public class ModuleToDatabaseParser {
             conn = url.openConnection();
             in = conn.getInputStream();
 
-            Document doc = null;
+            moduleDoc = null;
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder;
 
             try {
                 docBuilder = dbf.newDocumentBuilder();
-                doc = docBuilder.parse(in);
+                moduleDoc = docBuilder.parse(in);
             } catch (ParserConfigurationException pce) {
                 Log.d(TAG, "Caught parser exception.");
             } catch (SAXException e) {
                 Log.d(TAG, "Caught SAX exception.");
             }
-
-            return doc;
+            
         } catch (MalformedURLException mue) {
         } catch (IOException ioe) {
         }
-
-        return null;
     }
 
     
@@ -298,7 +295,7 @@ public class ModuleToDatabaseParser {
     
     
     /** Check if this particular module has already been downloaded + added to the database */
-    private boolean isDuplicate(String id) {
+    public boolean isDuplicate() {
         String[] projection = {MODULE_ID};
         String selection = MODULE_ID + " = '" + id + "'";
         Cursor idCursor = context.getContentResolver().query(DeckProvider.CONTENT_URI, projection, selection, null, null);

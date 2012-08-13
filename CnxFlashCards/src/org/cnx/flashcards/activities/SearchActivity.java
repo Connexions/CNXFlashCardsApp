@@ -14,9 +14,9 @@ import org.cnx.flashcards.SearchResultsAdapter;
 import org.cnx.flashcards.SearchResultsParser;
 
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -64,6 +64,10 @@ public class SearchActivity extends SherlockActivity {
     TextView pageText;
     EditText searchInput;
     
+    DownloadDeckTask downloadTask;
+    
+    AlertDialog downloadingDialog;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +90,6 @@ public class SearchActivity extends SherlockActivity {
         searchInput = (EditText)findViewById(R.id.searchInput);
         searchButton = (Button)findViewById(R.id.searchButton);
         
-        
-        
         // Get a parser for the search term
         searchTerm = getIntent().getStringExtra(SEARCH_TERM);
         searchInput.setText(searchTerm);
@@ -108,7 +110,24 @@ public class SearchActivity extends SherlockActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long resource_id) {
                 String id = ((SearchResult)resultsListView.getItemAtPosition(position)).getId();
                 setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
-                new DownloadDeckTask().execute(id);
+                
+                AlertDialog.Builder builder = new AlertDialog.Builder(SearchActivity.this);
+                builder.setMessage("Downloading chapter...");
+                builder.setOnCancelListener(new OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        setSupportProgressBarIndeterminateVisibility(false);
+                        downloadTask.cancel(true);
+                        Toast cancelledToast = Toast.makeText(SearchActivity.this, "Download cancelled.", Toast.LENGTH_SHORT);
+                        cancelledToast.show();
+                    }
+                });
+                downloadingDialog = builder.create();
+               
+                downloadTask = new DownloadDeckTask();
+                downloadTask.execute(id);
+                
+                downloadingDialog.show();
             }
         });
         
@@ -304,7 +323,18 @@ public class SearchActivity extends SherlockActivity {
         @Override
         protected ParseResult doInBackground(String... idParam) {
             this.id = idParam[0];
-            ParseResult result = new ModuleToDatabaseParser(SearchActivity.this).parse(id);
+            
+            ModuleToDatabaseParser parser = new ModuleToDatabaseParser(SearchActivity.this, id);
+            
+            if(parser.isDuplicate())
+                return ParseResult.DUPLICATE;
+
+            parser.retrieveModuleXML();
+            parser.retrieveMetadataXML();
+            
+            ParseResult result = parser.parse();
+            if(isCancelled())
+                Log.d(TAG, "Cancelled in doInBackground");
             return result;
         }
 
@@ -338,6 +368,8 @@ public class SearchActivity extends SherlockActivity {
                 errorText = "Unable to download chapter from Connexions. Try again shortly.";
                 break;
             }
+            
+            
             
             if(launch) {
                 Intent cardIntent = new Intent(getApplicationContext(), DeckDetailsActivity.class);

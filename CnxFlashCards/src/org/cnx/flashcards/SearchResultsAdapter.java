@@ -14,6 +14,7 @@ public class SearchResultsAdapter extends BaseAdapter {
     private static ArrayList<SearchResult> searchResults;
     
     private LayoutInflater inflater;
+    private boolean enabled = true;
     
     
     public SearchResultsAdapter(Context context, ArrayList<SearchResult> searchResults) {
@@ -64,5 +65,4 @@ public class SearchResultsAdapter extends BaseAdapter {
         TextView txtAuthors;
         TextView txtUrl;
     }
-
 }
