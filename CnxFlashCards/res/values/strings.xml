@@ -23,5 +23,7 @@
     <string name="authors">Author(s):</string>
     <string name="summary">Summary:</string>
     <string name="editCards">Edit cards</string>
+    <string name="term">Term:</string>
+    <string name="meaning">Meaning:</string>
 
 </resources>

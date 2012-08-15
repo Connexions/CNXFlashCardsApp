@@ -7,7 +7,14 @@
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    android:orientation="vertical" >
+	    android:orientation="vertical"
+	    android:paddingLeft="10dp"
+	    android:paddingRight="10dp">
+	    
+	    <TextView 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/title"/>
 	    
 	    <EditText 
 	        android:id="@+id/editDeckName"
@@ -16,12 +23,22 @@
 	        android:hint="@string/enterNameHint"
 	        android:inputType="textCapSentences"/>
 	    
+	    <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/authors"/>
+	    
 	    <EditText 
 	        android:id="@+id/editDeckAuthors"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:hint="@string/enterAuthorHint"
 	        android:inputType="textCapSentences"/>
+	    
+	    <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/summary"/>
 	    
 	    <EditText 
 	        android:id="@+id/editDeckSummary"
