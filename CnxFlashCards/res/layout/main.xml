@@ -5,17 +5,23 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         >
-        <LinearLayout 
+
+        <LinearLayout
             android:layout_width="fill_parent"
-    		android:layout_height="wrap_content"
-    		android:orientation="vertical"
-    		android:layout_gravity="center"
-    		android:paddingLeft="10dip"
-            android:paddingRight="10dip">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip" 
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/splashImage"
+                android:layout_width="fill_parent"
+                android:layout_height="225dp"
+                android:src="@drawable/cnx_splash"/>
     		
     		<LinearLayout 
     		    android:layout_width="fill_parent"
-    		    android:layout_height="fill_parent"
+    		    android:layout_height="wrap_content"
     		    android:orientation="horizontal"
     		    android:paddingBottom="25dp">
     		        
@@ -33,13 +39,13 @@
 		                android:imeActionLabel="Search"
 		            />
             
-	            <Button
-	                android:id="@+id/searchButton"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:text="@string/search"
-	                android:enabled="false"
-	            />
+		            <Button
+		                android:id="@+id/searchButton"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/search"
+		                android:enabled="false"
+		            />
     		</LinearLayout>
 		    
 		    <Button
@@ -55,7 +61,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/help"
             />
-			
 			
 		</LinearLayout>
 	</ScrollView>
