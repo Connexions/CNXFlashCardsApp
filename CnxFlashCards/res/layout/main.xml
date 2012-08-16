@@ -15,8 +15,9 @@
             android:layout_gravity="center">
             <ImageView
                 android:id="@+id/splashImage"
-                android:layout_width="fill_parent"
+                android:layout_width="225dp"
                 android:layout_height="225dp"
+                android:layout_gravity="center"
                 android:src="@drawable/cnx_splash"/>
     		
     		<LinearLayout 

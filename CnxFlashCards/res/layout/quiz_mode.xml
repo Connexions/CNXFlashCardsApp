@@ -49,7 +49,8 @@
         android:text="Term will go here."
         android:gravity="center"
         android:layout_gravity="center"
-        android:paddingBottom="30dip"/>
+        android:paddingBottom="30dip"
+        android:textSize="20dip"/>
 	    
     <RadioGroup 
         android:id="@+id/answersRadioGroup"
