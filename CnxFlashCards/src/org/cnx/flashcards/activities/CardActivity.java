@@ -205,7 +205,6 @@ public abstract class CardActivity extends SherlockActivity implements
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         boolean consumed = gestureDetector.onTouchEvent(event);
-        Log.d(TAG, "onTouch triggered. Consumed = " + consumed);
         return consumed;
     }
 

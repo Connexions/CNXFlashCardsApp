@@ -189,7 +189,6 @@ public class DeckDetailsActivity extends SherlockActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	Log.d(TAG, "Result received.");
         if (resultCode == RESULT_INVALID_DECK) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

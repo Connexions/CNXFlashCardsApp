@@ -141,7 +141,6 @@ public class CardListActivity extends SherlockActivity {
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {   
-    	Log.d(TAG, "Got a result - " + resultCode + " " + requestCode);
         if(requestCode != CARD_EDIT_REQUEST)
             return;
         

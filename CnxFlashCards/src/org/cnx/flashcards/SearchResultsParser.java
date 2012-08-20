@@ -116,7 +116,6 @@ public class SearchResultsParser {
             try {
                 docBuilder = dbf.newDocumentBuilder();
                 doc = docBuilder.parse(in);
-                Log.d(TAG, "Succesful parse.");
             } catch (ParserConfigurationException pce) {
                 Log.d(TAG, "Caught parser exception.");
             } catch (SAXException e) {

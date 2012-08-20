@@ -106,7 +106,6 @@ public class ModuleToDatabaseParser {
             Node role = roles.item(i);
             String type = ((Element)role).getAttribute("type");
             if(type.equals("author")) {
-                Log.d(TAG, "Author IDs - " + role.getTextContent());
                 String[] splitIds = role.getTextContent().split("\\s+");
                 authorIdList.addAll(Arrays.asList(splitIds));
             }

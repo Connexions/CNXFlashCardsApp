@@ -38,7 +38,6 @@ public class StudyCardActivity extends CardActivity {
 
     @Override
     void setMeaningText() {
-        Log.d(TAG, "Setting meaning text.");
         meaningText.setText(definitions.get(currentCard)[1]);
     }
 
