@@ -7,9 +7,11 @@
 
 package org.cnx.flashcards;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.MODULE_ID;
+import static org.cnx.flashcards.Constants.ABSTRACT;
+import static org.cnx.flashcards.Constants.AUTHOR;
+import static org.cnx.flashcards.Constants.DECK_ID;
 import static org.cnx.flashcards.Constants.MEANING;
+import static org.cnx.flashcards.Constants.MODULE_ID;
 import static org.cnx.flashcards.Constants.TAG;
 import static org.cnx.flashcards.Constants.TERM;
 import static org.cnx.flashcards.Constants.TITLE;
@@ -30,7 +32,6 @@ import org.cnx.flashcards.database.CardProvider;
 import org.cnx.flashcards.database.DeckProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -43,22 +44,22 @@ import android.net.Uri;
 import android.util.Log;
 
 public class ModuleToDatabaseParser {
+    
+    private Context context;
+    String id;
 
     private ArrayList<String> terms;
     private ArrayList<String> meanings;
-    private String title;
     private ArrayList<String> authorsList;
+    
+    private String title;
     private String authors;
     private String summary;
-
-    private Context context;
-    String id;
     
     private Document moduleDoc;
     private Document metadataDoc;
     NodeList definitionNodes;
     
-
     public static enum ParseResult {
         SUCCESS, NO_NODES, DUPLICATE, NO_XML
     }
@@ -111,6 +112,7 @@ public class ModuleToDatabaseParser {
             }
         }
         
+        // Match the userids of the authors with the userids of people/organisations, to get names
         authorsList = new ArrayList<String>();
         NodeList people = metadataDoc.getElementsByTagName("md:person");
         NodeList organisations = metadataDoc.getElementsByTagName("md:organization");
@@ -129,6 +131,7 @@ public class ModuleToDatabaseParser {
     }
 
     
+    /** Check if the XML documents were properly retrieved */
     public boolean gotXML() {
         /* Check that a valid document was returned
          * TODO: Better error handling here.
@@ -140,6 +143,7 @@ public class ModuleToDatabaseParser {
     }
    
     
+    /** Check if there were any definitions in the module */
     public boolean hasDefinitions() {
         if(definitionNodes.getLength() == 0)
             return false;
@@ -147,17 +151,21 @@ public class ModuleToDatabaseParser {
             return true;
     }
     
+    
+    /** Get author names from a NodeList of actors and the list of userids */
     private void getAuthorsFromNodelist(NodeList actorNodes, ArrayList<String> authorIdList) {
         for(int i = 0; i < actorNodes.getLength(); i++) {
             Node org = actorNodes.item(i);
             String userid = ((Element)org).getAttribute("userid");
+            
             if(authorIdList.contains(userid)) {
                 NodeList children = org.getChildNodes();
+                
                 for(int j = 0; j < children.getLength(); j++) {
                     Node child = children.item(j);
+                    
                     if(child.getNodeName().equals("md:fullname")) {
                         authorsList.add(child.getTextContent());
-                        Log.d(TAG, "Author's full name - " + child.getTextContent());
                     }
                 }
             }
@@ -165,6 +173,7 @@ public class ModuleToDatabaseParser {
     }
 
 
+    /** Download the metadata CNXML file for this module */
     public Document retrieveMetadataXML() {
         URL url;
         URLConnection conn;
@@ -197,11 +206,7 @@ public class ModuleToDatabaseParser {
     }
 
     
-    /**
-     * Retrieve the CNXML file as a list of nodes
-     * 
-     * @param id
-     **/
+    /** Download the CNXML file for this module */
     public void retrieveModuleXML() {
         URL url;
         URLConnection conn;
@@ -271,7 +276,7 @@ public class ModuleToDatabaseParser {
     public Uri addValuesToDatabase() {
         ContentValues values;
 
-        // Insert deck first to check for duplicates
+        // Insert deck
         values = new ContentValues();
         values.put(MODULE_ID, id);
         values.put(TITLE, title);
@@ -280,11 +285,10 @@ public class ModuleToDatabaseParser {
         Uri deckUri = context.getContentResolver().insert(
                 DeckProvider.CONTENT_URI, values);
 
-        if (deckUri == null)
-            return null;
-
+        // DECK_ID of the cards is the row _id of its deck
         int newDeckRowID = (int) ContentUris.parseId(deckUri);
         
+        // Insert cards
         for (int i = 0; i < terms.size(); i++) {
             values = new ContentValues();
             values.put(DECK_ID, newDeckRowID);
@@ -315,21 +319,19 @@ public class ModuleToDatabaseParser {
     
     /** Get a value with a given tag from a node **/
     private String getValue(String tagname, Node n) {
-        // TODO: This needs better error handling around all of it.
         Node value;
         
         try {
             NodeList childnodes = ((Element) n).getElementsByTagName(tagname).item(0).getChildNodes();
-            value = (Node) childnodes.item(0);
-            
+            value = (Node) childnodes.item(0); 
         }
         catch (NullPointerException npe) {
             value = null;
         }
         
-        if(value == null) {
+        if(value == null)
             return null;
-        }
-        else return value.getNodeValue();
+        else 
+            return value.getNodeValue();
     }
 }

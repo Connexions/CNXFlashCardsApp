@@ -18,12 +18,12 @@ import android.widget.TextView;
 
 public class SearchResultsAdapter extends BaseAdapter {
     
-    private static ArrayList<SearchResult> searchResults;
+    private ArrayList<SearchResult> searchResults;
     
     private LayoutInflater inflater;
-    private boolean enabled = true;
     
     
+    /** Constructor */
     public SearchResultsAdapter(Context context, ArrayList<SearchResult> searchResults) {
         this.searchResults = searchResults;
         inflater = LayoutInflater.from(context);
@@ -45,6 +45,8 @@ public class SearchResultsAdapter extends BaseAdapter {
         return position;
     }
 
+    
+    /** Constructor */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;

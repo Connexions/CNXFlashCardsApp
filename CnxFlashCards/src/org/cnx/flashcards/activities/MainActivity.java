@@ -7,47 +7,27 @@
 
 package org.cnx.flashcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.TAG;
-import static org.cnx.flashcards.Constants.TEST_ID;
-import static org.cnx.flashcards.Constants.TITLE;
+import static org.cnx.flashcards.Constants.SEARCH_TERM;
 
-import java.util.ArrayList;
-
-import org.cnx.flashcards.ModuleToDatabaseParser;
 import org.cnx.flashcards.R;
-import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
-import org.cnx.flashcards.R.id;
-import org.cnx.flashcards.R.layout;
-import org.cnx.flashcards.R.menu;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.KeyEvent;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 
 public class MainActivity extends SherlockActivity {
 

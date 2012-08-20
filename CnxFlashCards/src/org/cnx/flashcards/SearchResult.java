@@ -30,6 +30,7 @@ public class SearchResult {
         this.title = title;
     }
     
+    
     public String getAuthors() {
         return authors;
     }
@@ -37,6 +38,7 @@ public class SearchResult {
     public void setAuthors(String authors) {
         this.authors = "By " + authors;
     }
+    
     
     public String getUrl() {
         return url;
@@ -50,7 +52,6 @@ public class SearchResult {
     public String getId() {
         return id;
     }
-
 
     public void setId(String id) {
         this.id = id;
