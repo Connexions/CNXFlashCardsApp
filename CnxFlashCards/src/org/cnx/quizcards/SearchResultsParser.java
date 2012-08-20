@@ -5,9 +5,9 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards;
+package org.cnx.quizcards;
 
-import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.quizcards.Constants.TAG;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
+import org.cnx.quizcards.ModuleToDatabaseParser.ParseResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

@@ -5,11 +5,11 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.database;
+package org.cnx.quizcards.database;
 
-import static org.cnx.flashcards.Constants.CARDS_TABLE;
-import static org.cnx.flashcards.Constants.DECKS_TABLE;
-import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.quizcards.Constants.CARDS_TABLE;
+import static org.cnx.quizcards.Constants.DECKS_TABLE;
+import static org.cnx.quizcards.Constants.TAG;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;

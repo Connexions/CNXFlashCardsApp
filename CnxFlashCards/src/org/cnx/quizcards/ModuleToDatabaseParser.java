@@ -5,16 +5,16 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards;
+package org.cnx.quizcards;
 
-import static org.cnx.flashcards.Constants.ABSTRACT;
-import static org.cnx.flashcards.Constants.AUTHOR;
-import static org.cnx.flashcards.Constants.DECK_ID;
-import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.MODULE_ID;
-import static org.cnx.flashcards.Constants.TAG;
-import static org.cnx.flashcards.Constants.TERM;
-import static org.cnx.flashcards.Constants.TITLE;
+import static org.cnx.quizcards.Constants.ABSTRACT;
+import static org.cnx.quizcards.Constants.AUTHOR;
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.MEANING;
+import static org.cnx.quizcards.Constants.MODULE_ID;
+import static org.cnx.quizcards.Constants.TAG;
+import static org.cnx.quizcards.Constants.TERM;
+import static org.cnx.quizcards.Constants.TITLE;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,8 +28,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.cnx.flashcards.database.CardProvider;
-import org.cnx.flashcards.database.DeckProvider;
+import org.cnx.quizcards.database.CardProvider;
+import org.cnx.quizcards.database.DeckProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

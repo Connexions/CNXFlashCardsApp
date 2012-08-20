@@ -5,20 +5,20 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.MODULE_ID;
-import static org.cnx.flashcards.Constants.SEARCH_TERM;
-import static org.cnx.flashcards.Constants.TAG;
+import static org.cnx.quizcards.Constants.MODULE_ID;
+import static org.cnx.quizcards.Constants.SEARCH_TERM;
+import static org.cnx.quizcards.Constants.TAG;
 
 import java.util.ArrayList;
 
-import org.cnx.flashcards.ModuleToDatabaseParser;
-import org.cnx.flashcards.ModuleToDatabaseParser.ParseResult;
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.SearchResult;
-import org.cnx.flashcards.SearchResultsAdapter;
-import org.cnx.flashcards.SearchResultsParser;
+import org.cnx.quizcards.R;
+import org.cnx.quizcards.ModuleToDatabaseParser;
+import org.cnx.quizcards.SearchResult;
+import org.cnx.quizcards.SearchResultsAdapter;
+import org.cnx.quizcards.SearchResultsParser;
+import org.cnx.quizcards.ModuleToDatabaseParser.ParseResult;
 
 import android.app.AlertDialog;
 import android.content.Context;

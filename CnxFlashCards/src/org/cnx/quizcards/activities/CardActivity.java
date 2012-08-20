@@ -5,30 +5,24 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.TAG;
-import static org.cnx.flashcards.Constants.TERM;
-import static org.cnx.flashcards.Constants.TITLE;
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.MEANING;
+import static org.cnx.quizcards.Constants.RESULT_INVALID_DECK;
+import static org.cnx.quizcards.Constants.TERM;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.R.id;
-import org.cnx.flashcards.database.CardProvider;
+import org.cnx.quizcards.R;
+import org.cnx.quizcards.database.CardProvider;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;

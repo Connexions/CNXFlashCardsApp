@@ -5,7 +5,7 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.database;
+package org.cnx.quizcards.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.quizcards.Constants.*;
 
 public class CardDatabaseOpenHelper extends SQLiteOpenHelper {
 

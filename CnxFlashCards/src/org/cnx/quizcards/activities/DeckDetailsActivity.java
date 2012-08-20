@@ -5,20 +5,25 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.QUIZ_LAUNCH;
-import static org.cnx.flashcards.Constants.RESULT_INVALID_DECK;
-import static org.cnx.flashcards.Constants.SELF_TEST_LAUNCH;
-import static org.cnx.flashcards.Constants.STUDY_LAUNCH;
-import static org.cnx.flashcards.Constants.TITLE;
+import static org.cnx.quizcards.Constants.ABSTRACT;
+import static org.cnx.quizcards.Constants.AUTHOR;
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.EDIT_LAUNCH;
+import static org.cnx.quizcards.Constants.MODULE_ID;
+import static org.cnx.quizcards.Constants.NEW_DECK;
+import static org.cnx.quizcards.Constants.QUIZ_LAUNCH;
+import static org.cnx.quizcards.Constants.RESULT_DECK_DELETED;
+import static org.cnx.quizcards.Constants.RESULT_INVALID_DECK;
+import static org.cnx.quizcards.Constants.SELF_TEST_LAUNCH;
+import static org.cnx.quizcards.Constants.STUDY_LAUNCH;
+import static org.cnx.quizcards.Constants.TAG;
+import static org.cnx.quizcards.Constants.TITLE;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.R.id;
-import org.cnx.flashcards.R.layout;
-import org.cnx.flashcards.database.CardProvider;
-import org.cnx.flashcards.database.DeckProvider;
+import org.cnx.quizcards.R;
+import org.cnx.quizcards.database.CardProvider;
+import org.cnx.quizcards.database.DeckProvider;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

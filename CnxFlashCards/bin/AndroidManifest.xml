@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.cnx.flashcards"
+    package="org.cnx.quizcards"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -14,8 +14,8 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.CNXFlashCardsTheme">
         
-        <provider android:name=".database.CardProvider" android:authorities="org.cnx.flashcards.CardProvider" />
-        <provider android:name=".database.DeckProvider" android:authorities="org.cnx.flashcards.DeckProvider" />
+        <provider android:name=".database.CardProvider" android:authorities="org.cnx.quizcards.CardProvider" />
+        <provider android:name=".database.DeckProvider" android:authorities="org.cnx.quizcards.DeckProvider" />
         
         <activity
             android:name=".activities.MainActivity"
@@ -29,19 +29,19 @@
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.activities.CardActivity">
+            android:name="org.cnx.quizcards.activities.CardActivity">
         </activity>
         
         <activity
-            android:name = "org.cnx.flashcards.activities.StudyCardActivity" >
+            android:name = "org.cnx.quizcards.activities.StudyCardActivity" >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.activities.SelfTestCardActivity"  >
+            android:name="org.cnx.quizcards.activities.SelfTestCardActivity"  >
         </activity>
         
         <activity
-            android:name="org.cnx.flashcards.activities.QuizCardActivity" >
+            android:name="org.cnx.quizcards.activities.QuizCardActivity" >
         </activity>
         
         <activity
@@ -49,32 +49,32 @@
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.SearchActivity" 
+            android:name="org.cnx.quizcards.activities.SearchActivity" 
             android:configChanges="orientation|screenSize">
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.QuizEndActivity" >
+            android:name="org.cnx.quizcards.activities.QuizEndActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.DeckListActivity" >
+            android:name="org.cnx.quizcards.activities.DeckListActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.HelpActivity" >
+            android:name="org.cnx.quizcards.activities.HelpActivity" >
         </activity>
         
         <activity 
-            android:name="org.cnx.flashcards.activities.DeckEditorActivity" >
+            android:name="org.cnx.quizcards.activities.DeckEditorActivity" >
          </activity>
          
         <activity 
-            android:name="org.cnx.flashcards.activities.CardEditorActivity" >
+            android:name="org.cnx.quizcards.activities.CardEditorActivity" >
          </activity>
          
         <activity 
-            android:name="org.cnx.flashcards.activities.CardListActivity" >
+            android:name="org.cnx.quizcards.activities.CardListActivity" >
          </activity>
     </application>
     

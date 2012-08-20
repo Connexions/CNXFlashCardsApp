@@ -5,9 +5,8 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.database;
+package org.cnx.quizcards.database;
 
-import static org.cnx.flashcards.Constants.CARDS_TABLE;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -17,7 +16,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import static org.cnx.flashcards.Constants.*;
+import static org.cnx.quizcards.Constants.*;
 
 public class DeckProvider extends ContentProvider {
 

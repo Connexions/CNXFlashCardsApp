@@ -5,11 +5,11 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.SEARCH_TERM;
+import static org.cnx.quizcards.Constants.SEARCH_TERM;
 
-import org.cnx.flashcards.R;
+import org.cnx.quizcards.R;
 
 import android.app.AlertDialog;
 import android.content.Context;

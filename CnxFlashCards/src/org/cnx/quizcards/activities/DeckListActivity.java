@@ -5,14 +5,16 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.TITLE;
-import static org.cnx.flashcards.Constants.RESULT_DECK_DELETED;
+import static org.cnx.quizcards.Constants.ABSTRACT;
+import static org.cnx.quizcards.Constants.AUTHOR;
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.NEW_DECK;
+import static org.cnx.quizcards.Constants.TITLE;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.database.DeckProvider;
+import org.cnx.quizcards.R;
+import org.cnx.quizcards.database.DeckProvider;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,10 +23,8 @@ import android.provider.BaseColumns;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;

@@ -5,20 +5,13 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.R.id;
-import org.cnx.flashcards.R.layout;
+import org.cnx.quizcards.R;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
-
-import static org.cnx.flashcards.Constants.*;
 
 public class StudyCardActivity extends CardActivity {
 

@@ -5,7 +5,7 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards;
+package org.cnx.quizcards;
 
 import java.util.ArrayList;
 

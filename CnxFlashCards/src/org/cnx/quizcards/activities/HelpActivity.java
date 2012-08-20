@@ -5,9 +5,9 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import org.cnx.flashcards.R;
+import org.cnx.quizcards.R;
 
 import android.os.Bundle;
 import android.webkit.WebView;

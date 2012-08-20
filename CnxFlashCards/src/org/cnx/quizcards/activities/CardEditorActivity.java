@@ -5,14 +5,14 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.DECK_ID;
-import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.TERM;
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.MEANING;
+import static org.cnx.quizcards.Constants.TERM;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.database.CardProvider;
+import org.cnx.quizcards.R;
+import org.cnx.quizcards.database.CardProvider;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;

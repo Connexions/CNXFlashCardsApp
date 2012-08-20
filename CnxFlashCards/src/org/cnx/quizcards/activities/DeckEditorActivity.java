@@ -5,32 +5,25 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.AUTHOR;
-import static org.cnx.flashcards.Constants.MODULE_ID;
-import static org.cnx.flashcards.Constants.NEW_DECK;
-import static org.cnx.flashcards.Constants.RESULT_DECK_DELETED;
-import static org.cnx.flashcards.Constants.TITLE;
+import static org.cnx.quizcards.Constants.ABSTRACT;
+import static org.cnx.quizcards.Constants.AUTHOR;
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.NEW_DECK;
+import static org.cnx.quizcards.Constants.TITLE;
 
-import java.net.URI;
+import org.cnx.quizcards.R;
+import org.cnx.quizcards.database.DeckProvider;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.database.CardProvider;
-import org.cnx.flashcards.database.DeckProvider;
-
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;

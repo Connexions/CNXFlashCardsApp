@@ -5,28 +5,22 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
+
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.SCORE;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.R.id;
-import org.cnx.flashcards.R.layout;
+import org.cnx.quizcards.R;
 
-import com.actionbarsherlock.view.MenuItem;
-
-import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-
-import static org.cnx.flashcards.Constants.*;
 
 public class QuizCardActivity extends CardActivity {
 

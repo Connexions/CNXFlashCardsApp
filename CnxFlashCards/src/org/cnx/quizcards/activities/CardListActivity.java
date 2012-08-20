@@ -5,35 +5,26 @@
  * Public License Version 2.1 (LGPL).  See LICENSE.txt for details.
  */
 
-package org.cnx.flashcards.activities;
+package org.cnx.quizcards.activities;
 
-import static org.cnx.flashcards.Constants.*;
-import static org.cnx.flashcards.Constants.MODULE_ID;
-import static org.cnx.flashcards.Constants.MEANING;
-import static org.cnx.flashcards.Constants.TAG;
-import static org.cnx.flashcards.Constants.TERM;
-import static org.cnx.flashcards.Constants.TITLE;
+import static org.cnx.quizcards.Constants.DECK_ID;
+import static org.cnx.quizcards.Constants.MEANING;
+import static org.cnx.quizcards.Constants.TERM;
 
-import org.cnx.flashcards.R;
-import org.cnx.flashcards.database.CardProvider;
-import org.cnx.flashcards.database.DeckProvider;
+import org.cnx.quizcards.R;
+import org.cnx.quizcards.database.CardProvider;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
