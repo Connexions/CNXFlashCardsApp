@@ -8,20 +8,17 @@
 package org.cnx.quizcards.database;
 
 import static org.cnx.quizcards.Constants.CARDS_TABLE;
-import static org.cnx.quizcards.Constants.DECKS_TABLE;
-import static org.cnx.quizcards.Constants.TAG;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
 public class CardProvider extends ContentProvider {
 
     private CardDatabaseOpenHelper helper;
     public static final Uri CONTENT_URI = Uri
-            .parse("content://org.cnx.flashcards.CardProvider");
+            .parse("content://org.cnx.quizcards.CardProvider");
 
     @Override
     public boolean onCreate() {
