@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#006699</color>
+    <color name="actionbar_background">#EE6600</color>
+    
+    <color name="list_item_selected">#87cefa</color>
+    
+    <color name="black">#ff000000</color>
+    <color name="white">#ffffffff</color>
+</resources>

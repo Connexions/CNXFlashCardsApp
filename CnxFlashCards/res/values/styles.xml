@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Theme.CNXFlashCardsTheme" parent="Theme.Sherlock.ForceOverflow">
+        <item name="actionBarStyle">@style/Widget.CNXFlashCardsTheme.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.CNXFlashCardsTheme.ActionBar</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
+    <style name="Widget.CNXFlashCardsTheme.ActionBar" parent="Widget.Sherlock.ActionBar">
+        <item name="android:background">@color/actionbar_background</item>
+        <item name="background">@color/actionbar_background</item>
+        
+    </style>
+</resources>

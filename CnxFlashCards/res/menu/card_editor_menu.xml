@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/saveCardActionItem" android:title="Save" android:showAsAction="always|withText" android:enabled="false" android:icon="@drawable/save"></item><item android:id="@+id/deleteCardActionItem" android:title="Delete" android:showAsAction="never|withText" android:enabled="true" android:icon="@drawable/ic_menu_delete"></item>
+    
+    
+
+</menu>
