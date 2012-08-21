@@ -22,7 +22,7 @@ public class DeckProvider extends ContentProvider {
 
     private CardDatabaseOpenHelper helper;
     public static final Uri CONTENT_URI = Uri
-            .parse("content://org.cnx.flashcards.DeckProvider");
+            .parse("content://org.cnx.quizcards.DeckProvider");
 
     @Override
     public boolean onCreate() {
