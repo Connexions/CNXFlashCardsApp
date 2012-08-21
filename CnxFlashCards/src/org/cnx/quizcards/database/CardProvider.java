@@ -21,7 +21,7 @@ public class CardProvider extends ContentProvider {
 
     private CardDatabaseOpenHelper helper;
     public static final Uri CONTENT_URI = Uri
-            .parse("content://org.cnx.flashcards.CardProvider");
+            .parse("content://org.cnx.quizcards.CardProvider");
 
     @Override
     public boolean onCreate() {
