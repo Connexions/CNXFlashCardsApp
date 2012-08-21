@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip">
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title"/>
+    
+    <TextView 
+        android:id="@+id/deckNameText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"/>
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/authors"/>
+    
+    <TextView 
+        android:id="@+id/deckAuthorsText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"/>
+    
+    <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/summary"/>
+    
+    <TextView 
+        android:id="@+id/deckSummaryText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"/>
+    
+    <Button 
+        android:id="@+id/studyModeButton"
+        android:text="@string/studyModeTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+    
+    <Button 
+        android:id="@+id/selfTestModeButton"
+        android:text="@string/selfTestModeTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <Button 
+        android:id="@+id/quizModeButton"
+        android:text="@string/quizModeTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+</ScrollView>
