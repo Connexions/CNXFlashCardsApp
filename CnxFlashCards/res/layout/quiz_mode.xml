@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip">
+    
+    <SeekBar
+        android:id="@+id/deckPositionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+    
+	    <TextView 
+		    android:id="@+id/deckPositionText"
+		    android:layout_width="0px"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="left"
+		    android:text="1/20"
+		    android:layout_weight="1"/>
+	    
+	    <TextView 
+	        android:id="@+id/scoreText"
+	        android:layout_width="0px"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="right"
+	        android:gravity="right"
+	        android:text="@string/score"
+	        android:layout_weight="1"/>
+    
+    </LinearLayout>
+
+    
+    <TextView 
+        android:id="@+id/termText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Term will go here."
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:paddingBottom="30dip"
+        android:textSize="20dip"/>
+	    
+    <RadioGroup 
+        android:id="@+id/answersRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3.0">
+        
+        <RadioButton 
+            android:id="@+id/answer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Answer 1 here."/>
+        
+        <RadioButton 
+            android:id="@+id/answer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Answer 2 here."/>
+        
+        <RadioButton 
+            android:id="@+id/answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Answer 3 here."/>
+        
+    </RadioGroup>
+    
+    
+    <Button 
+	        android:id="@+id/nextCardButton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:text=" &gt; "
+	        android:layout_gravity="center"
+	        android:layout_weight="1.0"
+	        android:layout_marginTop="30dip"/>
+
+</LinearLayout>
+
+</ScrollView>

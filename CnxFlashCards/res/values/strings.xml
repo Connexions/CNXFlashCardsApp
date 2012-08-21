@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, CnxFlashCardsActivity!</string>
-    <string name="app_name">CnxFlashCards</string>
+    <string name="app_name">QuizCards</string>
+    <string name="enterTermHint">Enter a term...</string>
+    <string name="enterMeaningHint">Enter the meaning...</string>
+    <string name="enterNameHint">Enter a title...</string>
+    <string name="enterAuthorHint">Enter name(s)...</string>
+    <string name="enterSummaryHint">Enter a summary...</string>
+    <string name="studyModeTitle">Study</string>
+    <string name="selfTestModeTitle">Self Test</string>
+    <string name="quizModeTitle">Quiz</string>
+    <string name="searchHint">Search Connexions...</string>
+    <string name="search">Search</string>
+    <string name="helpText">Help</string>
+    <string name="userCards">My Decks</string>
+    <string name="help">Help</string>
+    <string name="notGotHighScore">You didn\'t get a high score.</string>
+    <string name="finish">Finish</string>
+    <string name="score">Score</string>
+    <string name="nextSearchPage">Next</string>
+    <string name="previousSearchPage">Previous</string>
+    <string name="title">Title:</string>
+    <string name="authors">Author(s):</string>
+    <string name="summary">Summary:</string>
+    <string name="editCards">Edit cards</string>
+    <string name="term">Term:</string>
+    <string name="meaning">Meaning:</string>
 
 </resources>
