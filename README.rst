@@ -1,7 +1,9 @@
+FYI - See new repository at [QuizCards](https://github.com/Connexions/QuizCards
+===================================================================================
+
 ==========
 QuizCards
 ==========
-
 
 QuizCards is a flashcard app intended for students using a Connexions (cnx.org) or OpenStax College (openstaxcollege.org) textbook.  The app...
 
