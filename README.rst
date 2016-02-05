@@ -1,4 +1,4 @@
-FYI - See new repository at [QuizCards](https://github.com/Connexions/QuizCards
+FYI - See new QuizCards repository at https://github.com/Connexions/QuizCards
 ===================================================================================
 
 ==========
